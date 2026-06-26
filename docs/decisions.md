@@ -146,3 +146,23 @@ is a future optimization if PDF generation fails due to image size/memory).
 **Cancellation semantics:** share-sheet dismissal is not distinguishable through
 `shareAsync`; a resolved promise is treated as success. Only unavailable sharing or a
 rejected/thrown `shareAsync` maps to `shareFailed`.
+
+## D11 — Best-effort reverse-geocoded address
+
+**Status:** Accepted
+
+**Decision:** After successful GPS capture, attempt reverse geocoding via `expo-location`
+`Location.reverseGeocodeAsync({ latitude, longitude })` to add a best-effort, human-readable
+address to enrichment.
+
+**Reason:** Field agents benefit from a readable address in the report preview and shared
+PDF, while coordinates remain the canonical captured location for weather and auditability.
+
+**Consequences:**
+
+- Coordinates remain the canonical location value on `Report`.
+- `address` is optional, best-effort display metadata (`address?: string | null`).
+- Reverse-geocoding failure or empty result yields `address: null` and does NOT, by itself,
+  create a partial report or a new `AppError`.
+- No API keys, no new libraries, no `.env`. Uses existing `expo-location` only.
+- Preview shows `Address` (or `Unavailable`) and `Coordinates` as separate Location rows.

@@ -176,6 +176,9 @@ weather failure, and location denied; error-mapping tests.
 
 **Test expectations:** Report preview presentation mapping and UI component tests (full vs partial report).
 
+> M6 intentionally shipped coordinates-only report preview. Reverse-geocoded address display
+> is a later enhancement tracked in Milestone 10.
+
 ---
 
 ## Milestone 7 — Native sharing — `Complete`
@@ -248,3 +251,26 @@ header semantics, and readable preview semantics where practical.
 - Demo script covers happy path + every failure scenario.
 
 **Demo notes:** This milestone is the dress rehearsal.
+
+---
+
+## Milestone 10 — Reverse-geocoded address preview — `In progress`
+
+**Detailed task board:** [`milestones/milestone-10-reverse-geocoding.md`](./milestones/milestone-10-reverse-geocoding.md)
+(M10.1–M10.2). Do not mark this milestone `Complete` until M10.2 passes on that board.
+
+**Goal:** Add a best-effort, human-readable address to successful location enrichment while
+preserving coordinates, weather, partial-report behavior, and no-network handling.
+
+**Tasks**
+- [x] Register Milestone 10 board and record decision D11 (best-effort address; coordinates
+  canonical; no keys/libs; reverse-geocode failure non-fatal).
+- [ ] Implement address enrichment in `LocationService`, wire through domain/ViewModel/reducer,
+  update preview (Address + Coordinates), and tests.
+
+**Acceptance criteria**
+- Address on report when reverse geocoding succeeds; `Unavailable` when null.
+- Coordinates remain shown; partial-report and no-network behavior unchanged.
+- No new libraries, API keys, or `.env`.
+
+**Demo notes:** Mention address display when geocoding succeeds; coordinates still visible.

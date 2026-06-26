@@ -29,8 +29,10 @@ Reducer (captureReducer, pure)            Services (injected, side-effectful)
 
 ```
 User taps Capture
-  → ViewModel calls CameraService.takePhoto()
-  → service returns { uri } or AppError
+  → ViewModel requests camera permission through CameraService
+  → on denial: dispatch CAPTURE_FAILED(cameraPermissionDenied | unknown)
+  → on grant: ViewModel calls injected TakePhoto adapter (UI-owned CameraView ref)
+  → adapter returns photo URI or AppError
   → ViewModel dispatches CAPTURE_SUCCEEDED or CAPTURE_FAILED
   → reducer updates state
   → UI re-renders
@@ -72,8 +74,10 @@ state. No Redux/global store is introduced; the workflow is local to the capture
 
 - Hold the reducer state and expose intent handlers (`capture`, `retryEnrichment`,
   `continueWithPartialReport`, `share`).
-- Call injected services, translate thrown/failed results into `AppError`, and dispatch.
+- Call injected services and adapters, translate failed results into `AppError`, and dispatch.
 - Contain the async orchestration logic that the reducer must stay free of.
+- Own workflow timing, not native refs (`CameraView` ref lives in the screen; photo capture
+  is injected as `TakePhoto`).
 
 ## Canonical reducer actions
 
@@ -89,7 +93,7 @@ The reducer uses SCREAMING_SNAKE action types:
 
 | Service | Native/remote capability | Notes |
 | --- | --- | --- |
-| `CameraService` | `expo-camera` (`CameraView`, `takePictureAsync`) | Real camera preview; returns photo URI or `cameraPermissionDenied`. |
+| `CameraService` | `expo-camera` permission APIs | Permission request + `AppError` normalization (`cameraPermissionDenied` \| `unknown`). Photo capture is a UI-owned `CameraView.takePictureAsync()` adapter (`TakePhoto`), wired in the screen. |
 | `LocationService` | `expo-location` | Current coordinates; may return `locationPermissionDenied`. |
 | `WeatherService` | Open-Meteo REST (no key) | GPS → weather; maps fetch/network failures to `networkUnavailable`, API failures to `weatherFailed`. |
 | `ShareService` | native sharing (`expo-sharing` / share intent) | Opens the share sheet; failure maps to `shareFailed`. |

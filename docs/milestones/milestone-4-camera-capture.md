@@ -127,24 +127,26 @@ npm run typecheck
 
 ## M4.3 — CaptureViewModel + Unit Tests
 
-**Status:** `Not started`
+**Status:** `Complete`
 
-**Purpose:** Wire `CameraService` into async capture orchestration via the ViewModel; test without UI.
+**Purpose:** Wire `CameraService` and injected `TakePhoto` into async capture orchestration via the ViewModel; test without UI.
 
 **Files expected to change**
 
 - `src/features/capture/CaptureViewModel.ts`
 - `src/features/capture/__tests__/CaptureViewModel.test.ts`
+- `docs/architecture.md` (narrow camera/ViewModel alignment)
 - `docs/milestones/milestone-4-camera-capture.md` (card status)
 
 **Subtasks**
 
-- [ ] Create `CaptureViewModel` hook (or equivalent) injecting `CameraService`.
-- [ ] On capture intent: dispatch `START_CAPTURE`, call service, dispatch `CAPTURE_SUCCEEDED` or `CAPTURE_FAILED`.
-- [ ] Success maps to `CAPTURE_SUCCEEDED` with `photoUri` and `capturedAt` (ISO timestamp).
-- [ ] Permission denied maps to `CAPTURE_FAILED` with `cameraPermissionDenied`.
-- [ ] Unit tests with `FakeCameraService` for success and denied paths.
-- [ ] No UI changes.
+- [x] Create `useCaptureViewModel` hook injecting `CameraService`, `TakePhoto`, and optional `now`.
+- [x] On capture intent: dispatch `START_CAPTURE`, request permission, then call injected `takePhoto`.
+- [x] Success maps to `CAPTURE_SUCCEEDED` with `photoUri` and `capturedAt` (ISO timestamp from `now`).
+- [x] Permission or photo failure maps to `CAPTURE_FAILED` with returned `AppError`.
+- [x] Expose `dismissError` and `reset` intent handlers.
+- [x] Unit tests with `FakeCameraService` and local fake `TakePhoto`: success, permission denied/unknown, photo failure, dismissError, reset; assert `cameraService.requestCount() === 1` on capture orchestration paths.
+- [x] No UI changes.
 
 **Acceptance criteria**
 

@@ -5,8 +5,7 @@ camera, **enrich** it with current location and weather, and **send** it via nat
 sharing. Built as a Senior Mobile Engineer take-home for PURE Home River.
 
 > **Project status:** Expo scaffold complete. The app currently shows a minimal placeholder
-> screen while Milestone 2 finishes setup. The core capture -> enrich -> share flow has not
-> been implemented yet.
+> screen. The core capture -> enrich -> share flow has not been implemented yet.
 
 ## Weather provider
 

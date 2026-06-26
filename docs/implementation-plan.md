@@ -53,7 +53,7 @@ code exists.
 
 ---
 
-## Milestone 2 — Expo TypeScript app scaffold — `Not started`
+## Milestone 2 — Expo TypeScript app scaffold — `Complete`
 
 **Detailed task board:** [`milestones/milestone-2-expo-scaffold.md`](./milestones/milestone-2-expo-scaffold.md)
 (M2.1–M2.10). Do not mark this milestone `Complete` until M2.10 passes on that board.
@@ -61,11 +61,11 @@ code exists.
 **Goal:** A running Expo + TypeScript app that builds cleanly from a fresh checkout.
 
 **Tasks**
-- [ ] Scaffold Expo (TypeScript template). Add `expo-camera`, `expo-location`,
+- [x] Scaffold Expo (TypeScript template). Add `expo-camera`, `expo-location`,
   `expo-sharing` (and file utilities as needed for the share artifact — see D9).
-- [ ] Establish `src/` structure and a single placeholder screen.
-- [ ] Configure test runner (Jest + React Native Testing Library).
-- [ ] Add `npm run typecheck` (or equivalent `tsc --noEmit`) and wire it in package.json.
+- [x] Establish `src/` structure and a single placeholder screen.
+- [x] Configure test runner (Jest + React Native Testing Library).
+- [x] Add `npm run typecheck` (or equivalent `tsc --noEmit`) and wire it in package.json.
 
 **Acceptance criteria**
 - `npm install` then the documented start command launches the app.

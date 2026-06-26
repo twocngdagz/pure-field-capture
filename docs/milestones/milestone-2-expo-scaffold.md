@@ -2,7 +2,7 @@
 
 **Project monitor:** [`implementation-plan.md`](../implementation-plan.md) · Milestone 2
 
-**Milestone status:** `Not started` (set to `Complete` only in M2.10 after M2.1–M2.9 pass)
+**Milestone status:** `Complete`
 
 ## Goal
 
@@ -513,7 +513,7 @@ git status --short
 
 ## M2.10 — Close Milestone 2
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Update project monitors only after all Milestone 2 work is complete and verified.
 
@@ -525,12 +525,24 @@ git status --short
 
 **Subtasks**
 
-- [ ] Confirm M2.1 through M2.9 are all complete.
-- [ ] Set Milestone 2 status to `Complete` in `docs/implementation-plan.md`.
-- [ ] Check all four top-level Milestone 2 tasks in the implementation plan.
-- [ ] Ensure the detailed board links back to the main plan.
-- [ ] Record any known follow-up for Milestone 3.
-- [ ] Do **not** start Milestone 3 in this task.
+- [x] Confirm M2.1 through M2.9 are all complete.
+- [x] Set Milestone 2 status to `Complete` in `docs/implementation-plan.md`.
+- [x] Check all four top-level Milestone 2 tasks in the implementation plan.
+- [x] Ensure the detailed board links back to the main plan.
+- [x] Record any known follow-up for Milestone 3.
+- [x] Do **not** start Milestone 3 in this task.
+
+**Known follow-up for M3**
+
+- Define `captureTypes.ts` using the existing `Report` / `AppError` decisions from `docs/architecture.md`.
+- Keep reducer pure; no service imports or side effects.
+- Preserve existing scaffold/test/typecheck commands while adding reducer tests.
+
+**Verification**
+
+- `npm test`: **1 suite passed, 1 test passed**.
+- `npm run typecheck`: **passes with no errors**.
+- Milestone 2 marked `Complete` in `docs/implementation-plan.md` and board header.
 
 **Acceptance criteria**
 

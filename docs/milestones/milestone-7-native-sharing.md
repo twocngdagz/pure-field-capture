@@ -108,7 +108,7 @@ grep -q "Accepted" docs/decisions.md
 
 ## M7.2 — Implement ShareService
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Wrap `expo-sharing` to share the D9 image artifact with Result-style errors. No
 ViewModel or UI.
@@ -122,15 +122,15 @@ ViewModel or UI.
 
 **Subtasks**
 
-- [ ] Verify D9 is Accepted in `docs/decisions.md` before implementing.
-- [ ] Implement `ShareService.share(report)` — empty `photoUri` → `shareFailed`;
+- [x] Verify D9 is Accepted in `docs/decisions.md` before implementing.
+- [x] Implement `ShareService.share(report)` — empty `photoUri` → `shareFailed`;
   `Sharing.isAvailableAsync()` false → `shareFailed`; `shareAsync` resolves → `{ ok: true }`;
   throws → `shareFailed` (`retryable: true`).
-- [ ] Use `Sharing.shareAsync(report.photoUri, { dialogTitle: "Share field report", mimeType: "image/jpeg", UTI: "public.jpeg" })`.
-- [ ] Do **not** attempt a report text/message body (`shareAsync` has no message field).
-- [ ] `createFakeShareService(result?)` with `shareCount()` and `lastReport()`.
-- [ ] Unit tests: unavailable → `shareFailed`; throws → `shareFailed`; resolves → `ok`.
-- [ ] No ViewModel, UI, or reducer changes.
+- [x] Use `Sharing.shareAsync(report.photoUri, { dialogTitle: "Share field report", mimeType: "image/jpeg", UTI: "public.jpeg" })`.
+- [x] Do **not** attempt a report text/message body (`shareAsync` has no message field).
+- [x] `createFakeShareService(result?)` with `shareCount()` and `lastReport()`.
+- [x] Unit tests: unavailable → `shareFailed`; throws → `shareFailed`; resolves → `ok`.
+- [x] No ViewModel, UI, or reducer changes.
 
 **Acceptance criteria**
 

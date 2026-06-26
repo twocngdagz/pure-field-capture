@@ -5,7 +5,7 @@ camera, **enrich** it with current location and weather, and **send** it via nat
 sharing. Built as a Senior Mobile Engineer take-home for PURE Home River.
 
 > **Project status:** Core capture -> enrich -> preview -> share flow is implemented.
-> Remaining work focuses on accessibility, polish, and final packaging for submission.
+> Accessibility audit is complete; remaining work focuses on polish and final packaging.
 
 ## Weather provider
 
@@ -62,12 +62,13 @@ a generic API error), weather API failure, and share failure. The captured photo
 always** be preserved, and a **partial report** **will** be allowed. Details in
 [`docs/architecture.md`](./docs/architecture.md).
 
-## Accessibility (planned)
+## Accessibility
 
-The core flow **will** include basic accessibility: roles and clear labels on the Capture,
-Retry, Continue, and Share controls; readable loading/error text; and status that is not
-conveyed by color alone. The current scaffold screen uses readable text only; control-level
-accessibility is added as real controls are implemented.
+The core flow includes basic accessibility coverage: roles and clear labels on Capture,
+Retry, Continue, Retake, and Share controls; readable loading/error text; report preview
+headers; and a labeled captured photo. Status is not conveyed by color alone.
+
+Manual VoiceOver/TalkBack QA is documented as a deferred checklist in the Milestone 8 board.
 
 ## AI-assisted workflow
 

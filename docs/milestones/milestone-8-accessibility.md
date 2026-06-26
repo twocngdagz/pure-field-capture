@@ -2,7 +2,7 @@
 
 **Project monitor:** [`implementation-plan.md`](../implementation-plan.md) · Milestone 8
 
-**Milestone status:** `Not started`
+**Milestone status:** `Complete`
 
 ## Goal
 
@@ -150,7 +150,7 @@ the audit changes component code)
 
 ## M8.3 — Quality gate and close Milestone 8
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Run the quality gate, align implementation-plan monitors, and close Milestone 8.
 
@@ -159,17 +159,38 @@ the audit changes component code)
 - `docs/implementation-plan.md`
 - `docs/milestones/milestone-8-accessibility.md`
 - `docs/milestones/README.md`
+- `README.md`
 
 **Subtasks**
 
-- [ ] Run `npm test` and `npm run typecheck`.
-- [ ] Set Milestone 8 status to `Complete` in `docs/implementation-plan.md`; check all M8
+- [x] Run `npm test` and `npm run typecheck`.
+- [x] Set Milestone 8 status to `Complete` in `docs/implementation-plan.md`; check all M8
   task boxes.
-- [ ] Align implementation-plan M8 task wording with what the audit verified or fixed.
-- [ ] Set board header `Milestone status` to `Complete`; mark this card `Complete`.
-- [ ] Update `docs/milestones/README.md` Milestone 8 row to `Complete`.
-- [ ] Record gate evidence and a deferred manual screen-reader QA note on this card.
-- [ ] Do **not** start Milestone 9 in this task.
+- [x] Align implementation-plan M8 task wording with what the audit verified or fixed.
+- [x] Set board header `Milestone status` to `Complete`; mark this card `Complete`.
+- [x] Update `docs/milestones/README.md` Milestone 8 row to `Complete`.
+- [x] Record gate evidence and a deferred manual screen-reader QA note on this card.
+- [x] Do **not** start Milestone 9 in this task.
+
+**Gate results**
+
+- `npm test`: 116 passing / 10 suites.
+- `npm run typecheck`: clean.
+- Manual screen-reader QA: not run in this environment; deferred checklist recorded.
+
+**Manual QA note**
+
+Live screen-reader QA deferred in this environment; CLI gate passed.
+
+When running locally:
+
+1. `npx expo start`
+2. Enable VoiceOver on iOS Simulator/device or TalkBack on Android.
+3. Navigate the capture screen and verify **Capture photo** is announced as a button.
+4. Complete capture and verify **Enrich report**, **Retry enrichment**, **Continue with partial report**, and **Retake photo** are announced clearly when present.
+5. Complete enrichment and verify **Report Preview**, **Capture**, **Location**, and **Weather** are announced as headers/sections.
+6. Verify the captured photo is announced as **Captured field photo**.
+7. Tap **Share report** and verify sharing states remain readable; after failure, verify **Retry share** is announced as a button.
 
 **Acceptance criteria**
 

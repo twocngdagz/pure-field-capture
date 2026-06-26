@@ -201,7 +201,7 @@ weather failure, and location denied; error-mapping tests.
 
 ---
 
-## Milestone 8 — Accessibility pass — `Not started`
+## Milestone 8 — Accessibility pass — `Complete`
 
 **Detailed task board:** [`milestones/milestone-8-accessibility.md`](./milestones/milestone-8-accessibility.md)
 (M8.1–M8.3). Do not mark this milestone `Complete` until M8.3 passes on that board.
@@ -209,17 +209,18 @@ weather failure, and location denied; error-mapping tests.
 **Goal:** Keep the core field flow usable with assistive technologies.
 
 **Tasks**
-- [ ] Add `accessibilityRole="button"` and clear `accessibilityLabel` to Capture, Retry,
-  Continue/partial, and Share controls.
-- [ ] Make loading/error states readable text; do not convey status by color only.
-- [ ] Label report preview key sections.
+- [x] Audit primary controls for `accessibilityRole="button"` and clear `accessibilityLabel`
+  coverage across Capture, Retry, Continue/partial, Share, and Retake controls.
+- [x] Verify loading/error/share states are readable text and not color-only.
+- [x] Verify report preview title, photo label, and key section headers are accessible.
 
 **Acceptance criteria**
 - Primary buttons have role + clear label.
 - Error and loading states are readable.
 - Report preview key sections have clear labels.
 
-**Test expectations:** Where practical, assert accessibility labels/roles in component tests.
+**Test expectations:** Targeted component assertions cover accessibility roles, labels,
+header semantics, and readable preview semantics where practical.
 
 **Demo notes:** Mention this is a field workflow that should remain usable with a screen reader.
 

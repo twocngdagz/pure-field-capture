@@ -31,4 +31,4 @@ exists yet).
 | Milestone | Board | Status |
 | --- | --- | --- |
 | 2 — Expo scaffold | [`milestone-2-expo-scaffold.md`](./milestone-2-expo-scaffold.md) | Complete |
-| 3 — Domain reducer | [`milestone-3-domain-reducer.md`](./milestone-3-domain-reducer.md) | Open |
+| 3 — Domain reducer | [`milestone-3-domain-reducer.md`](./milestone-3-domain-reducer.md) | Complete |

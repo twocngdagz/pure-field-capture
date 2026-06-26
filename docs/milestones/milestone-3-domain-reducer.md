@@ -2,7 +2,7 @@
 
 **Project monitor:** [`implementation-plan.md`](../implementation-plan.md) · Milestone 3
 
-**Milestone status:** `Not started` (set to `Complete` only in M3.7 after M3.1–M3.6 pass)
+**Milestone status:** `Complete`
 
 ## Goal
 
@@ -406,7 +406,7 @@ git status --short
 
 ## M3.7 — Close Milestone 3
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Update project monitors only after all Milestone 3 work is complete and verified.
 
@@ -414,15 +414,16 @@ git status --short
 
 - `docs/implementation-plan.md`
 - `docs/milestones/milestone-3-domain-reducer.md`
+- `docs/milestones/README.md`
 
 **Subtasks**
 
-- [ ] Confirm M3.1 through M3.6 are all complete.
-- [ ] Set Milestone 3 status to `Complete` in `docs/implementation-plan.md`.
-- [ ] Check all three top-level Milestone 3 tasks in the implementation plan.
-- [ ] Set board header `Milestone status` to `Complete`.
-- [ ] Record known follow-up for M4.
-- [ ] Do **not** start Milestone 4 in this task.
+- [x] Confirm M3.1 through M3.6 are all complete.
+- [x] Set Milestone 3 status to `Complete` in `docs/implementation-plan.md`.
+- [x] Check all three top-level Milestone 3 tasks in the implementation plan.
+- [x] Set board header `Milestone status` to `Complete`.
+- [x] Record known follow-up for M4.
+- [x] Do **not** start Milestone 4 in this task.
 
 **Known follow-up for M4**
 

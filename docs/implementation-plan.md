@@ -79,7 +79,7 @@ code exists.
 
 ---
 
-## Milestone 3 — Domain model, reducer, and tests — `Not started`
+## Milestone 3 — Domain model, reducer, and tests — `Complete`
 
 **Detailed task board:** [`milestones/milestone-3-domain-reducer.md`](./milestones/milestone-3-domain-reducer.md)
 (M3.1–M3.7). Do not mark this milestone `Complete` until M3.7 passes on that board.
@@ -87,10 +87,10 @@ code exists.
 **Goal:** Pure, testable core of the capture workflow.
 
 **Tasks**
-- [ ] Define `captureTypes.ts`: capture state machine, actions, `AppError`, `Report`
+- [x] Define `captureTypes.ts`: capture state machine, actions, `AppError`, `Report`
   (including `enrichmentUnavailableReason`).
-- [ ] Implement `captureReducer.ts` as a pure function.
-- [ ] Unit-test all reducer transitions including failure transitions.
+- [x] Implement `captureReducer.ts` as a pure function.
+- [x] Unit-test all reducer transitions including failure transitions.
 
 **Acceptance criteria**
 - Reducer is pure (no side effects, no imports of services).

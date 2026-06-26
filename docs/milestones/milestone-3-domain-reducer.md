@@ -279,7 +279,7 @@ npm run typecheck
 
 ## M3.4 — Enrichment transitions
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Location/weather enrichment state behavior in the reducer.
 
@@ -291,11 +291,11 @@ npm run typecheck
 
 **Subtasks**
 
-- [ ] Implement `START_ENRICHMENT`, `ENRICHMENT_SUCCEEDED`, `ENRICHMENT_FAILED`, `CONTINUE_WITH_PARTIAL_REPORT`.
-- [ ] `ENRICHMENT_FAILED` returns to phase `captured` (not `failed`); preserves `photoUri` + `capturedAt`.
-- [ ] Partial report sets `isPartial: true` and `enrichmentUnavailableReason`.
-- [ ] `networkUnavailable` is its own error path (not generic weather failure).
-- [ ] No service imports.
+- [x] Implement `START_ENRICHMENT`, `ENRICHMENT_SUCCEEDED`, `ENRICHMENT_FAILED`, `CONTINUE_WITH_PARTIAL_REPORT`.
+- [x] `ENRICHMENT_FAILED` returns to phase `captured` (not `failed`); preserves `photoUri` + `capturedAt`.
+- [x] Partial report sets `isPartial: true` and `enrichmentUnavailableReason`.
+- [x] `networkUnavailable` is its own error path (not generic weather failure).
+- [x] No service imports.
 
 **Acceptance criteria**
 

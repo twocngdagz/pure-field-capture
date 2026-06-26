@@ -98,7 +98,7 @@ grep -q "M6.4" docs/milestones/milestone-6-report-preview.md
 
 ## M6.2 — Report preview model (presentation mapping)
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Map an existing `Report` to a display-ready preview model with pure, unit-tested
 presentation logic. No UI, no reducer changes, no `Report` re-composition.
@@ -111,15 +111,15 @@ presentation logic. No UI, no reducer changes, no `Report` re-composition.
 
 **Subtasks**
 
-- [ ] Define `ReportPreviewModel` (title, sections with labeled rows, `isPartial`).
-- [ ] Implement `buildReportPreviewModel(report: Report)` — does **not** create or mutate `Report`.
-- [ ] Map location to coordinates string (`lat, lon` to 5 decimal places) or "Unavailable".
-- [ ] Map weather to condition + temperature string or "Unavailable".
-- [ ] Map each `enrichmentUnavailableReason` to readable copy for partial reports.
-- [ ] Format `capturedAt` for display (readable timestamp from ISO string).
-- [ ] Unit tests: full report (coords + weather rows); partial report for each
+- [x] Define `ReportPreviewModel` (title, sections with labeled rows, `isPartial`).
+- [x] Implement `buildReportPreviewModel(report: Report)` — does **not** create or mutate `Report`.
+- [x] Map location to coordinates string (`lat, lon` to 5 decimal places) or "Unavailable".
+- [x] Map weather to condition + temperature string or "Unavailable".
+- [x] Map each `enrichmentUnavailableReason` to readable copy for partial reports.
+- [x] Format `capturedAt` for display (readable timestamp from ISO string).
+- [x] Unit tests: full report (coords + weather rows); partial report for each
   `enrichmentUnavailableReason`; missing location/weather → "Unavailable".
-- [ ] No ViewModel, UI, or reducer changes.
+- [x] No ViewModel, UI, or reducer changes.
 
 **Acceptance criteria**
 

@@ -109,7 +109,7 @@ grep -q "M5.4" docs/milestones/milestone-5-location-weather.md
 
 ## M5.2 — Native Location Config + Location & Weather Services
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Add location native permissions/config and implement location and weather service
 boundaries with fakes and tests. No ViewModel or UI.
@@ -128,20 +128,20 @@ boundaries with fakes and tests. No ViewModel or UI.
 
 **Subtasks**
 
-- [ ] Add `expo-location` config plugin to `app.json` with iOS foreground location usage
+- [x] Add `expo-location` config plugin to `app.json` with iOS foreground location usage
   description and Android foreground location permission per Expo SDK 56 guidance.
-- [ ] Do **not** add background location permission.
-- [ ] Implement `LocationService`: request foreground location permission, get current
+- [x] Do **not** add background location permission.
+- [x] Implement `LocationService`: request foreground location permission, get current
   coordinates; return `Coordinates` or `AppError` (`locationPermissionDenied` | `unknown`).
-- [ ] No `reverseGeocodeAsync()`; coordinates only.
-- [ ] Implement `WeatherService`: fetch Open-Meteo current weather for given coordinates
+- [x] No `reverseGeocodeAsync()`; coordinates only.
+- [x] Implement `WeatherService`: fetch Open-Meteo current weather for given coordinates
   (no API key); return `WeatherSummary` or `AppError`.
-- [ ] Map `fetch` throw / network failure to `networkUnavailable`; HTTP non-OK / bad payload
+- [x] Map `fetch` throw / network failure to `networkUnavailable`; HTTP non-OK / bad payload
   to `weatherFailed`; never expose raw technical errors.
-- [ ] Implement `FakeLocationService` and `FakeWeatherService` for tests.
-- [ ] Unit tests: location success, permission denied, native failure; weather success,
+- [x] Implement `FakeLocationService` and `FakeWeatherService` for tests.
+- [x] Unit tests: location success, permission denied, native failure; weather success,
   no-network (`networkUnavailable`), API failure (`weatherFailed`); fake-service contracts.
-- [ ] No ViewModel, UI, or reducer changes.
+- [x] No ViewModel, UI, or reducer changes.
 
 **Acceptance criteria**
 

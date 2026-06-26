@@ -327,7 +327,7 @@ Manual: app launches and shows placeholder on simulator/emulator/device.
 
 ## M2.6 — Configure Jest and React Native Testing Library
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Add a working test runner with one smoke test.
 
@@ -340,11 +340,24 @@ Manual: app launches and shows placeholder on simulator/emulator/device.
 
 **Subtasks**
 
-- [ ] Install/configure Jest using Expo-compatible setup.
-- [ ] Install/configure React Native Testing Library.
-- [ ] Add one smoke test for the placeholder screen or a trivial pure function.
-- [ ] Add `npm test` script.
-- [ ] Avoid brittle native-module tests in this milestone.
+- [x] Install/configure Jest using Expo-compatible setup (`jest-expo` preset).
+- [x] Install/configure React Native Testing Library.
+- [x] Add one smoke test for the placeholder screen (`src/app/__tests__/index.test.tsx`).
+- [x] Add `npm test` script (`jest`, non-watch).
+- [x] Avoid brittle native-module tests in this milestone.
+
+**Installed dev dependencies (verified)**
+
+- `@testing-library/react-native` `^13.3.3`
+- `@types/jest` `29.5.14`
+- `jest` `~29.7.0`
+- `jest-expo` `~56.0.5`
+- `react-test-renderer` `19.2.3` — explicit install to match `react@19.2.3`; not auto-added by `expo install` for RNTL (peer conflict with `react-test-renderer@19.2.7`).
+
+**Verification**
+
+- `npm test`: **1 suite passed, 1 test passed** (exits cleanly).
+- `jest.config.js`: minimal `{ preset: "jest-expo" }` only; no custom `transformIgnorePatterns` required.
 
 **Acceptance criteria**
 

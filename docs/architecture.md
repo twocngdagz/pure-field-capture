@@ -96,7 +96,7 @@ The reducer uses SCREAMING_SNAKE action types:
 | `CameraService` | `expo-camera` permission APIs | Permission request + `AppError` normalization (`cameraPermissionDenied` \| `unknown`). Photo capture is a UI-owned `CameraView.takePictureAsync()` adapter (`TakePhoto`), wired in the screen. |
 | `LocationService` | `expo-location` | Current coordinates; may return `locationPermissionDenied`. |
 | `WeatherService` | Open-Meteo REST (no key) | GPS → weather; maps fetch/network failures to `networkUnavailable`, API failures to `weatherFailed`. |
-| `ShareService` | native sharing (`expo-sharing` / share intent) | Opens the share sheet; failure maps to `shareFailed`. |
+| `ShareService` | native sharing (`expo-print` + `expo-sharing`) | Generates a PDF report from report HTML (`expo-print`) and opens the native share sheet (`expo-sharing`); failure maps to `shareFailed`. |
 
 Each service is an interface with a real implementation and a fake for tests.
 
@@ -138,8 +138,8 @@ type Report = {
 };
 ```
 
-`enrichmentUnavailableReason` preserves *why* enrichment failed so preview and share copy
-can distinguish no-network from API failure from location denied — not just that weather
+`enrichmentUnavailableReason` preserves *why* enrichment failed so preview and PDF report
+copy can distinguish no-network from API failure from location denied — not just that weather
 is missing. Set when `isPartial` is true and enrichment was attempted.
 
 A **partial report** is a first-class outcome: a report with `isPartial: true` when

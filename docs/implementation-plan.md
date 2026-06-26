@@ -199,6 +199,9 @@ weather failure, and location denied; error-mapping tests.
 
 **Demo notes:** Share to Mail/Messages from the share sheet.
 
+**Post-completion correction:** M7.C1 updates the share artifact from image-only to a
+generated PDF report containing photo + enrichment data. See the M7 board corrective card.
+
 ---
 
 ## Milestone 8 — Accessibility pass — `Complete`

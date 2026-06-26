@@ -123,18 +123,26 @@ better alignment with assessment navigation and interview expectations.
 
 ## D9 — Native share artifact
 
-**Status:** Accepted
+**Status:** Accepted (corrected post-M7 via M7.C1)
 
-**Decision:** Share the captured image file via `expo-sharing.shareAsync` as the Milestone 7
-artifact (`report.photoUri`).
+**Decision:** Share a **generated PDF report** containing the captured photo and enrichment
+data (timestamp, coordinates or unavailable reason, weather condition and temperature or
+unavailable reason, partial-report indication) via `expo-print` + `expo-sharing`.
 
-**Not included in M7:** a report text/message body. `expo-sharing.shareAsync` accepts a local
-file URL plus options (`UTI` iOS, `dialogTitle` Android/Web, `mimeType` Android) but has **no
-message field**, so text cannot ride alongside the file. Share-sheet cancellation is also not
-distinguishable (a resolved promise is treated as success).
+**Implementation:** `ShareService` reads the captured photo as base64 via
+`expo-file-system/legacy`, builds report HTML through a pure `buildReportPdfHtml(report)`
+function (reusing `buildReportPreviewModel` for consistent strings), generates a PDF with
+`Print.printToFileAsync({ html })`, and shares the PDF URI with
+`Sharing.shareAsync(uri, { mimeType: "application/pdf", UTI: "com.adobe.pdf" })`.
 
-**Why:** Keeps M7 small, uses the native share sheet, and preserves the photo-first
-"send the capture" requirement without generating a custom document.
+**Why:** The original M7 image-only artifact (`report.photoUri` via `expo-sharing`) shared
+only the photo and dropped enrichment data, under-delivering on the assessment requirement
+to capture, enrich, and send the resulting capture.
 
-**Deferred:** text-bearing report (e.g. react-native `Share.share({ message, url })`, generated
-`.txt`/PDF), multi-file sharing, platform share extensions.
+**Not included:** multi-file sharing, platform share extensions, or `expo-image-manipulator`
+for photo resizing (base64 original photo is sufficient for this corrective slice; resizing
+is a future optimization if PDF generation fails due to image size/memory).
+
+**Cancellation semantics:** share-sheet dismissal is not distinguishable through
+`shareAsync`; a resolved promise is treated as success. Only unavailable sharing or a
+rejected/thrown `shareAsync` maps to `shareFailed`.

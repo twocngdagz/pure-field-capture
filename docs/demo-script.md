@@ -54,10 +54,9 @@ network comes back, or continue with a partial report instead of losing the capt
 
 ## 5. Native sharing
 
-**Do:** From `Report Preview` or `Partial Report Preview`, tap `Share report`. If convenient, demonstrate a share failure and point out `Retry share` while the preview remains.
+**Do:** From `Report Preview` or `Partial Report Preview`, tap `Share report`. Point out that the native share sheet sends a **generated PDF report** containing the captured photo, timestamp, coordinates, and weather (or unavailable reasons for partial reports). If convenient, demonstrate a share failure and point out `Retry share` while the preview remains.
 
-**Say:** "Sharing uses the platform share sheet. If it fails, we keep the preview and
-allow retry instead of crashing."
+**Say:** "Sharing uses the platform share sheet to send a PDF report with the photo and enrichment data. If it fails, we keep the preview and allow retry instead of crashing."
 
 ## 6. Architecture walkthrough
 

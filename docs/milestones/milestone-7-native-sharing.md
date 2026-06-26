@@ -9,17 +9,23 @@
 Send the captured photo via the native share sheet. Share failure does not crash; the report
 preview stays available with retry.
 
+> **Superseded by M7.C1:** The original M7 goal shipped image-only sharing (`report.photoUri`).
+> M7.C1 corrects this to a generated PDF report containing photo + enrichment data.
+
 ## Milestone acceptance criteria
 
 - Native share sheet opens with the D9 image artifact (`report.photoUri`).
 - Share failure maps to `shareFailed`; preview remains available; retry allowed.
 - `npm test` and `npm run typecheck` pass after each implementation card.
 
+> **Superseded by M7.C1:** Current behavior shares a generated PDF report (see D9 and M7.C1).
+
 ---
 
 ## Native Sharing Notes
 
 > Locked during M7 planning (2026-06-26). D9 recorded in [`decisions.md`](../decisions.md) in M7.1.
+> **Superseded by M7.C1** for share artifact behavior; historical notes below describe the original image-only implementation.
 
 - **D9 artifact is image-only via `expo-sharing`.** `ShareService` calls
   `Sharing.shareAsync(report.photoUri, options)` — the captured image file is the guaranteed
@@ -265,5 +271,50 @@ git status --short
 
 **Human decision gate:** None. Manual share-sheet verification deferred if environment cannot
 run Expo; board notes CLI sanity check passed.
+
+---
+
+## M7.C1 — Corrective: share generated PDF report
+
+**Status:** `Complete`
+
+**Reason:** User-approved correction after M7 completion. The original D9 image-only artifact
+shared the photo but dropped enrichment data, under-delivering on the capture → enrich → send
+requirement.
+
+**Files expected to change**
+
+- `package.json` / `package-lock.json` (`expo-print`, `expo-file-system`)
+- `src/features/capture/reportPdf.ts`
+- `src/features/capture/__tests__/reportPdf.test.ts`
+- `src/services/ShareService.ts`
+- `src/services/__tests__/ShareService.test.ts`
+- `docs/decisions.md` (D9)
+- `docs/milestones/milestone-7-native-sharing.md` (this card)
+- `docs/milestones/milestone-9-final-review.md` (M9.C1)
+- `docs/implementation-plan.md` (post-completion note)
+- `README.md`, `docs/demo-script.md`, `docs/architecture.md`, `docs/testing-strategy.md`, `docs/ai-workflow.md`
+
+**Subtasks**
+
+- [x] Verify `expo-print` API with Context7 `/expo/expo` (Expo MCP unavailable for docs).
+- [x] Update D9 to generated PDF report artifact.
+- [x] Implement `buildReportPdfHtml` + PDF generation and sharing in `ShareService`.
+- [x] Add/update `reportPdf` and `ShareService` tests.
+- [x] Run `npm test` and `npm run typecheck`.
+
+**Gate results**
+
+- `npm test` and `npm run typecheck`: pass.
+- Shared artifact is a generated PDF (photo + enrichment/unavailable data), not `report.photoUri`.
+- Expo docs source: Context7 `/expo/expo` (`printToFileAsync`, `shareAsync` with PDF mimeType).
+
+**Acceptance criteria**
+
+- Shared artifact includes photo, timestamp, coordinates/unavailable reason, weather/unavailable reason, partial indication.
+- Share failures map to `shareFailed`; preview remains available; retry allowed.
+- No `expo-image-manipulator` added (base64 original photo; resizing deferred).
+
+**Commit guidance:** `feat: share generated PDF report instead of photo only`
 
 ---

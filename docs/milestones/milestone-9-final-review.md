@@ -196,7 +196,7 @@ Run on a simulator/device before submission if available:
 7. Tap **Enrich report** and verify location/weather enrichment reaches **Report Preview**.
 8. Disable network and verify **Network is unavailable. Please try again.**, **Retry enrichment**, and **Continue with partial report**.
 9. Tap **Continue with partial report** and verify **Partial Report Preview**.
-10. Tap **Share report** and verify the native share sheet opens with the captured image.
+10. Tap **Share report** and verify the native share sheet opens with a generated PDF report containing the photo and enrichment data.
 11. Dismiss/cancel the share sheet and verify the app returns without crashing.
 12. Enable VoiceOver/TalkBack and spot-check that Capture, Enrich, Share, Retry, Retake, and report section headers are announced clearly.
 
@@ -220,5 +220,25 @@ git log --oneline
 
 **Human decision gate:** None. Live fresh-checkout run and device QA deferred if the
 environment cannot run Expo; board records the CLI gate.
+
+---
+
+## M9.C1 — Re-verify after M7 sharing correction
+
+**Status:** `Complete`
+
+**Purpose:** Re-run quality gates and confirm docs describe PDF report sharing after M7.C1.
+
+**Subtasks**
+
+- [x] Re-run `npm test` and `npm run typecheck`.
+- [x] Confirm README and demo script describe PDF report sharing (photo + enrichment).
+
+**Gate results**
+
+- `npm test` and `npm run typecheck`: pass after M7.C1.
+- README Stack line and demo-script native-sharing section updated for PDF reports.
+
+**Commit guidance:** Included in M7.C1 commit (`feat: share generated PDF report instead of photo only`).
 
 ---

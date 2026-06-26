@@ -22,7 +22,7 @@ first.
 - Expo Router for file-based routing
 - `expo-camera` for native photo capture
 - `expo-location` + Open-Meteo REST API for location/weather enrichment
-- `expo-sharing` for native image sharing
+- `expo-print` + `expo-sharing` for generated PDF report sharing (`expo-file-system` for photo read)
 - Jest + React Native Testing Library for tests
 
 See [`docs/decisions.md`](./docs/decisions.md) for the reasoning, including native vs

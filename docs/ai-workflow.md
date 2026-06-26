@@ -81,7 +81,7 @@ Apply this especially when:
 - **M2.3** — `npx expo install` and SDK-compatible package versions.
 - **M4** — `expo-camera` (`CameraView`, `takePictureAsync`), config plugin, permission copy.
 - **M5** — `expo-location`, config plugin, permission copy.
-- **M7** — `expo-sharing`, share artifact behavior, and any `app.json` plugin entries.
+- **M7** — `expo-print`, `expo-file-system`, `expo-sharing`, PDF report artifact behavior, and any `app.json` plugin entries.
 
 The Expo MCP is for **documentation and setup guidance**, not a substitute for the
 assessment app’s capture/enrich/share workflow. Do not add unrelated MCP stretch features

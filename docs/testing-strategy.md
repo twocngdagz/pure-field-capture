@@ -41,6 +41,13 @@ composition) is plain testable code, while native behavior is verified manually.
 - Component tests assert `accessibilityRole` and `accessibilityLabel` on Capture, Retry,
   Continue/partial, and Share controls.
 
+### 6. Report PDF HTML builder tests (pure)
+
+- `buildReportPdfHtml` unit tests assert full and partial report content (timestamp,
+  coordinates, weather, unavailable reasons, HTML escaping) without inspecting PDF bytes.
+- `ShareService` tests assert orchestration: HTML passed to `printToFileAsync`, PDF URI
+  shared via `shareAsync`, failures mapped to `shareFailed`.
+
 ## What we verify manually (native)
 
 These need a real device/simulator and are part of the demo, not the automated suite:
@@ -48,7 +55,8 @@ These need a real device/simulator and are part of the demo, not the automated s
 - Live camera **preview** renders and `takePictureAsync` returns a usable photo.
 - Camera permission prompt and denied path.
 - Location permission prompt and denied path.
-- Real native **share sheet** opens with the report artifact.
+- Real native **share sheet** opens with the generated PDF report artifact (photo +
+  enrichment/unavailable data).
 - Offline behavior via airplane mode (no-network/partial report path).
 
 A lightweight integration test may exercise a service against its real boundary where

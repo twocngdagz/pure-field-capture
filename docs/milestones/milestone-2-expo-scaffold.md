@@ -463,7 +463,7 @@ npm run typecheck
 
 ## M2.9 — Run Milestone 2 quality gate
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Run all Milestone 2 checks before marking the milestone complete.
 
@@ -474,12 +474,21 @@ npm run typecheck
 
 **Subtasks**
 
-- [ ] Run `npm test`.
-- [ ] Run `npm run typecheck`.
-- [ ] Confirm `expo-image-picker` is not installed.
-- [ ] Confirm no `.env` or `.env.example` was added.
-- [ ] Confirm app start command is documented.
-- [ ] Confirm no feature milestones were implemented early.
+- [x] Run `npm test`.
+- [x] Run `npm run typecheck`.
+- [x] Confirm `expo-image-picker` is not installed.
+- [x] Confirm no `.env` or `.env.example` was added.
+- [x] Confirm app start command is documented (README M2.8: `npx expo start`, `npm test`, `npm run typecheck`).
+- [x] Confirm no feature milestones were implemented early (scaffold/placeholder only).
+
+**Verification**
+
+- `npm test`: **1 suite passed, 1 test passed**.
+- `npm run typecheck`: **passes with no errors**.
+- `expo-image-picker` absent: `npm ls expo-image-picker` returned `(empty)` with exit code 1 (expected pass); not listed in `package.json`.
+- No `.env` / `.env.example` at repo root (`find . -maxdepth 2 -name ".env*"` produced no output).
+- `git status --short` before board edit: clean working tree.
+- `docs/implementation-plan.md`: unchanged (Milestone 2 completion is M2.10).
 
 **Acceptance criteria**
 

@@ -166,10 +166,14 @@ npm run typecheck
 
 ## M5.3 — Enrichment ViewModel Wiring
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Inject location and weather services into enrichment orchestration via the
 ViewModel; test without UI.
+
+**Note:** Location native/`unknown` failure is coerced to `weatherFailed` for the frozen
+enrichment reducer contract; partial report reason becomes `weatherFailed`. `locationService`/
+`weatherService` are optional deps until M5.4 wires them in `CaptureScreen`.
 
 **Files expected to change**
 
@@ -179,18 +183,18 @@ ViewModel; test without UI.
 
 **Subtasks**
 
-- [ ] Inject `LocationService` and `WeatherService` into `useCaptureViewModel` deps.
-- [ ] Add `enrich()` intent: dispatch `START_ENRICHMENT`, call location then weather
+- [x] Inject `LocationService` and `WeatherService` into `useCaptureViewModel` deps (optional until M5.4).
+- [x] Add `enrich()` intent: dispatch `START_ENRICHMENT`, call location then weather
   sequentially, dispatch `ENRICHMENT_SUCCEEDED` or `ENRICHMENT_FAILED`.
-- [ ] Add `retryEnrichment()` (re-run enrichment after recoverable failure).
-- [ ] Add `continueWithPartialReport()` dispatching `CONTINUE_WITH_PARTIAL_REPORT`.
-- [ ] On success: dispatch `ENRICHMENT_SUCCEEDED` with `location: Coordinates` and
+- [x] Add `retryEnrichment()` (re-run enrichment after recoverable failure).
+- [x] Add `continueWithPartialReport()` dispatching `CONTINUE_WITH_PARTIAL_REPORT`.
+- [x] On success: dispatch `ENRICHMENT_SUCCEEDED` with `location: Coordinates` and
   `weather: WeatherSummary` per frozen reducer contract.
-- [ ] On failure: dispatch `ENRICHMENT_FAILED` with normalized `AppError`; preserve `photoUri`.
-- [ ] Unit tests with fake services: success, location denied, no-network
+- [x] On failure: dispatch `ENRICHMENT_FAILED` with normalized `AppError`; preserve `photoUri`.
+- [x] Unit tests with fake services: success, location denied, no-network
   (`networkUnavailable`), weather API failure (`weatherFailed`); retry and continue-with-partial
   paths; assert captured photo URI preserved on failure.
-- [ ] No UI changes.
+- [x] No UI changes.
 
 **Acceptance criteria**
 

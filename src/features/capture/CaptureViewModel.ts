@@ -1,17 +1,24 @@
 import { useReducer } from "react";
 import type { CameraService, TakePhoto } from "@/services/CameraService";
+import type { LocationService } from "@/services/LocationService";
+import type { WeatherService } from "@/services/WeatherService";
 import { captureReducer, initialCaptureState } from "./captureReducer";
 import type { AppError, CaptureState } from "./captureTypes";
 
 export type CaptureViewModelDeps = {
   cameraService: CameraService;
   takePhoto: TakePhoto;
+  locationService?: LocationService;
+  weatherService?: WeatherService;
   now?: () => Date;
 };
 
 export type CaptureViewModel = {
   state: CaptureState;
   capture: () => Promise<void>;
+  enrich: () => Promise<void>;
+  retryEnrichment: () => Promise<void>;
+  continueWithPartialReport: () => void;
   dismissError: () => void;
   reset: () => void;
 };
@@ -20,6 +27,17 @@ type CaptureFailureError = Extract<
   AppError,
   { type: "cameraPermissionDenied" | "unknown" }
 >;
+
+type EnrichmentFailureError = Extract<
+  AppError,
+  { type: "networkUnavailable" | "weatherFailed" | "locationPermissionDenied" }
+>;
+
+const enrichmentDepsMissingError = (): EnrichmentFailureError => ({
+  type: "weatherFailed",
+  message: "Location or weather data could not be loaded.",
+  retryable: true,
+});
 
 const asCaptureFailureError = (error: AppError): CaptureFailureError => {
   if (error.type === "cameraPermissionDenied" || error.type === "unknown") {
@@ -31,6 +49,18 @@ const asCaptureFailureError = (error: AppError): CaptureFailureError => {
     message: error.message,
     retryable: error.retryable,
   };
+};
+
+const toEnrichmentError = (error: AppError): EnrichmentFailureError => {
+  if (
+    error.type === "networkUnavailable" ||
+    error.type === "weatherFailed" ||
+    error.type === "locationPermissionDenied"
+  ) {
+    return error;
+  }
+
+  return enrichmentDepsMissingError();
 };
 
 export function useCaptureViewModel(deps: CaptureViewModelDeps): CaptureViewModel {
@@ -65,9 +95,52 @@ export function useCaptureViewModel(deps: CaptureViewModelDeps): CaptureViewMode
     });
   };
 
+  const enrich = async () => {
+    if (!deps.locationService || !deps.weatherService) {
+      dispatch({ type: "START_ENRICHMENT" });
+      dispatch({
+        type: "ENRICHMENT_FAILED",
+        error: enrichmentDepsMissingError(),
+      });
+      return;
+    }
+
+    dispatch({ type: "START_ENRICHMENT" });
+
+    const location = await deps.locationService.getCurrentCoordinates();
+    if (!location.ok) {
+      dispatch({
+        type: "ENRICHMENT_FAILED",
+        error: toEnrichmentError(location.error),
+      });
+      return;
+    }
+
+    const weather = await deps.weatherService.getCurrentWeather(
+      location.coordinates,
+    );
+    if (!weather.ok) {
+      dispatch({
+        type: "ENRICHMENT_FAILED",
+        error: toEnrichmentError(weather.error),
+      });
+      return;
+    }
+
+    dispatch({
+      type: "ENRICHMENT_SUCCEEDED",
+      location: location.coordinates,
+      weather: weather.weather,
+    });
+  };
+
   return {
     state,
     capture,
+    enrich,
+    retryEnrichment: enrich,
+    continueWithPartialReport: () =>
+      dispatch({ type: "CONTINUE_WITH_PARTIAL_REPORT" }),
     dismissError: () => dispatch({ type: "DISMISS_ERROR" }),
     reset: () => dispatch({ type: "RESET_WORKFLOW" }),
   };

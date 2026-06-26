@@ -142,7 +142,7 @@ npm run typecheck
 
 ## M6.3 — Report preview UI
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Render the composed report with clearly labeled sections; replace the M5.4
 placeholder ready-phase UI in `CaptureScreen`.
@@ -157,27 +157,27 @@ placeholder ready-phase UI in `CaptureScreen`.
 
 **Subtasks**
 
-- [ ] Implement `ReportPreview` component consuming `buildReportPreviewModel(report)`.
-- [ ] Render captured photo with react-native `Image` (`testID="report-photo"`,
+- [x] Implement `ReportPreview` component consuming `buildReportPreviewModel(report)`.
+- [x] Render captured photo with react-native `Image` (`testID="report-photo"`,
   `accessibilityLabel="Captured field photo"`).
-- [ ] Render sectioned labels: Capture (photo status, captured at), Location (coordinates),
+- [x] Render photo via RN Image; sectioned labels: Capture (captured at), Location (coordinates),
   Weather (condition + temperature).
-- [ ] When `isPartial`, render distinct info block with `enrichmentUnavailableReason` readable copy.
-- [ ] Replace M5.4 minimal ready blocks in `CaptureScreen` with
+- [x] When `isPartial`, render distinct info block with `enrichmentUnavailableReason` readable copy.
+- [x] Replace M5.4 minimal ready blocks in `CaptureScreen` with
   `<ReportPreview report={state.report} onRetake={viewModel.reset} />` when
   `phase === "ready" && report !== null`.
-- [ ] Guard: `phase === "ready" && report === null` shows "Report unavailable".
-- [ ] Basic accessibility: `accessibilityRole`, `accessibilityLabel` on Retake and section labels.
-- [ ] `ReportPreview.test.tsx`: photo uri, full/partial sections, reason copy.
-- [ ] Update `CaptureScreen.test.tsx`: replace M5.4 ready-status assertions with ReportPreview
+- [x] Guard: `phase === "ready" && report === null` shows "Report unavailable".
+- [x] Basic accessibility: `accessibilityRole`, `accessibilityLabel` on Retake and section labels.
+- [x] `ReportPreview.test.tsx`: photo uri, full/partial sections, reason copy.
+- [x] Update `CaptureScreen.test.tsx`: replace M5.4 ready-status assertions with ReportPreview
   integration assertions (full ready, partial ready, Retake).
-- [ ] No sharing UI.
+- [x] No sharing UI.
 
 **Acceptance criteria**
 
 - Preview renders for full and partial reports without undefined errors.
 - M5.4 placeholder ready UI replaced, not duplicated.
-- Ready phase shows status-only full/partial report readiness via labeled preview sections;
+- Ready phase shows labeled preview sections (photo, timestamp, coordinates, weather or unavailable reason);
   no sharing controls.
 
 **Verification commands**

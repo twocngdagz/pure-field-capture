@@ -253,10 +253,12 @@ describe("CaptureScreen enrichment", () => {
       });
     });
 
-    expect(await screen.findByText("Report data ready")).toBeTruthy();
+    expect(await screen.findByTestId("report-preview-title")).toHaveTextContent(
+      "Report Preview",
+    );
   });
 
-  it("enriches successfully and shows full report ready status", async () => {
+  it("enriches successfully and shows full report preview", async () => {
     const user = userEvent.setup();
     const { locationService, weatherService } = defaultEnrichmentFakes();
 
@@ -273,8 +275,12 @@ describe("CaptureScreen enrichment", () => {
     await user.press(await screen.findByRole("button", { name: "Capture photo" }));
     await user.press(await screen.findByRole("button", { name: "Enrich report" }));
 
-    expect(await screen.findByText("Report data ready")).toBeTruthy();
-    expect(screen.getByText("Location and weather added")).toBeTruthy();
+    expect(await screen.findByTestId("report-preview-title")).toHaveTextContent(
+      "Report Preview",
+    );
+    expect(screen.getByText("37.77490, -122.41940")).toBeTruthy();
+    expect(screen.getByText("Clear")).toBeTruthy();
+    expect(screen.getByText("22.5°C")).toBeTruthy();
   });
 
   it("shows retry and continue controls when enrichment fails with no network", async () => {
@@ -339,8 +345,11 @@ describe("CaptureScreen enrichment", () => {
       await screen.findByRole("button", { name: "Continue with partial report" }),
     );
 
-    expect(await screen.findByText("Partial report ready")).toBeTruthy();
-    expect(screen.getByText("Location and weather unavailable")).toBeTruthy();
+    expect(await screen.findByTestId("report-preview-title")).toHaveTextContent(
+      "Partial Report Preview",
+    );
+    expect(screen.getByText("Network unavailable")).toBeTruthy();
+    expect(screen.getAllByText("Unavailable").length).toBeGreaterThanOrEqual(2);
   });
 
   it("retry enrichment succeeds after initial network failure", async () => {
@@ -376,7 +385,12 @@ describe("CaptureScreen enrichment", () => {
 
     await user.press(screen.getByRole("button", { name: "Retry enrichment" }));
 
-    expect(await screen.findByText("Report data ready")).toBeTruthy();
+    expect(await screen.findByTestId("report-preview-title")).toHaveTextContent(
+      "Report Preview",
+    );
+    expect(screen.getByText("37.77490, -122.41940")).toBeTruthy();
+    expect(screen.getByText("Clear")).toBeTruthy();
+    expect(screen.getByText("22.5°C")).toBeTruthy();
     expect(weatherService.requestCount()).toBe(2);
   });
 });

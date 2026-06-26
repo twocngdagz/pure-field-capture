@@ -16,6 +16,7 @@ import {
 } from "@/services/WeatherService";
 import type { AppError } from "./captureTypes";
 import { useCaptureViewModel } from "./CaptureViewModel";
+import { ReportPreview } from "./ReportPreview";
 
 type PreviewStatus = "checkingPermission" | "permissionDenied" | "ready";
 
@@ -230,33 +231,15 @@ export function CaptureScreen({
         </View>
       )}
 
-      {state.phase === "ready" && state.report?.isPartial === false && (
+      {state.phase === "ready" && state.report !== null && (
         <View style={styles.capturedBanner}>
-          <Text style={styles.statusText}>Report data ready</Text>
-          <Text style={styles.statusText}>Location and weather added</Text>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Retake photo"
-            onPress={viewModel.reset}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Retake</Text>
-          </Pressable>
+          <ReportPreview report={state.report} onRetake={viewModel.reset} />
         </View>
       )}
 
-      {state.phase === "ready" && state.report?.isPartial === true && (
+      {state.phase === "ready" && state.report === null && (
         <View style={styles.capturedBanner}>
-          <Text style={styles.statusText}>Partial report ready</Text>
-          <Text style={styles.statusText}>Location and weather unavailable</Text>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Retake photo"
-            onPress={viewModel.reset}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Retake</Text>
-          </Pressable>
+          <Text style={styles.statusText}>Report unavailable</Text>
         </View>
       )}
 

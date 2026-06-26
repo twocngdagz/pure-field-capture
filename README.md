@@ -52,6 +52,19 @@ npm install
 npx expo start
 ```
 
+**To test on a physical device or simulator:**
+Because this app relies heavily on native camera and file-system capabilities, it is best tested as a native development build rather than through Expo Go. 
+
+To compile and launch directly on an iOS Simulator or connected iPhone:
+```bash
+npx expo run:ios
+```
+
+To compile and launch directly on an Android Emulator or connected Android device:
+```bash
+npx expo run:android
+```
+
 Run checks:
 
 ```bash

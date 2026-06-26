@@ -18,6 +18,9 @@ Engineer take-home. This is **not** vibe coding. Work in small, reviewable batch
   touch, and any decision needing human confirmation.
 - Keep edits small and milestone-scoped. Mark tasks `- [x]` and update milestone status
   when a task is done.
+- For Expo-specific decisions, use the **Expo MCP first**; use Context7 `/expo/expo` as
+  fallback or cross-check. Do not rely on model memory for Expo setup, SDK behavior,
+  config plugins, permissions, package APIs, or install/version guidance.
 
 ## Architecture & code style
 

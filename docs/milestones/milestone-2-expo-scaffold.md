@@ -21,9 +21,16 @@ A running Expo + TypeScript app that builds cleanly from a fresh checkout.
 
 > **Verified during M2.2** (2026-06-26). Native deps verified during **M2.3** (2026-06-26).
 
+**Documentation source (M2.3 and later):** Use **Expo MCP first** for Expo-specific
+decisions. Use Context7 `/expo/expo` as fallback or cross-check when Expo MCP is
+unavailable or unclear. Do not rely on model memory for setup, SDK behavior, config
+plugins, permissions, package APIs, or install/version guidance. Record verified findings
+here after checking docs.
+
 **Date checked:** 2026-06-26
 
-**Source:** Context7 `/expo/expo` (initial scaffold); actual scaffold output (M2.2 verified)
+**Source:** Context7 `/expo/expo` (initial scaffold); Expo MCP primary for M2.3+ (see
+[`ai-workflow.md`](../ai-workflow.md))
 
 **Scaffold command (verified):**
 

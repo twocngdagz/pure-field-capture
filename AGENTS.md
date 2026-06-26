@@ -39,6 +39,10 @@ live in [`docs/`](./docs).
   defined behavior — see [`docs/architecture.md`](./docs/architecture.md).
 - **Keep the reducer pure.** Side effects belong in ViewModel action functions or
   injected services, never in the reducer.
+- **Expo docs:** For Expo-specific decisions, use the **Expo MCP first**. Use Context7
+  `/expo/expo` as fallback or cross-check when Expo MCP is unavailable or unclear. Do not
+  rely on model memory for Expo setup, SDK behavior, config plugins, permissions, package
+  APIs, or install/version guidance.
 
 ## Definition of done for a task
 

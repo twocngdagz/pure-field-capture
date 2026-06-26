@@ -62,6 +62,31 @@ meaningful commit.
   pattern and gates above.
 - Do not run broad autonomous agents without the project docs loaded as context.
 
+## Expo documentation (MCP-first)
+
+For Expo-specific implementation decisions, agents must **not** rely on model memory.
+Use current documentation in this order:
+
+1. **Expo MCP** (primary) — when available in Cursor, query for SDK 56 behavior, package
+   APIs, config plugins, native permissions, and `npx expo install` guidance.
+2. **Context7 `/expo/expo`** (fallback or cross-check) — when Expo MCP is unavailable,
+   unclear, or you need to verify a finding.
+
+Record verified commands, versions, and config notes in the active milestone board
+([`docs/milestones/milestone-2-expo-scaffold.md`](./milestones/milestone-2-expo-scaffold.md)
+Expo Docs Notes section) after checking docs, not from memory.
+
+Apply this especially when:
+
+- **M2.3** — `npx expo install` and SDK-compatible package versions.
+- **M4** — `expo-camera` (`CameraView`, `takePictureAsync`), config plugin, permission copy.
+- **M5** — `expo-location`, config plugin, permission copy.
+- **M7** — `expo-sharing`, share artifact behavior, and any `app.json` plugin entries.
+
+The Expo MCP is for **documentation and setup guidance**, not a substitute for the
+assessment app’s capture/enrich/share workflow. Do not add unrelated MCP stretch features
+to the core flow.
+
 ## Timebox strategy
 
 The assessment suggests 4–6 hours for the core app. The work is scoped around a polished

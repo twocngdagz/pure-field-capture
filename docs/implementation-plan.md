@@ -178,7 +178,7 @@ weather failure, and location denied; error-mapping tests.
 
 ---
 
-## Milestone 7 — Native sharing — `Not started`
+## Milestone 7 — Native sharing — `Complete`
 
 **Detailed task board:** [`milestones/milestone-7-native-sharing.md`](./milestones/milestone-7-native-sharing.md)
 (M7.1–M7.4). Do not mark this milestone `Complete` until M7.4 passes on that board.
@@ -186,10 +186,10 @@ weather failure, and location denied; error-mapping tests.
 **Goal:** Send the capture via the native share sheet / intent.
 
 **Tasks**
-- [ ] **Lock share artifact in [`decisions.md`](./decisions.md) (D9)** before implementing
-  `ShareService` — plain text, image, generated file, or simple report document.
-- [ ] `ShareService` implementing the locked D9 artifact via native sharing.
-- [ ] Wire share action into the ViewModel.
+- [x] **Lock share artifact in [`decisions.md`](./decisions.md) (D9)** before implementing
+  `ShareService` — image-only via `expo-sharing`; text-bearing artifacts deferred.
+- [x] `ShareService` implementing the locked D9 image artifact via native sharing.
+- [x] Wire share action into the ViewModel and Report Preview UI.
 
 **Acceptance criteria**
 - Native share sheet opens with the report artifact defined in D9.

@@ -4,8 +4,8 @@ A mobile app for a property agent in the field: **capture** a photo with the nat
 camera, **enrich** it with current location and weather, and **send** it via native
 sharing. Built as a Senior Mobile Engineer take-home for PURE Home River.
 
-> **Project status:** Expo scaffold complete. The app currently shows a minimal placeholder
-> screen. The core capture -> enrich -> share flow has not been implemented yet.
+> **Project status:** Core capture -> enrich -> preview -> share flow is implemented.
+> Remaining work focuses on accessibility, polish, and final packaging for submission.
 
 ## Weather provider
 
@@ -19,10 +19,10 @@ first.
 
 - React Native + Expo SDK 56 + TypeScript
 - Expo Router for file-based routing
+- `expo-camera` for native photo capture
+- `expo-location` + Open-Meteo REST API for location/weather enrichment
+- `expo-sharing` for native image sharing
 - Jest + React Native Testing Library for tests
-- Installed for upcoming milestones: `expo-camera`, `expo-location`, `expo-sharing`
-- Planned: Open-Meteo REST API for weather enrichment (no key)
-- Planned: native sharing via the platform share sheet / intent
 
 See [`docs/decisions.md`](./docs/decisions.md) for the reasoning, including native vs
 multiplatform trade-offs.

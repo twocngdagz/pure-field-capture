@@ -2,7 +2,7 @@
 
 **Project monitor:** [`implementation-plan.md`](../implementation-plan.md) · Milestone 7
 
-**Milestone status:** `Not started`
+**Milestone status:** `Complete`
 
 ## Goal
 
@@ -205,7 +205,7 @@ run Expo; component tests pass.
 
 ## M7.4 — Quality Gate & Close Milestone 7
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Run quality gate, align implementation-plan monitors, and close Milestone 7.
 
@@ -214,18 +214,39 @@ run Expo; component tests pass.
 - `docs/implementation-plan.md`
 - `docs/milestones/milestone-7-native-sharing.md`
 - `docs/milestones/README.md`
+- `README.md`
 
 **Subtasks**
 
-- [ ] Run `npm test` and `npm run typecheck`.
-- [ ] Set Milestone 7 status to `Complete` in `docs/implementation-plan.md`; check all M7
+- [x] Run `npm test` and `npm run typecheck`.
+- [x] Set Milestone 7 status to `Complete` in `docs/implementation-plan.md`; check all M7
   task boxes (including D9).
-- [ ] Align implementation-plan M7 task wording with accepted D9: image-only via
+- [x] Align implementation-plan M7 task wording with accepted D9: image-only via
   `expo-sharing`; text-bearing artifacts deferred.
-- [ ] Set board header `Milestone status` to `Complete`; mark this card `Complete`.
-- [ ] Update `docs/milestones/README.md` Milestone 7 row to `Complete`.
-- [ ] Record gate evidence and manual QA note on this card.
-- [ ] Do **not** start Milestone 8 in this task.
+- [x] Set board header `Milestone status` to `Complete`; mark this card `Complete`.
+- [x] Update `docs/milestones/README.md` Milestone 7 row to `Complete`.
+- [x] Record gate evidence and manual QA note on this card.
+- [x] Do **not** start Milestone 8 in this task.
+
+**Gate results**
+
+- `npm test`: 116 passing / 10 suites.
+- `npm run typecheck`: clean.
+- Manual share-sheet QA: not run in this environment; deferred checklist recorded.
+
+**Manual QA note**
+
+Live share-sheet QA deferred in this environment; CLI gate passed.
+
+When running locally:
+
+1. `npx expo start`
+2. Capture a photo and complete enrichment to reach **Report Preview**.
+3. Tap **Share report**.
+4. Verify the native share sheet opens.
+5. Share to Mail or Messages and confirm the captured image is attached.
+6. Dismiss/cancel the share sheet and confirm the app treats it as completed/returned without crashing.
+7. Force sharing unavailable/failure if possible and confirm the preview remains visible with **Retry share**.
 
 **Acceptance criteria**
 

@@ -160,6 +160,9 @@ weather failure, and location denied; error-mapping tests.
 
 ## Milestone 6 — Report preview — `Not started`
 
+**Detailed task board:** [`milestones/milestone-6-report-preview.md`](./milestones/milestone-6-report-preview.md)
+(M6.1–M6.4). Do not mark this milestone `Complete` until M6.4 passes on that board.
+
 **Goal:** A clear preview of the captured report before sending.
 
 **Tasks**

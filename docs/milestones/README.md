@@ -34,3 +34,4 @@ exists yet).
 | 3 — Domain reducer | [`milestone-3-domain-reducer.md`](./milestone-3-domain-reducer.md) | Complete |
 | 4 — Camera capture | [`milestone-4-camera-capture.md`](./milestone-4-camera-capture.md) | Complete |
 | 5 — Location & weather | [`milestone-5-location-weather.md`](./milestone-5-location-weather.md) | Complete |
+| 6 — Report preview | [`milestone-6-report-preview.md`](./milestone-6-report-preview.md) | Open |

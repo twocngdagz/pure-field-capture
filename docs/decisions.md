@@ -107,12 +107,15 @@ mobile CI, advanced native camera processing. Documented as future work.
 `ShareService` in Milestone 7.
 
 **Options:**
-- **Plain-text report body** via the native share sheet (`Share.share({ message })` or a
-  generated `.txt` file via `expo-sharing`) — simplest; good for email/Messages.
-- **Photo + text** — share the captured image with a text caption (may need two-step UX
-  or a composite approach).
-- **Generated document** — HTML/PDF report file shared as a single artifact (more polish,
-  more dependencies).
+- **Captured image + report text** — share the actual photo file through the native share
+  sheet with a text caption/body (timestamp, location, weather or unavailable reason).
+  Best matches the assessment “send the capture” requirement.
+- **Generated report file** — a single shareable artifact (e.g. `.txt` or simple HTML/PDF)
+  that includes or accompanies the captured image via `expo-sharing`.
+- **Plain-text report body only** — `Share.share({ message })` without the image file.
+  Acceptable fallback, but weaker for “send the capture” unless paired with a real file.
 
-**Lean default if undecided at M7:** plain-text report body including photo URI reference,
-timestamp, location, weather (or unavailable reason). Lock the choice here before coding.
+**Lean default if undecided at M7:** share the **captured image file** through the native
+share sheet **plus** report text (caption or companion message with timestamp, location,
+weather or unavailable reason). Do not default to a local photo URI string in plain text —
+that is not sharing the capture. Lock the final choice here before coding.

@@ -123,13 +123,15 @@ code exists.
 - [ ] `LocationService` (`expo-location`) for current coordinates.
 - [ ] `WeatherService` calling **Open-Meteo** with the coordinates (no API key).
 - [ ] Wire enrichment into the ViewModel; dispatch results into the reducer.
-- [ ] **5.3 — Handle no-network state**
-  - [ ] 5.3.1 Normalize network failures: catch failed fetch/network exceptions, map to
-    `networkUnavailable`, never expose raw technical errors.
-  - [ ] 5.3.2 Offline/partial enrichment UI: clear offline message; allow retry; allow
-    continue with partial report.
-  - [ ] 5.3.3 Tests: network failure returns a partial report; ViewModel shows a retryable
-    offline state; captured photo URI is preserved.
+
+**5.3 — Handle no-network state**
+
+- [ ] 5.3.1 Normalize network failures: catch failed fetch/network exceptions, map to
+  `networkUnavailable`, never expose raw technical errors.
+- [ ] 5.3.2 Offline/partial enrichment UI: clear offline message; allow retry; allow
+  continue with partial report.
+- [ ] 5.3.3 Tests: network failure returns a partial report; ViewModel shows a retryable
+  offline state; captured photo URI is preserved.
 
 **Acceptance criteria**
 - Explicit no-network handling, distinct from generic API error where practical.

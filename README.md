@@ -4,10 +4,9 @@ A mobile app for a property agent in the field: **capture** a photo with the nat
 camera, **enrich** it with current location and weather, and **send** it via native
 sharing. Built as a Senior Mobile Engineer take-home for PURE Home River.
 
-> **Project status:** Foundation only. This commit establishes the assessment contract,
-> agent operating rules, and documentation. **The app has not been scaffolded yet** — the
-> next step is Milestone 2 (Expo TypeScript scaffold). Setup commands below describe the
-> *planned* fresh-checkout path and will be finalized when the app is scaffolded.
+> **Project status:** Expo scaffold complete. The app currently shows a minimal placeholder
+> screen while Milestone 2 finishes setup. The core capture -> enrich -> share flow has not
+> been implemented yet.
 
 ## Weather provider
 
@@ -19,31 +18,32 @@ first.
 
 ## Stack
 
-- React Native + **Expo** + **TypeScript**
-- `expo-camera` (`CameraView`, `takePictureAsync`) for native capture and live preview
-- `expo-location` for GPS coordinates
-- Open-Meteo REST API for weather (no key)
-- Native sharing via the platform share sheet / intent
+- React Native + Expo SDK 56 + TypeScript
+- Expo Router for file-based routing
 - Jest + React Native Testing Library for tests
+- Installed for upcoming milestones: `expo-camera`, `expo-location`, `expo-sharing`
+- Planned: Open-Meteo REST API for weather enrichment (no key)
+- Planned: native sharing via the platform share sheet / intent
 
 See [`docs/decisions.md`](./docs/decisions.md) for the reasoning, including native vs
 multiplatform trade-offs.
 
-## Fresh-checkout setup (planned)
+## Fresh-checkout setup
 
-Once the app is scaffolded (Milestone 2), a clean checkout will run with:
+From a clean checkout:
 
 ```bash
 git clone <repo-url>
 cd pure-field-capture
 npm install
-npx expo start            # then open on iOS simulator / Android emulator / device
+npx expo start
 ```
 
-Run the tests with:
+Run checks:
 
 ```bash
 npm test
+npm run typecheck
 ```
 
 No API keys or environment variables are needed.
@@ -51,7 +51,7 @@ No API keys or environment variables are needed.
 ## Timebox strategy
 
 The assessment suggests 4–6 hours for the core app. Work is scoped around a polished
-capture → enrich → share flow rather than a broad property-management system. The planned
+capture -> enrich -> share flow rather than a broad property-management system. The planned
 hour-by-hour breakdown lives in [`docs/ai-workflow.md`](./docs/ai-workflow.md). Time
 figures are a *planned/targeted* timebox, not a claim of exact time spent.
 
@@ -67,7 +67,8 @@ always** be preserved, and a **partial report** **will** be allowed. Details in
 
 The core flow **will** include basic accessibility: roles and clear labels on the Capture,
 Retry, Continue, and Share controls; readable loading/error text; and status that is not
-conveyed by color alone.
+conveyed by color alone. The current scaffold screen uses readable text only; control-level
+accessibility is added as real controls are implemented.
 
 ## AI-assisted workflow
 

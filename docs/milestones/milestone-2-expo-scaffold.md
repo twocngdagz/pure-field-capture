@@ -415,7 +415,7 @@ npm run typecheck
 
 ## M2.8 — Verify start command and fresh-checkout notes
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Make the README setup commands accurate for the scaffolded app.
 
@@ -427,11 +427,19 @@ npm run typecheck
 
 **Subtasks**
 
-- [ ] Verify the actual install command.
-- [ ] Verify the actual start command.
-- [ ] Update README from planned setup to actual setup.
-- [ ] Keep Open-Meteo no-key note.
-- [ ] Do not claim feature functionality exists yet.
+- [x] Verify the actual install command (`npm install`).
+- [x] Verify the actual start command (`npx expo start`; validated non-interactively via `npx expo start --help`).
+- [x] Update README from planned setup to actual setup.
+- [x] Keep Open-Meteo no-key note.
+- [x] Do not claim feature functionality exists yet.
+
+**Verification**
+
+- `npm install`: up to date, no errors.
+- `npx expo start --help`: CLI available (non-interactive proxy for documented `npx expo start`).
+- `npm test`: 1 suite passed.
+- `npm run typecheck`: passes with no errors.
+- `docs/implementation-plan.md`: unchanged (no stale setup wording).
 
 **Acceptance criteria**
 

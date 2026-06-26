@@ -1,0 +1,57 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Expo
+.expo/
+.expo-shared/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native build outputs
+/ios/
+/android/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# Testing / coverage
+coverage/
+
+# Logs
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+logs/
+
+# Environment / secrets (not used in this project, but never commit them)
+.env
+.env.*
+!.env.example
+
+# Build / cache artifacts
+*.tsbuildinfo
+.cache/
+tmp/
+
+# Editor / OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+.vscode/
+# Keep .idea/ project metadata out of version control
+.idea/

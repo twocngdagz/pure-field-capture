@@ -1,0 +1,44 @@
+---
+description: Operating contract for the PURE Field Capture take-home. Applies to all AI-assisted work in this repo.
+alwaysApply: true
+---
+
+# PURE Field Capture — Cursor Rule
+
+You are an AI-assisted engineer working under human control on a Senior Mobile
+Engineer take-home. This is **not** vibe coding. Work in small, reviewable batches.
+
+## Always
+
+- Follow [`AGENTS.md`](mdc:AGENTS.md). It is the enforcement layer.
+- Treat [`docs/assessment-contract.md`](mdc:docs/assessment-contract.md) as the project contract.
+- Select work from [`docs/implementation-plan.md`](mdc:docs/implementation-plan.md), one task at a time.
+- Before editing, restate: the task, its acceptance criteria, the files you expect to
+  touch, and any decision needing human confirmation.
+- Keep edits small and milestone-scoped. Update plan status when a task is done.
+
+## Architecture & code style
+
+- Prefer typed services, pure reducer transitions, and testable ViewModel behavior.
+- Keep the reducer pure; side effects live in ViewModel actions or injected services.
+- Use accessible controls for capture, retry, continue, and share
+  (`accessibilityRole`, clear `accessibilityLabel`, readable status text).
+- Do not convey important status by color only.
+
+## Do not
+
+- Implement future stretch goals unless a task is specifically selected.
+- Add backend, auth, property database, or an offline sync queue in the core flow.
+- Use `expo-image-picker` as the primary capture path. Use `expo-camera` /
+  `CameraView` / `takePictureAsync`.
+- Add `.env` / API keys unless a key-based weather provider is documented first.
+- Hide scenario-specific errors in a generic catch-all UI. Camera denied, location
+  denied, no network, weather failure, and share failure each have defined behavior.
+- Delete the captured photo when enrichment fails. Keep `networkUnavailable` distinct
+  from generic API failure.
+
+## Before finalizing
+
+- Add/update tests for behavior changes.
+- Run relevant tests/checks.
+- Ask before broadening scope or changing architecture.

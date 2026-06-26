@@ -37,3 +37,4 @@ exists yet).
 | 6 — Report preview | [`milestone-6-report-preview.md`](./milestone-6-report-preview.md) | Complete |
 | 7 — Native sharing | [`milestone-7-native-sharing.md`](./milestone-7-native-sharing.md) | Complete |
 | 8 — Accessibility pass | [`milestone-8-accessibility.md`](./milestone-8-accessibility.md) | Complete |
+| 9 — Final review | [`milestone-9-final-review.md`](./milestone-9-final-review.md) | Open |

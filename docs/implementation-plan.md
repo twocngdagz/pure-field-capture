@@ -228,6 +228,9 @@ header semantics, and readable preview semantics where practical.
 
 ## Milestone 9 — README, demo script & final review — `Not started`
 
+**Detailed task board:** [`milestones/milestone-9-final-review.md`](./milestones/milestone-9-final-review.md)
+(M9.1–M9.3). Do not mark this milestone `Complete` until M9.3 passes on that board.
+
 **Goal:** Submission-ready repo.
 
 **Tasks**

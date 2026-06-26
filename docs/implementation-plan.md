@@ -103,6 +103,9 @@ code exists.
 
 ## Milestone 4 — Native camera capture & permission handling — `Not started`
 
+**Detailed task board:** [`milestones/milestone-4-camera-capture.md`](./milestones/milestone-4-camera-capture.md)
+(M4.1–M4.5). Do not mark this milestone `Complete` until M4.5 passes on that board.
+
 **Goal:** Real camera capture with a live preview.
 
 **Tasks**

@@ -32,3 +32,4 @@ exists yet).
 | --- | --- | --- |
 | 2 — Expo scaffold | [`milestone-2-expo-scaffold.md`](./milestone-2-expo-scaffold.md) | Complete |
 | 3 — Domain reducer | [`milestone-3-domain-reducer.md`](./milestone-3-domain-reducer.md) | Complete |
+| 4 — Camera capture | [`milestone-4-camera-capture.md`](./milestone-4-camera-capture.md) | Open |

@@ -25,7 +25,7 @@ Real camera capture with a live preview: native config, `CameraService`, `Captur
 - Capture still photos only. No video, no microphone/audio.
 - Native config belongs in M4.2: `expo-camera` config plugin, iOS camera usage copy, Android camera permission per Expo SDK 56 guidance.
 - For Expo-specific decisions, follow `AGENTS.md`: use Expo MCP first when applicable, and Context7 `/expo/expo` as fallback or cross-check for SDK/API docs. Do not rely on model memory.
-- `CameraService` owns native camera permission and `takePictureAsync`; normalizes failures to `AppError` (`cameraPermissionDenied` | `unknown`); never throws raw errors to UI.
+- `CameraService` owns native camera permission and `AppError` normalization (`cameraPermissionDenied` | `unknown`); never throws raw errors to callers. `takePictureAsync` is a UI-owned `CameraView` ref adapter (`TakePhoto`), wired in M4.4.
 - `CaptureViewModel` owns async orchestration and dispatches reducer actions.
 - Reducer stays pure; no service/native imports (M3 contract frozen).
 - File locations: `src/services/CameraService.ts`, `src/services/FakeCameraService.ts`, `src/features/capture/CaptureViewModel.ts`.
@@ -82,7 +82,7 @@ grep -q "M4.5" docs/milestones/milestone-4-camera-capture.md
 
 ## M4.2 — Native Camera Config + CameraService
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Add camera native permissions/config and implement the camera service boundary with tests.
 
@@ -96,18 +96,19 @@ grep -q "M4.5" docs/milestones/milestone-4-camera-capture.md
 
 **Subtasks**
 
-- [ ] Add `expo-camera` config plugin to `app.json` with iOS camera usage description and Android camera permission per Expo SDK 56 guidance.
-- [ ] Keep photo-only capture; do not add microphone/video/audio permissions.
-- [ ] Implement `CameraService` wrapping permission request and `takePictureAsync`.
-- [ ] Normalize failures to `AppError` (`cameraPermissionDenied` | `unknown`); never throw raw errors to callers.
-- [ ] Implement `FakeCameraService` for tests.
-- [ ] Unit tests for success path (returns photo URI) and permission-denied path.
-- [ ] No UI, ViewModel, or reducer changes.
+- [x] Add `expo-camera` config plugin to `app.json` with iOS camera usage description and Android camera permission per Expo SDK 56 guidance.
+- [x] Keep photo-only capture; do not add microphone/video/audio permissions.
+- [x] Implement `CameraService` for camera permission request and `AppError` normalization.
+- [x] Define `CameraCaptureResult` and `TakePhoto` type contract for UI-owned `CameraView` ref capture (wired in M4.4).
+- [x] Normalize failures to `AppError` (`cameraPermissionDenied` | `unknown`); never throw raw errors to callers.
+- [x] Implement `FakeCameraService` for tests.
+- [x] Unit tests: already-granted, request-grants, request-denies, cannot-ask-again, throw->unknown, and fake-service contract.
+- [x] No UI, ViewModel, or reducer changes.
 
 **Acceptance criteria**
 
 - `app.json` has camera native config; no microphone permission added.
-- Service returns photo URI on success or `AppError` on failure.
+- `requestPermission()` returns `{ ok: true }` for granted permission, or an `{ ok: false; error }` `AppError` result (`cameraPermissionDenied` | `unknown`) for denied/unavailable camera permission.
 - Tests pass with fake service.
 - Reducer remains untouched.
 

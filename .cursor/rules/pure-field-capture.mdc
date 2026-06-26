@@ -12,10 +12,12 @@ Engineer take-home. This is **not** vibe coding. Work in small, reviewable batch
 
 - Follow [`AGENTS.md`](mdc:AGENTS.md). It is the enforcement layer.
 - Treat [`docs/assessment-contract.md`](mdc:docs/assessment-contract.md) as the project contract.
-- Select work from [`docs/implementation-plan.md`](mdc:docs/implementation-plan.md), one task at a time.
+- Select work from [`docs/implementation-plan.md`](mdc:docs/implementation-plan.md):
+  lowest open milestone, then one unchecked (`- [ ]`) task inside it.
 - Before editing, restate: the task, its acceptance criteria, the files you expect to
   touch, and any decision needing human confirmation.
-- Keep edits small and milestone-scoped. Update plan status when a task is done.
+- Keep edits small and milestone-scoped. Mark tasks `- [x]` and update milestone status
+  when a task is done.
 
 ## Architecture & code style
 

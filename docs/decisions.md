@@ -100,3 +100,19 @@ the cost is low and the signal is high.
 Not built unless explicitly selected later: authentication, backend API, property
 database, multi-user workflows, full offline sync queue, map view, MCP/AI feature,
 mobile CI, advanced native camera processing. Documented as future work.
+
+## D9 — Native share artifact (pending — lock before Milestone 7)
+
+**Status:** Pending. Must be decided and recorded here **before** implementing
+`ShareService` in Milestone 7.
+
+**Options:**
+- **Plain-text report body** via the native share sheet (`Share.share({ message })` or a
+  generated `.txt` file via `expo-sharing`) — simplest; good for email/Messages.
+- **Photo + text** — share the captured image with a text caption (may need two-step UX
+  or a composite approach).
+- **Generated document** — HTML/PDF report file shared as a single artifact (more polish,
+  more dependencies).
+
+**Lean default if undecided at M7:** plain-text report body including photo URI reference,
+timestamp, location, weather (or unavailable reason). Lock the choice here before coding.

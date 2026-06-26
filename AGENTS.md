@@ -8,7 +8,8 @@ live in [`docs/`](./docs).
 
 1. Read [`docs/assessment-contract.md`](./docs/assessment-contract.md) — the project contract.
 2. Read [`docs/implementation-plan.md`](./docs/implementation-plan.md) — the milestone plan and status.
-3. Pick **exactly one** task whose status is `Not started` (lowest open milestone first).
+3. Pick the **lowest open milestone** (status not `Complete`), then **exactly one**
+   unchecked task (`- [ ]`) inside it. Do not start tasks in a later milestone.
 
 ## How to work
 
@@ -45,8 +46,9 @@ live in [`docs/`](./docs).
   with fake services, error-mapping tests — see
   [`docs/testing-strategy.md`](./docs/testing-strategy.md)).
 - Relevant tests/checks run clean before you finalize.
-- [`docs/implementation-plan.md`](./docs/implementation-plan.md) status is updated for
-  the task you completed.
+- [`docs/implementation-plan.md`](./docs/implementation-plan.md) is updated: mark the
+  completed task `- [x]`; set the milestone to `Complete` only when all its tasks are
+  checked.
 - Commit message is meaningful and milestone-scoped.
 
 ## Non-goals for the core submission

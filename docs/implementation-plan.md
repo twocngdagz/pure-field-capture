@@ -1,9 +1,12 @@
 # Implementation Plan
 
-Milestones are small and reviewable. Agents pick the **lowest open milestone** and work
-**one task at a time**, updating the status marker when a task is done.
+Milestones are small and reviewable. Agents pick the **lowest open milestone** (status
+not `Complete`), then **one unchecked task** (`- [ ]`) inside it.
 
-Status legend: `Not started` · `In progress` · `Complete`
+**Status legend**
+- Milestone: `Not started` · `In progress` · `Complete`
+- Task: `- [ ]` open · `- [x]` done. Mark tasks `- [x]` as you finish them; set the
+  milestone to `Complete` only when every task in it is checked.
 
 Target directory shape (created incrementally, not all at once):
 
@@ -32,13 +35,15 @@ src/
 code exists.
 
 **Tasks**
-- AGENTS.md / CLAUDE.md / GEMINI.md enforcement layer.
-- `.cursor/rules/pure-field-capture.mdc`.
-- `docs/`: assessment contract, this plan, decisions, architecture, testing strategy,
+- [x] AGENTS.md / CLAUDE.md / GEMINI.md enforcement layer.
+- [x] `.cursor/rules/pure-field-capture.mdc`.
+- [x] `docs/`: assessment contract, this plan, decisions, architecture, testing strategy,
   AI workflow, demo script.
-- README (fresh-checkout intent, Open-Meteo no-key note), `.gitignore`.
-- Document: Open-Meteo needs no API key; do not add `.env` unless a key-based API is
+- [x] README (fresh-checkout intent, Open-Meteo no-key note), `.gitignore`.
+- [x] Document: Open-Meteo needs no API key; do not add `.env` unless a key-based API is
   introduced; AGENTS.md forbids image picker as primary path.
+- [x] Docs polish: README planned-vs-implemented wording; agent task-picking granularity;
+  report `enrichmentUnavailableReason`; Milestone 2 typecheck criterion.
 
 **Acceptance criteria**
 - All foundation files exist and are internally consistent.
@@ -53,14 +58,16 @@ code exists.
 **Goal:** A running Expo + TypeScript app that builds cleanly from a fresh checkout.
 
 **Tasks**
-- Scaffold Expo (TypeScript template). Add `expo-camera`, `expo-location`,
-  `expo-sharing` (and printing/file utilities as needed for the report artifact).
-- Establish `src/` structure and a single placeholder screen.
-- Configure test runner (Jest + React Native Testing Library).
+- [ ] Scaffold Expo (TypeScript template). Add `expo-camera`, `expo-location`,
+  `expo-sharing` (and file utilities as needed for the share artifact — see D9).
+- [ ] Establish `src/` structure and a single placeholder screen.
+- [ ] Configure test runner (Jest + React Native Testing Library).
+- [ ] Add `npm run typecheck` (or equivalent `tsc --noEmit`) and wire it in package.json.
 
 **Acceptance criteria**
 - `npm install` then the documented start command launches the app.
-- Test command runs (even with a trivial passing test).
+- `npm test` runs (even with a trivial passing test).
+- `npm run typecheck` passes with no errors.
 - README fresh-checkout steps verified.
 
 **Test expectations:** One smoke test proving the test runner works.
@@ -74,9 +81,10 @@ code exists.
 **Goal:** Pure, testable core of the capture workflow.
 
 **Tasks**
-- Define `captureTypes.ts`: capture state machine, actions, `AppError`, `Report`.
-- Implement `captureReducer.ts` as a pure function.
-- Unit-test all reducer transitions including failure transitions.
+- [ ] Define `captureTypes.ts`: capture state machine, actions, `AppError`, `Report`
+  (including `enrichmentUnavailableReason`).
+- [ ] Implement `captureReducer.ts` as a pure function.
+- [ ] Unit-test all reducer transitions including failure transitions.
 
 **Acceptance criteria**
 - Reducer is pure (no side effects, no imports of services).
@@ -92,9 +100,9 @@ code exists.
 **Goal:** Real camera capture with a live preview.
 
 **Tasks**
-- `CameraService` wrapping `expo-camera` (`CameraView`, `takePictureAsync`).
-- Capture screen showing an **actual camera preview**.
-- Handle camera permission denied with a clear, recoverable message.
+- [ ] `CameraService` wrapping `expo-camera` (`CameraView`, `takePictureAsync`).
+- [ ] Capture screen showing an **actual camera preview**.
+- [ ] Handle camera permission denied with a clear, recoverable message.
 
 **Acceptance criteria**
 - Uses `expo-camera` `CameraView`. **No** `expo-image-picker` as primary path.
@@ -112,22 +120,21 @@ code exists.
 **Goal:** Attach current GPS location and weather to the capture.
 
 **Tasks**
-- `LocationService` (`expo-location`) for current coordinates.
-- `WeatherService` calling **Open-Meteo** with the coordinates (no API key).
-- Wire enrichment into the ViewModel; dispatch results into the reducer.
-
-**Task 5.3 — Handle no-network state**
-- *5.3.1 Normalize network failures:* catch failed fetch/network exceptions, map to
-  `networkUnavailable`, never expose raw technical errors.
-- *5.3.2 Offline/partial enrichment UI:* clear offline message; allow retry; allow
-  continue with partial report.
-- *5.3.3 Tests:* network failure returns a partial report; ViewModel shows a retryable
-  offline state; captured photo URI is preserved.
+- [ ] `LocationService` (`expo-location`) for current coordinates.
+- [ ] `WeatherService` calling **Open-Meteo** with the coordinates (no API key).
+- [ ] Wire enrichment into the ViewModel; dispatch results into the reducer.
+- [ ] **5.3 — Handle no-network state**
+  - [ ] 5.3.1 Normalize network failures: catch failed fetch/network exceptions, map to
+    `networkUnavailable`, never expose raw technical errors.
+  - [ ] 5.3.2 Offline/partial enrichment UI: clear offline message; allow retry; allow
+    continue with partial report.
+  - [ ] 5.3.3 Tests: network failure returns a partial report; ViewModel shows a retryable
+    offline state; captured photo URI is preserved.
 
 **Acceptance criteria**
 - Explicit no-network handling, distinct from generic API error where practical.
 - Captured photo survives network/weather failure.
-- Partial report is allowed.
+- Partial report is allowed; `enrichmentUnavailableReason` set on partial reports.
 - Location permission denied marks location & weather unavailable but still allows a report.
 
 **Test expectations:** ViewModel tests with fake services for success, no-network,
@@ -142,11 +149,12 @@ weather failure, and location denied; error-mapping tests.
 **Goal:** A clear preview of the captured report before sending.
 
 **Tasks**
-- Compose the report (photo, timestamp, location, weather or "unavailable").
-- Render a preview screen with clearly labeled sections.
+- [ ] Compose the report (photo, timestamp, location, weather or unavailable reason).
+- [ ] Render a preview screen with clearly labeled sections.
 
 **Acceptance criteria**
 - Preview shows photo + enrichment, including unavailable states without crashing.
+- Preview copy reflects `enrichmentUnavailableReason` (not just "weather missing").
 - Report preview key sections have clear, readable labels.
 
 **Test expectations:** Report composition logic unit-tested (full vs partial report).
@@ -158,12 +166,13 @@ weather failure, and location denied; error-mapping tests.
 **Goal:** Send the capture via the native share sheet / intent.
 
 **Tasks**
-- `ShareService` wrapping native sharing (`expo-sharing` / printing to a shareable
-  artifact as appropriate).
-- Wire share action into the ViewModel.
+- [ ] **Lock share artifact in [`decisions.md`](./decisions.md) (D9)** before implementing
+  `ShareService` — plain text, image, generated file, or simple report document.
+- [ ] `ShareService` implementing the locked D9 artifact via native sharing.
+- [ ] Wire share action into the ViewModel.
 
 **Acceptance criteria**
-- Native share sheet opens with the report artifact.
+- Native share sheet opens with the report artifact defined in D9.
 - Share failure does not crash; preview stays available; retry allowed (`shareFailed`).
 
 **Test expectations:** ViewModel test with a fake `ShareService` for success and failure.
@@ -177,10 +186,10 @@ weather failure, and location denied; error-mapping tests.
 **Goal:** Keep the core field flow usable with assistive technologies.
 
 **Tasks**
-- Add `accessibilityRole="button"` and clear `accessibilityLabel` to Capture, Retry,
+- [ ] Add `accessibilityRole="button"` and clear `accessibilityLabel` to Capture, Retry,
   Continue/partial, and Share controls.
-- Make loading/error states readable text; do not convey status by color only.
-- Label report preview key sections.
+- [ ] Make loading/error states readable text; do not convey status by color only.
+- [ ] Label report preview key sections.
 
 **Acceptance criteria**
 - Primary buttons have role + clear label.
@@ -198,11 +207,11 @@ weather failure, and location denied; error-mapping tests.
 **Goal:** Submission-ready repo.
 
 **Tasks**
-- Finalize README: fresh-checkout setup, Open-Meteo no-key note, native vs
+- [ ] Finalize README: fresh-checkout setup, Open-Meteo no-key note, native vs
   multiplatform decision, timebox strategy, AI workflow, no-network behavior,
   accessibility note.
-- Finalize [`demo-script.md`](./demo-script.md).
-- Verify fresh checkout end-to-end; clean up commit history.
+- [ ] Finalize [`demo-script.md`](./demo-script.md).
+- [ ] Verify fresh checkout end-to-end; clean up commit history.
 
 **Acceptance criteria**
 - Clean `git clone` → install → run works following the README only.

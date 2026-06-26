@@ -108,15 +108,25 @@ type AppError =
 A report composes the capture with enrichment and tolerates missing pieces:
 
 ```ts
+type EnrichmentUnavailableReason =
+  | 'networkUnavailable'
+  | 'weatherFailed'
+  | 'locationPermissionDenied';
+
 type Report = {
   photoUri: string;                 // always present once captured
   capturedAt: string;               // ISO timestamp
   location?: { latitude: number; longitude: number } | null;
   weather?: WeatherSummary | null;  // null when unavailable
   isPartial: boolean;               // true when location/weather missing
+  enrichmentUnavailableReason?: EnrichmentUnavailableReason;
   note?: string;
 };
 ```
+
+`enrichmentUnavailableReason` preserves *why* enrichment failed so preview and share copy
+can distinguish no-network from API failure from location denied — not just that weather
+is missing. Set when `isPartial` is true and enrichment was attempted.
 
 A **partial report** is a first-class outcome: a report with `isPartial: true` when
 location or weather could not be obtained. The photo is never discarded to produce one.

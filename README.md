@@ -55,24 +55,24 @@ capture → enrich → share flow rather than a broad property-management system
 hour-by-hour breakdown lives in [`docs/ai-workflow.md`](./docs/ai-workflow.md). Time
 figures are a *planned/targeted* timebox, not a claim of exact time spent.
 
-## Failure handling
+## Failure handling (planned)
 
-The app handles the obvious failure cases as distinct, recoverable states — camera
-permission denied, location permission denied, **no network** (its own state, not a
-generic API error), weather API failure, and share failure. The captured photo is always
-preserved, and a **partial report** is allowed. Details in
+The app **will** handle the obvious failure cases as distinct, recoverable states —
+camera permission denied, location permission denied, **no network** (its own state, not
+a generic API error), weather API failure, and share failure. The captured photo **will
+always** be preserved, and a **partial report** **will** be allowed. Details in
 [`docs/architecture.md`](./docs/architecture.md).
 
-## Accessibility
+## Accessibility (planned)
 
-The core flow includes basic accessibility: roles and clear labels on the Capture, Retry,
-Continue, and Share controls; readable loading/error text; and status that is not conveyed
-by color alone.
+The core flow **will** include basic accessibility: roles and clear labels on the Capture,
+Retry, Continue, and Share controls; readable loading/error text; and status that is not
+conveyed by color alone.
 
 ## AI-assisted workflow
 
-This project was built with AI tools under human control, gated by an assessment contract
-and a milestone plan. See [`docs/ai-workflow.md`](./docs/ai-workflow.md) and
+This project **is being built** with AI tools under human control, gated by an assessment
+contract and a milestone plan. See [`docs/ai-workflow.md`](./docs/ai-workflow.md) and
 [`AGENTS.md`](./AGENTS.md).
 
 ## Documentation

@@ -85,30 +85,42 @@ grep -q "M8.3" docs/milestones/milestone-8-accessibility.md
 
 ## M8.2 — Accessibility audit and targeted fixes
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Verify the existing D7 accessibility slice across the implemented capture ->
 enrich -> preview -> share flow, then apply only targeted fixes where the audit finds gaps.
 
 **Files expected to change**
 
-- `src/features/capture/CaptureScreen.tsx` (only if a fix is needed)
-- `src/features/capture/ReportPreview.tsx` (only if a fix is needed)
-- `src/features/capture/__tests__/CaptureScreen.test.tsx` (if accessibility props change)
-- `src/features/capture/__tests__/ReportPreview.test.tsx` (if accessibility props change)
+- `src/features/capture/__tests__/CaptureScreen.test.tsx`
+- `src/features/capture/__tests__/ReportPreview.test.tsx`
 - `docs/milestones/milestone-8-accessibility.md` (card status)
 
 **Subtasks**
 
-- [ ] Inspect primary controls: Capture photo, Retry camera permission, Enrich report, Retry
+- [x] Inspect primary controls: Capture photo, Retry camera permission, Enrich report, Retry
   enrichment, Continue with partial report, Retake photo, Share report, Retry share, Dismiss.
-- [ ] Verify each has `accessibilityRole="button"`, a clear `accessibilityLabel`, and a
+- [x] Verify each has `accessibilityRole="button"`, a clear `accessibilityLabel`, and a
   disabled state where applicable.
-- [ ] Verify readable states: Preparing camera, Capturing, Adding location and weather,
+- [x] Verify readable states: Preparing camera, Capturing, Adding location and weather,
   Sharing report, error messages, Report shared.
-- [ ] Verify preview semantics: report title header, section headers, captured-photo label,
+- [x] Verify preview semantics: report title header, section headers, captured-photo label,
   partial notice readable as text.
-- [ ] Apply only fixes found by the audit.
+- [x] Apply only fixes found by the audit.
+
+**Audit results**
+
+- Primary controls already have role + labels.
+- Loading/error/share states are readable text.
+- Report preview title/sections/photo/partial notice are labeled/readable.
+- No source accessibility fixes required.
+- Added targeted regression assertions in component tests.
+- Readable state audit used existing component coverage where states are observable
+  without new async test scaffolding; transient states not worth new helpers
+  (`Preparing camera...`, `Sharing report...`) were verified by existing functional
+  tests / implementation review and recorded here as audit evidence.
+- Capture disabled-state is implemented via `accessibilityState={{ disabled: !canCapture }}`;
+  deeper disabled-path coverage deferred (mock fires `onCameraReady` immediately).
 
 **Acceptance criteria**
 

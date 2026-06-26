@@ -142,6 +142,7 @@ describe("CaptureScreen camera", () => {
       name: "Capture photo",
     });
     expect(captureButton).toBeEnabled();
+    expect(captureButton).toHaveProp("accessibilityState", { disabled: false });
     expect(cameraService.requestCount()).toBe(1);
   });
 

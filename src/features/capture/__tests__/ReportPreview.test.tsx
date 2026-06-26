@@ -36,6 +36,12 @@ describe("ReportPreview", () => {
     expect(screen.getByText("37.77490, -122.41940")).toBeTruthy();
     expect(screen.getByText("Clear")).toBeTruthy();
     expect(screen.getByText("18°C")).toBeTruthy();
+
+    expect(screen.getByRole("header", { name: "Report Preview" })).toBeTruthy();
+    expect(screen.getByRole("header", { name: "Capture" })).toBeTruthy();
+    expect(screen.getByRole("header", { name: "Location" })).toBeTruthy();
+    expect(screen.getByRole("header", { name: "Weather" })).toBeTruthy();
+    expect(screen.getByLabelText("Captured field photo")).toBeTruthy();
   });
 
   it("renders a partial report with notice and unavailable enrichment rows", () => {

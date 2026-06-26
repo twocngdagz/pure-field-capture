@@ -238,6 +238,9 @@ environment cannot run Expo; board records the CLI gate.
 
 - `npm test` and `npm run typecheck`: pass after M7.C1.
 - README Stack line and demo-script native-sharing section updated for PDF reports.
+- Device share artifact QA: pass on 2026-06-27. A generated PDF from the device was
+  inspected and contains the captured photo, timestamp, GPS coordinates, weather condition,
+  and temperature.
 
 **Commit guidance:** Included in M7.C1 commit (`feat: share generated PDF report instead of photo only`).
 

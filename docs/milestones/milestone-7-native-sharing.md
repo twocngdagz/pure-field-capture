@@ -308,6 +308,8 @@ requirement.
 - `npm test` and `npm run typecheck`: pass.
 - Shared artifact is a generated PDF (photo + enrichment/unavailable data), not `report.photoUri`.
 - Expo docs source: Context7 `/expo/expo` (`printToFileAsync`, `shareAsync` with PDF mimeType).
+- Device share artifact QA: pass on 2026-06-27. Generated PDF evidence renders the captured
+  photo, captured timestamp, GPS coordinates, weather condition, and temperature.
 
 **Acceptance criteria**
 

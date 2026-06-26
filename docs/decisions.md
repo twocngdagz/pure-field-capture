@@ -103,17 +103,20 @@ mobile CI, advanced native camera processing. Documented as future work.
 
 ## D10 — Expo Router + `src/app` layout
 
-**Decision:** Scaffold with the Expo **default** template (Expo Router + TypeScript). Route
-files live under `src/app/` after M2.4 (Expo Router supports a `src` directory). Use
-`tsconfig` path alias `@/*` → `./src/*`.
+**Decision:** Scaffold with the Expo **default** template (Expo Router + TypeScript) using
+`--template default@sdk-56`. Route files live under `src/app/` as produced by the SDK 56
+`reset-project` flow in M2.2 (`_layout.tsx` + `index.tsx`). Use `tsconfig` path alias
+`@/*` → `./src/*` (set by the scaffold). M2.4 verifies route placement and creates the
+remaining `src/` skeleton (`components/`, `features/capture/`, `services/`, `utils/`).
 
 **Reason:** Expo Router is the current Expo default and recommended file-based routing.
 It gives native stack transitions between screens (e.g. capture → report preview) and is a
 clear signal of modern Expo practice. Refines D1 (which chose Expo + TypeScript only).
 
-**Scaffold procedure:** Generate in a temp directory outside the repo; selectively copy
-scaffold files; preserve foundation `README.md`, `.gitignore`, agent rules, `docs/`,
-`.cursor/`. Remove default tabs/demo boilerplate in M2.2.
+**Scaffold procedure:** Generate in a temp directory outside the repo (`create-expo-app`
+with `--template default@sdk-56`); run `reset-project` in temp (pipe `n\n` — interactive);
+selectively copy scaffold files; preserve foundation `README.md`, `.gitignore`, agent rules,
+`docs/`, `.cursor/`. Do not copy `scripts/` or the `reset-project` npm script.
 
 **Trade-off:** More generated boilerplate to strip than a blank `App.tsx` template, but
 better alignment with assessment navigation and interview expectations.

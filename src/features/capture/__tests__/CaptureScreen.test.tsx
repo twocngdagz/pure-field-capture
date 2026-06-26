@@ -1,8 +1,11 @@
-import { render, screen, userEvent } from "@testing-library/react-native";
+import { act, render, screen, userEvent } from "@testing-library/react-native";
 import type { AppError } from "../captureTypes";
 import { CaptureScreen } from "../CaptureScreen";
 import type { TakePhoto } from "@/services/CameraService";
 import { createFakeCameraService } from "@/services/FakeCameraService";
+import { createFakeLocationService } from "@/services/FakeLocationService";
+import { createFakeWeatherService } from "@/services/FakeWeatherService";
+import type { WeatherResult, WeatherService } from "@/services/WeatherService";
 
 jest.mock("expo-camera", () => {
   const React = require("react");
@@ -40,6 +43,11 @@ jest.mock("expo-camera", () => {
 
 const fixedNow = () => new Date("2026-06-26T10:00:00.000Z");
 
+const defaultWeather = {
+  temperatureCelsius: 22.5,
+  condition: "Clear",
+};
+
 const successfulTakePhoto = (photoUri = "file:///photo.jpg"): TakePhoto =>
   async () => ({ ok: true, photoUri });
 
@@ -51,7 +59,39 @@ const failedTakePhoto = (
   },
 ): TakePhoto => async () => ({ ok: false, error });
 
-describe("CaptureScreen", () => {
+function createDeferred<T>() {
+  let resolve!: (value: T) => void;
+  const promise = new Promise<T>((res) => {
+    resolve = res;
+  });
+
+  return { promise, resolve };
+}
+
+const createSequencedWeatherService = (
+  results: WeatherResult[],
+): WeatherService & { requestCount: () => number } => {
+  let count = 0;
+
+  return {
+    getCurrentWeather: async () => {
+      const result = results[Math.min(count, results.length - 1)];
+      count += 1;
+      return result;
+    },
+    requestCount: () => count,
+  };
+};
+
+const defaultEnrichmentFakes = () => ({
+  locationService: createFakeLocationService(),
+  weatherService: createFakeWeatherService({
+    ok: true,
+    weather: defaultWeather,
+  }),
+});
+
+describe("CaptureScreen camera", () => {
   it("shows permission denied fallback with retry when mount check fails", async () => {
     const cameraService = createFakeCameraService({
       ok: false,
@@ -61,11 +101,14 @@ describe("CaptureScreen", () => {
         retryable: true,
       },
     });
+    const { locationService, weatherService } = defaultEnrichmentFakes();
 
     render(
       <CaptureScreen
         cameraService={cameraService}
         takePhoto={successfulTakePhoto()}
+        locationService={locationService}
+        weatherService={weatherService}
         now={fixedNow}
       />,
     );
@@ -81,11 +124,14 @@ describe("CaptureScreen", () => {
 
   it("renders camera preview and capture control when permission is granted", async () => {
     const cameraService = createFakeCameraService();
+    const { locationService, weatherService } = defaultEnrichmentFakes();
 
     render(
       <CaptureScreen
         cameraService={cameraService}
         takePhoto={successfulTakePhoto()}
+        locationService={locationService}
+        weatherService={weatherService}
         now={fixedNow}
       />,
     );
@@ -98,14 +144,17 @@ describe("CaptureScreen", () => {
     expect(cameraService.requestCount()).toBe(1);
   });
 
-  it("captures successfully and shows captured state with retake", async () => {
+  it("captures successfully and shows captured state with enrich and retake", async () => {
     const cameraService = createFakeCameraService();
     const user = userEvent.setup();
+    const { locationService, weatherService } = defaultEnrichmentFakes();
 
     render(
       <CaptureScreen
         cameraService={cameraService}
         takePhoto={successfulTakePhoto()}
+        locationService={locationService}
+        weatherService={weatherService}
         now={fixedNow}
       />,
     );
@@ -116,6 +165,7 @@ describe("CaptureScreen", () => {
     await user.press(captureButton);
 
     expect(await screen.findByText("Photo captured")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Enrich report" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Retake photo" })).toBeTruthy();
     expect(cameraService.requestCount()).toBe(2);
   });
@@ -128,11 +178,14 @@ describe("CaptureScreen", () => {
       message: "Camera is unavailable. Please try again.",
       retryable: true,
     };
+    const { locationService, weatherService } = defaultEnrichmentFakes();
 
     render(
       <CaptureScreen
         cameraService={cameraService}
         takePhoto={failedTakePhoto(photoError)}
+        locationService={locationService}
+        weatherService={weatherService}
         now={fixedNow}
       />,
     );
@@ -149,10 +202,14 @@ describe("CaptureScreen", () => {
   });
 
   it("disables capture until camera is ready", async () => {
+    const { locationService, weatherService } = defaultEnrichmentFakes();
+
     render(
       <CaptureScreen
         cameraService={createFakeCameraService()}
         takePhoto={successfulTakePhoto()}
+        locationService={locationService}
+        weatherService={weatherService}
         now={fixedNow}
       />,
     );
@@ -161,5 +218,165 @@ describe("CaptureScreen", () => {
       name: "Capture photo",
     });
     expect(captureButton).toBeEnabled();
+  });
+});
+
+describe("CaptureScreen enrichment", () => {
+  it("shows enriching status while weather fetch is pending", async () => {
+    const user = userEvent.setup();
+    const deferredWeather = createDeferred<WeatherResult>();
+    const weatherService: WeatherService = {
+      getCurrentWeather: jest.fn(() => deferredWeather.promise),
+    };
+
+    render(
+      <CaptureScreen
+        cameraService={createFakeCameraService()}
+        takePhoto={successfulTakePhoto()}
+        locationService={createFakeLocationService()}
+        weatherService={weatherService}
+        now={fixedNow}
+      />,
+    );
+
+    await user.press(await screen.findByRole("button", { name: "Capture photo" }));
+    await screen.findByText("Photo captured");
+
+    await user.press(screen.getByRole("button", { name: "Enrich report" }));
+
+    expect(await screen.findByText("Adding location and weather...")).toBeTruthy();
+
+    await act(async () => {
+      deferredWeather.resolve({
+        ok: true,
+        weather: defaultWeather,
+      });
+    });
+
+    expect(await screen.findByText("Report data ready")).toBeTruthy();
+  });
+
+  it("enriches successfully and shows full report ready status", async () => {
+    const user = userEvent.setup();
+    const { locationService, weatherService } = defaultEnrichmentFakes();
+
+    render(
+      <CaptureScreen
+        cameraService={createFakeCameraService()}
+        takePhoto={successfulTakePhoto()}
+        locationService={locationService}
+        weatherService={weatherService}
+        now={fixedNow}
+      />,
+    );
+
+    await user.press(await screen.findByRole("button", { name: "Capture photo" }));
+    await user.press(await screen.findByRole("button", { name: "Enrich report" }));
+
+    expect(await screen.findByText("Report data ready")).toBeTruthy();
+    expect(screen.getByText("Location and weather added")).toBeTruthy();
+  });
+
+  it("shows retry and continue controls when enrichment fails with no network", async () => {
+    const user = userEvent.setup();
+    const weatherService = createFakeWeatherService({
+      ok: false,
+      error: {
+        type: "networkUnavailable",
+        message: "Network is unavailable. Please try again.",
+        retryable: true,
+      },
+    });
+
+    render(
+      <CaptureScreen
+        cameraService={createFakeCameraService()}
+        takePhoto={successfulTakePhoto()}
+        locationService={createFakeLocationService()}
+        weatherService={weatherService}
+        now={fixedNow}
+      />,
+    );
+
+    await user.press(await screen.findByRole("button", { name: "Capture photo" }));
+    await user.press(await screen.findByRole("button", { name: "Enrich report" }));
+
+    expect(
+      await screen.findByText("Network is unavailable. Please try again."),
+    ).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Retry enrichment" })).toBeTruthy();
+    expect(
+      screen.getByRole("button", { name: "Continue with partial report" }),
+    ).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Retake photo" })).toBeTruthy();
+  });
+
+  it("continues with partial report after network failure", async () => {
+    const user = userEvent.setup();
+    const weatherService = createFakeWeatherService({
+      ok: false,
+      error: {
+        type: "networkUnavailable",
+        message: "Network is unavailable. Please try again.",
+        retryable: true,
+      },
+    });
+
+    render(
+      <CaptureScreen
+        cameraService={createFakeCameraService()}
+        takePhoto={successfulTakePhoto()}
+        locationService={createFakeLocationService()}
+        weatherService={weatherService}
+        now={fixedNow}
+      />,
+    );
+
+    await user.press(await screen.findByRole("button", { name: "Capture photo" }));
+    await user.press(await screen.findByRole("button", { name: "Enrich report" }));
+
+    await user.press(
+      await screen.findByRole("button", { name: "Continue with partial report" }),
+    );
+
+    expect(await screen.findByText("Partial report ready")).toBeTruthy();
+    expect(screen.getByText("Location and weather unavailable")).toBeTruthy();
+  });
+
+  it("retry enrichment succeeds after initial network failure", async () => {
+    const user = userEvent.setup();
+    const weatherService = createSequencedWeatherService([
+      {
+        ok: false,
+        error: {
+          type: "networkUnavailable",
+          message: "Network is unavailable. Please try again.",
+          retryable: true,
+        },
+      },
+      { ok: true, weather: defaultWeather },
+    ]);
+
+    render(
+      <CaptureScreen
+        cameraService={createFakeCameraService()}
+        takePhoto={successfulTakePhoto()}
+        locationService={createFakeLocationService()}
+        weatherService={weatherService}
+        now={fixedNow}
+      />,
+    );
+
+    await user.press(await screen.findByRole("button", { name: "Capture photo" }));
+    await user.press(await screen.findByRole("button", { name: "Enrich report" }));
+
+    expect(
+      await screen.findByText("Network is unavailable. Please try again."),
+    ).toBeTruthy();
+
+    await user.press(screen.getByRole("button", { name: "Retry enrichment" }));
+
+    expect(await screen.findByText("Report data ready")).toBeTruthy();
+    expect(weatherService.requestCount()).toBe(2);
   });
 });

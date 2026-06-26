@@ -6,6 +6,14 @@ import {
   type CameraService,
   type TakePhoto,
 } from "@/services/CameraService";
+import {
+  createLocationService,
+  type LocationService,
+} from "@/services/LocationService";
+import {
+  createWeatherService,
+  type WeatherService,
+} from "@/services/WeatherService";
 import type { AppError } from "./captureTypes";
 import { useCaptureViewModel } from "./CaptureViewModel";
 
@@ -20,12 +28,16 @@ const unknownCameraError: AppError = {
 export type CaptureScreenProps = {
   cameraService?: CameraService;
   takePhoto?: TakePhoto;
+  locationService?: LocationService;
+  weatherService?: WeatherService;
   now?: () => Date;
 };
 
 export function CaptureScreen({
   cameraService: cameraServiceProp,
   takePhoto: takePhotoProp,
+  locationService: locationServiceProp,
+  weatherService: weatherServiceProp,
   now,
 }: CaptureScreenProps) {
   const cameraRef = useRef<CameraView>(null);
@@ -37,6 +49,16 @@ export function CaptureScreen({
   const cameraService = useMemo(
     () => cameraServiceProp ?? createCameraService(),
     [cameraServiceProp],
+  );
+
+  const locationService = useMemo(
+    () => locationServiceProp ?? createLocationService(),
+    [locationServiceProp],
+  );
+
+  const weatherService = useMemo(
+    () => weatherServiceProp ?? createWeatherService(),
+    [weatherServiceProp],
   );
 
   const refTakePhoto = useCallback<TakePhoto>(async () => {
@@ -59,12 +81,23 @@ export function CaptureScreen({
   );
 
   const deps = useMemo(
-    () => ({ cameraService, takePhoto, now }),
-    [cameraService, takePhoto, now],
+    () => ({
+      cameraService,
+      takePhoto,
+      locationService,
+      weatherService,
+      now,
+    }),
+    [cameraService, takePhoto, locationService, weatherService, now],
   );
 
   const viewModel = useCaptureViewModel(deps);
   const { state } = viewModel;
+
+  const canContinueWithPartial =
+    state.error?.type === "networkUnavailable" ||
+    state.error?.type === "weatherFailed" ||
+    state.error?.type === "locationPermissionDenied";
 
   const checkPreviewPermission = useCallback(async () => {
     setPreviewStatus("checkingPermission");
@@ -135,9 +168,87 @@ export function CaptureScreen({
         <Text style={styles.statusText}>Capturing...</Text>
       )}
 
-      {state.phase === "captured" && (
+      {state.phase === "enriching" && (
+        <Text style={styles.statusText}>Adding location and weather...</Text>
+      )}
+
+      {state.phase === "captured" && state.error === null && (
         <View style={styles.capturedBanner}>
           <Text style={styles.statusText}>Photo captured</Text>
+          <View style={styles.inlineActions}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Enrich report"
+              onPress={viewModel.enrich}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Enrich report</Text>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Retake photo"
+              onPress={viewModel.reset}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Retake</Text>
+            </Pressable>
+          </View>
+        </View>
+      )}
+
+      {state.phase === "captured" && state.error !== null && (
+        <View style={styles.errorBanner}>
+          <Text style={styles.errorText}>{state.error.message}</Text>
+          <View style={styles.inlineActions}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Retry enrichment"
+              onPress={viewModel.retryEnrichment}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Retry enrichment</Text>
+            </Pressable>
+            {canContinueWithPartial && (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Continue with partial report"
+                onPress={viewModel.continueWithPartialReport}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>Continue with partial report</Text>
+              </Pressable>
+            )}
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Retake photo"
+              onPress={viewModel.reset}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Retake</Text>
+            </Pressable>
+          </View>
+        </View>
+      )}
+
+      {state.phase === "ready" && state.report?.isPartial === false && (
+        <View style={styles.capturedBanner}>
+          <Text style={styles.statusText}>Report data ready</Text>
+          <Text style={styles.statusText}>Location and weather added</Text>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Retake photo"
+            onPress={viewModel.reset}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Retake</Text>
+          </Pressable>
+        </View>
+      )}
+
+      {state.phase === "ready" && state.report?.isPartial === true && (
+        <View style={styles.capturedBanner}>
+          <Text style={styles.statusText}>Partial report ready</Text>
+          <Text style={styles.statusText}>Location and weather unavailable</Text>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Retake photo"

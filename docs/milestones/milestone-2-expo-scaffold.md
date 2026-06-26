@@ -284,7 +284,7 @@ find src -maxdepth 3 -type d | sort
 
 ## M2.5 — Add placeholder app screen
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Make the scaffold run with a simple placeholder screen that honestly says implementation has not started.
 
@@ -295,16 +295,21 @@ find src -maxdepth 3 -type d | sort
 
 **Subtasks**
 
-- [ ] Render a simple first screen titled **PURE Field Capture**.
-- [ ] Include short status text: Milestone 2 scaffold in progress.
-- [ ] Do not create marketing/landing-page content.
-- [ ] Do not create capture UI yet.
-- [ ] Keep styling minimal and stable.
+- [x] Render a simple first screen titled **PURE Field Capture** (native stack header title).
+- [x] Include short status text: body shows **Scaffold ready** and **Milestone 2 in progress** (no duplicate app title in body).
+- [x] Do not create marketing/landing-page content.
+- [x] Do not create capture UI yet.
+- [x] Keep styling minimal and stable.
 
 **Acceptance criteria**
 
 - App launches and displays the placeholder screen.
 - No capture/enrichment/share UI.
+
+**Verification**
+
+- Manual visual launch deferred; CLI sanity check passed.
+- Expected on launch: native header **PURE Field Capture**; body **Scaffold ready** / **Milestone 2 in progress**; no fake controls.
 
 **Verification commands**
 

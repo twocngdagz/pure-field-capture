@@ -101,7 +101,7 @@ code exists.
 
 ---
 
-## Milestone 4 — Native camera capture & permission handling — `Not started`
+## Milestone 4 — Native camera capture & permission handling — `Complete`
 
 **Detailed task board:** [`milestones/milestone-4-camera-capture.md`](./milestones/milestone-4-camera-capture.md)
 (M4.1–M4.5). Do not mark this milestone `Complete` until M4.5 passes on that board.
@@ -109,9 +109,9 @@ code exists.
 **Goal:** Real camera capture with a live preview.
 
 **Tasks**
-- [ ] `CameraService` wrapping `expo-camera` (`CameraView`, `takePictureAsync`).
-- [ ] Capture screen showing an **actual camera preview**.
-- [ ] Handle camera permission denied with a clear, recoverable message.
+- [x] Camera permission service (`expo-camera`) and UI-owned `CameraView` / `takePictureAsync` capture adapter.
+- [x] Capture screen showing an **actual camera preview**.
+- [x] Handle camera permission denied with a clear, recoverable message.
 
 **Acceptance criteria**
 - Uses `expo-camera` `CameraView`. **No** `expo-image-picker` as primary path.

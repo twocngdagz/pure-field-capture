@@ -2,7 +2,7 @@
 
 **Project monitor:** [`implementation-plan.md`](../implementation-plan.md) · Milestone 4
 
-**Milestone status:** `Not started` (set to `Complete` only in M4.5 after M4.1–M4.4 pass)
+**Milestone status:** `Complete`
 
 ## Goal
 
@@ -217,7 +217,7 @@ npm run typecheck
 
 ## M4.5 — Quality Gate + Close Milestone 4
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Run all Milestone 4 checks and update project monitors.
 
@@ -229,14 +229,30 @@ npm run typecheck
 
 **Subtasks**
 
-- [ ] Run `npm test` and `npm run typecheck`.
-- [ ] Confirm no M5+ feature work leaked (no `expo-location`, Open-Meteo, enrichment ViewModel wiring, share UI).
-- [ ] Confirm `expo-image-picker` is not installed.
-- [ ] Set Milestone 4 status to `Complete` in `docs/implementation-plan.md` and check top-level M4 tasks.
-- [ ] Set board header `Milestone status` to `Complete`; mark this card `Complete`.
-- [ ] Update `docs/milestones/README.md` Milestone 4 row to `Complete`.
-- [ ] Record known follow-up for M5.
-- [ ] Do **not** start Milestone 5 in this task.
+- [x] Run `npm test` and `npm run typecheck`.
+- [x] Confirm no M5+ feature work leaked (no `expo-location`, Open-Meteo, enrichment ViewModel wiring, share UI).
+- [x] Confirm `expo-image-picker` is not installed.
+- [x] Set Milestone 4 status to `Complete` in `docs/implementation-plan.md` and check top-level M4 tasks.
+- [x] Set board header `Milestone status` to `Complete`; mark this card `Complete`.
+- [x] Update `docs/milestones/README.md` Milestone 4 row to `Complete`.
+- [x] Record known follow-up for M5.
+- [x] Do **not** start Milestone 5 in this task.
+
+**Gate results**
+
+- `npm test`: pass (5 suites, 59 tests; includes CaptureScreen component tests + index route smoke test).
+- `npm run typecheck`: pass.
+- `npm ls expo-image-picker`: absent (`(empty)`, expected non-zero exit).
+- `npx expo start --help`: pass; Expo CLI start command available.
+- M5+ leakage scan under `src/`: no `expo-location`, `Location.`, `open-meteo`/`Open-Meteo`, `api.open-meteo.com`, `fetch(`, `expo-sharing`, `Sharing.`, `ShareService`, `WeatherService`, `LocationService`, or `ReportPreview`.
+- `expo-camera` usage is expected and allowed under M4 (permission service + UI-owned CameraView/takePictureAsync adapter).
+- Manual live `CameraView` preview on simulator/device: not run in this environment.
+
+**Manual QA note**
+
+Live `CameraView` preview and the OS permission prompt still require a simulator/device run:
+`npx expo start`, open on iOS/Android, grant/deny camera permission, verify rear-camera preview,
+shutter capture, "Photo captured", Retake, and the permission-denied fallback.
 
 **Known follow-up for M5**
 

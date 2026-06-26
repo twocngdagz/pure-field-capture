@@ -81,6 +81,9 @@ code exists.
 
 ## Milestone 3 — Domain model, reducer, and tests — `Not started`
 
+**Detailed task board:** [`milestones/milestone-3-domain-reducer.md`](./milestones/milestone-3-domain-reducer.md)
+(M3.1–M3.7). Do not mark this milestone `Complete` until M3.7 passes on that board.
+
 **Goal:** Pure, testable core of the capture workflow.
 
 **Tasks**

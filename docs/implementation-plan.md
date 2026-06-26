@@ -126,6 +126,9 @@ code exists.
 
 ## Milestone 5 — Location capture & Open-Meteo enrichment — `Not started`
 
+**Detailed task board:** [`milestones/milestone-5-location-weather.md`](./milestones/milestone-5-location-weather.md)
+(M5.1–M5.4). Do not mark this milestone `Complete` until M5.4 passes on that board.
+
 **Goal:** Attach current GPS location and weather to the capture.
 
 **Tasks**

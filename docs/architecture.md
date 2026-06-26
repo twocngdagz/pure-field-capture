@@ -31,21 +31,21 @@ Reducer (captureReducer, pure)            Services (injected, side-effectful)
 User taps Capture
   → ViewModel calls CameraService.takePhoto()
   → service returns { uri } or AppError
-  → ViewModel dispatches PHOTO_CAPTURED or CAPTURE_FAILED
+  → ViewModel dispatches CAPTURE_SUCCEEDED or CAPTURE_FAILED
   → reducer updates state
   → UI re-renders
 
 Capture succeeds
   → ViewModel calls LocationService then WeatherService
-  → on success: dispatch ENRICHED (location + weather)
-  → on no network: dispatch ENRICH_FAILED(networkUnavailable) → partial report allowed
-  → on weather error: dispatch ENRICH_FAILED(weatherFailed)   → partial report allowed
-  → on location denied: dispatch LOCATION_DENIED → location/weather marked unavailable
+  → on success: dispatch ENRICHMENT_SUCCEEDED (location + weather)
+  → on no network: dispatch ENRICHMENT_FAILED(networkUnavailable) → partial report allowed
+  → on weather error: dispatch ENRICHMENT_FAILED(weatherFailed)   → partial report allowed
+  → on location denied: dispatch ENRICHMENT_FAILED(locationPermissionDenied) → location/weather marked unavailable
   (photo URI is preserved across all of these)
 
 User taps Share
   → ViewModel calls ShareService.share(report)
-  → on success: dispatch SHARED
+  → on success: dispatch SHARE_SUCCEEDED
   → on failure: dispatch SHARE_FAILED(shareFailed) → preview stays, retry allowed
 ```
 
@@ -74,6 +74,16 @@ state. No Redux/global store is introduced; the workflow is local to the capture
   `continueWithPartialReport`, `share`).
 - Call injected services, translate thrown/failed results into `AppError`, and dispatch.
 - Contain the async orchestration logic that the reducer must stay free of.
+
+## Canonical reducer actions
+
+`captureTypes.ts` is the source of truth for executable reducer action names.
+The reducer uses SCREAMING_SNAKE action types:
+
+`START_CAPTURE`, `CAPTURE_SUCCEEDED`, `CAPTURE_FAILED`,
+`START_ENRICHMENT`, `ENRICHMENT_SUCCEEDED`, `ENRICHMENT_FAILED`,
+`CONTINUE_WITH_PARTIAL_REPORT`, `START_SHARING`, `SHARE_SUCCEEDED`,
+`SHARE_FAILED`, `DISMISS_ERROR`, `RESET_WORKFLOW`.
 
 ## Service boundaries
 

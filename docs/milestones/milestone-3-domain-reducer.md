@@ -75,6 +75,7 @@ type Report = {
   weather?: WeatherSummary | null;
   isPartial: boolean;
   enrichmentUnavailableReason?: EnrichmentUnavailableReason;
+  note?: string;
 };
 ```
 
@@ -198,7 +199,7 @@ test ! -f src/features/capture/captureTypes.ts
 
 ## M3.2 — Define capture domain types
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Create the domain contract in TypeScript before reducer work.
 
@@ -210,11 +211,11 @@ test ! -f src/features/capture/captureTypes.ts
 
 **Subtasks**
 
-- [ ] Define `CapturePhase`, `CaptureState`, `AppError`, `Report`, `Coordinates`, `WeatherSummary`, `EnrichmentUnavailableReason`.
-- [ ] Define `CaptureAction` union per Domain Notes (SCREAMING_SNAKE).
-- [ ] Match `docs/architecture.md` for `AppError` and `Report` (including `enrichmentUnavailableReason`).
-- [ ] Add "Canonical reducer actions" section to `docs/architecture.md` listing exact action names from `captureTypes.ts`.
-- [ ] Do not implement reducer, ViewModel, services, or UI.
+- [x] Define `CapturePhase`, `CaptureState`, `AppError`, `Report`, `Coordinates`, `WeatherSummary`, `EnrichmentUnavailableReason`.
+- [x] Define `CaptureAction` union per Domain Notes (SCREAMING_SNAKE).
+- [x] Match `docs/architecture.md` for `AppError` and `Report` (including `enrichmentUnavailableReason`).
+- [x] Add "Canonical reducer actions" section to `docs/architecture.md` listing exact action names from `captureTypes.ts`.
+- [x] Do not implement reducer, ViewModel, services, or UI.
 
 **Acceptance criteria**
 

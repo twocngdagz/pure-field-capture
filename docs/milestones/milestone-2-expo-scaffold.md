@@ -241,7 +241,7 @@ Expected: camera, location, and sharing present; image-picker absent; `app.json`
 
 ## M2.4 — Establish source directory skeleton
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Create the source folders expected by the architecture without implementing feature logic.
 
@@ -257,12 +257,12 @@ Expected: camera, location, and sharing present; image-picker absent; `app.json`
 
 **Subtasks**
 
-- [ ] ~~Move `app/` → `src/app/`~~ — **already done** by SDK 56 `reset-project` in M2.2; skip if `src/app/` exists.
-- [ ] ~~Update `tsconfig.json` paths alias~~ — **already set** (`@/*` → `./src/*`); verify only.
-- [ ] Create `src/components/`, `src/features/capture/__tests__/`, `src/services/`, `src/utils/`.
-- [ ] Add minimal placeholders only if needed to keep empty folders visible in git.
-- [ ] Do **not** implement reducer, ViewModel, services, camera, location, weather, or sharing yet.
-- [ ] Keep folder names aligned with `implementation-plan.md` and `architecture.md`.
+- [x] ~~Move `app/` → `src/app/`~~ — **already done** by SDK 56 `reset-project` in M2.2; verified in M2.4 (`src/app/_layout.tsx`, `src/app/index.tsx` present).
+- [x] ~~Update `tsconfig.json` paths alias~~ — **already set** (`@/*` → `./src/*`); verified only in M2.4.
+- [x] Create `src/components/`, `src/features/capture/__tests__/`, `src/services/`, `src/utils/`.
+- [x] Add `.gitkeep` placeholders to keep empty folders visible in git (no TypeScript placeholder modules).
+- [x] Do **not** implement reducer, ViewModel, services, camera, location, weather, or sharing yet.
+- [x] Keep folder names aligned with `implementation-plan.md` and `architecture.md`.
 
 **Acceptance criteria**
 

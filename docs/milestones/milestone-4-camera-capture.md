@@ -169,40 +169,49 @@ npm run typecheck
 
 ## M4.4 — Camera Screen Wiring
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Replace the placeholder screen with a real camera preview wired to the ViewModel.
 
 **Files expected to change**
 
+- `src/features/capture/CaptureScreen.tsx`
+- `src/features/capture/__tests__/CaptureScreen.test.tsx`
 - `src/app/index.tsx`
+- `src/app/__tests__/index.test.tsx`
 - `docs/milestones/milestone-4-camera-capture.md` (card status)
 
 **Subtasks**
 
-- [ ] Replace placeholder content in `src/app/index.tsx` with capture screen wired to `CaptureViewModel`.
-- [ ] Render `CameraView` from `expo-camera` when phase is `capturing`.
-- [ ] Render graceful permission-denied fallback with retry (and settings guidance if appropriate).
-- [ ] Reflect reducer phases in UI (idle, capturing, captured, failed with error message).
-- [ ] Basic accessibility: `accessibilityRole`, `accessibilityLabel` on capture/retry controls; readable status text.
-- [ ] No `expo-image-picker`. No location, weather, report preview, or share UI.
+- [x] Replace placeholder in `src/app/index.tsx` with thin `<CaptureScreen />` wrapper.
+- [x] Render `CameraView` after camera permission is granted; keep it mounted for preview. Reducer phase `capturing` is shutter-in-progress only, not preview mounting.
+- [x] Screen-local `previewStatus` gates preview mount; mount-time denial shows full-screen recoverable fallback with retry.
+- [x] Capture-time failure shows inline recoverable error with retry and dismiss.
+- [x] Reflect reducer phases in UI (idle/capturing/captured/failed with error message).
+- [x] Rear camera only (`facing="back"`); no camera-switch control in M4.
+- [x] After success: "Photo captured" + Retake; no report preview/enrichment/share UI.
+- [x] Basic accessibility: `accessibilityRole`, `accessibilityLabel` on capture/retry/retake/dismiss; readable status text.
+- [x] Component tests in `CaptureScreen.test.tsx`; route smoke test mocks `CaptureScreen` in `index.test.tsx`.
+- [x] No `expo-image-picker`. No `_layout.tsx` changes.
 
 **Acceptance criteria**
 
-- Real camera preview works on device/simulator when permitted.
-- Permission-denied path is recoverable and clearly communicated.
+- Real camera preview works on device/simulator when permitted (manual `npx expo start`; deferred if environment cannot run Expo — CLI typecheck + component tests pass).
+- Mount-time permission denial is recoverable and clearly communicated (full-screen fallback).
+- Capture-time failure is recoverable (inline error + retry/dismiss).
 - UI reflects reducer state; no image-picker primary path.
 
 **Verification commands**
 
 ```bash
 npx expo start
+npm test
 npm run typecheck
 ```
 
 **Commit guidance:** `feat: add camera capture screen`
 
-**Human decision gate:** None. Manual visual launch deferred if environment cannot run Expo; board should note CLI sanity check passed.
+**Human decision gate:** None. Manual visual launch deferred if environment cannot run Expo; board notes CLI sanity check passed.
 
 ---
 

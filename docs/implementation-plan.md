@@ -203,6 +203,9 @@ weather failure, and location denied; error-mapping tests.
 
 ## Milestone 8 — Accessibility pass — `Not started`
 
+**Detailed task board:** [`milestones/milestone-8-accessibility.md`](./milestones/milestone-8-accessibility.md)
+(M8.1–M8.3). Do not mark this milestone `Complete` until M8.3 passes on that board.
+
 **Goal:** Keep the core field flow usable with assistive technologies.
 
 **Tasks**

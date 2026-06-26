@@ -158,7 +158,7 @@ weather failure, and location denied; error-mapping tests.
 
 ---
 
-## Milestone 6 — Report preview — `Not started`
+## Milestone 6 — Report preview — `Complete`
 
 **Detailed task board:** [`milestones/milestone-6-report-preview.md`](./milestones/milestone-6-report-preview.md)
 (M6.1–M6.4). Do not mark this milestone `Complete` until M6.4 passes on that board.
@@ -166,15 +166,15 @@ weather failure, and location denied; error-mapping tests.
 **Goal:** A clear preview of the captured report before sending.
 
 **Tasks**
-- [ ] Compose the report (photo, timestamp, location, weather or unavailable reason).
-- [ ] Render a preview screen with clearly labeled sections.
+- [x] Map the composed report to a preview model (photo URI, timestamp, coordinates, weather or unavailable reason).
+- [x] Render the report preview UI with labeled sections (Capture, Location, Weather).
 
 **Acceptance criteria**
 - Preview shows photo + enrichment, including unavailable states without crashing.
 - Preview copy reflects `enrichmentUnavailableReason` (not just "weather missing").
 - Report preview key sections have clear, readable labels.
 
-**Test expectations:** Report composition logic unit-tested (full vs partial report).
+**Test expectations:** Report preview presentation mapping and UI component tests (full vs partial report).
 
 ---
 

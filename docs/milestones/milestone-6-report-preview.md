@@ -2,7 +2,7 @@
 
 **Project monitor:** [`implementation-plan.md`](../implementation-plan.md) · Milestone 6
 
-**Milestone status:** `Not started`
+**Milestone status:** `Complete`
 
 ## Goal
 
@@ -196,7 +196,7 @@ component tests pass.
 
 ## M6.4 — Quality Gate & Close Milestone 6
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Run quality gate, align stale implementation-plan wording, and close Milestone 6
 monitors.
@@ -209,19 +209,39 @@ monitors.
 
 **Subtasks**
 
-- [ ] Run `npm test` and `npm run typecheck`.
-- [ ] Run M7 leakage scan: `rg -n "expo-sharing|Sharing\\.|ShareService" src` (no hits;
+- [x] Run `npm test` and `npm run typecheck`.
+- [x] Run M7 leakage scan: `rg -n "expo-sharing|Sharing\\.|ShareService" src` (no hits;
   `ReportPreview` is expected M6 work).
-- [ ] Set Milestone 6 status to `Complete` in `docs/implementation-plan.md`; check top-level M6
+- [x] Set Milestone 6 status to `Complete` in `docs/implementation-plan.md`; check top-level M6
   tasks.
-- [ ] Align stale implementation-plan top-level task wording from "Compose the report (...)" to
+- [x] Align stale implementation-plan top-level task wording from "Compose the report (...)" to
   reflect the locked split: reducer composes `Report`; M6 maps to preview model and renders it
-  (coordinates, not address), e.g. "Map the composed report to a preview model and render it
-  (photo, timestamp, coordinates, weather or unavailable reason)."
-- [ ] Set board header `Milestone status` to `Complete`; mark this card `Complete`.
-- [ ] Update `docs/milestones/README.md` Milestone 6 row to `Complete`.
-- [ ] Record gate evidence and manual QA note on this card.
-- [ ] Do **not** start Milestone 7 in this task.
+  (coordinates, not address).
+- [x] Set board header `Milestone status` to `Complete`; mark this card `Complete`.
+- [x] Update `docs/milestones/README.md` Milestone 6 row to `Complete`.
+- [x] Record gate evidence and manual QA note on this card.
+- [x] Do **not** start Milestone 7 in this task.
+
+**Gate results**
+
+- `npm test`: pass (9 suites, 103 tests; includes report preview model and UI tests).
+- `npm run typecheck`: pass.
+- M7 leakage scan: pass — no `expo-sharing`, `Sharing.`, or `ShareService` references under
+  `src/` (`rg` exit 1 = no matches). `ReportPreview` / `reportView` are expected M6 artifacts.
+- Manual live report preview on simulator/device: not run in this environment.
+
+**Manual QA note**
+
+Live simulator/device preview deferred in this environment; CLI gate passed.
+
+When running locally:
+
+1. `npx expo start`
+2. Capture a photo, tap **Enrich report**, verify **Report Preview** shows the photo, captured
+   timestamp, coordinates, weather condition, and temperature.
+3. Simulate no network / weather failure, tap **Continue with partial report**, verify **Partial
+   Report Preview**, reason copy, and `Unavailable` rows.
+4. Tap **Retake** and verify the flow returns to capture.
 
 **Acceptance criteria**
 

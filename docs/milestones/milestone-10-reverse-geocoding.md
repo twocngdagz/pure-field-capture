@@ -115,6 +115,7 @@ Milestone 10.
 - `src/features/capture/__tests__/CaptureViewModel.test.ts`
 - `src/features/capture/__tests__/reportView.test.ts`
 - `src/features/capture/__tests__/ReportPreview.test.tsx`
+- `src/features/capture/__tests__/reportPdf.test.ts` (PDF HTML uses `buildReportPreviewModel`; address rows must appear in generated PDF)
 - `docs/architecture.md` (report model `address?: string | null`; `LocationService` row)
 - `docs/milestones/milestone-10-reverse-geocoding.md` (card status)
 - `docs/implementation-plan.md` (close Milestone 10)
@@ -141,7 +142,9 @@ Milestone 10.
 - [ ] **Tests**: update `LocationService.test.ts` (new `address` field; parts compose,
   `formattedAddress` wins, empty -> `null`, geocode throws -> `address: null` with `ok: true`,
   permission denied still `locationPermissionDenied`), reducer, ViewModel,
-  `reportView.test.ts`, `ReportPreview.test.tsx`.
+  `reportView.test.ts`, `ReportPreview.test.tsx`, and `reportPdf.test.ts` (shared PDF uses
+  `buildReportPreviewModel` via `reportPdf.ts`; assert Address row appears in HTML when
+  `report.address` is set).
 - [ ] Update `docs/architecture.md` report model and `LocationService` row.
 - [ ] Run `npm test` and `npm run typecheck`.
 - [ ] Set Milestone 10 status to `Complete` in `docs/implementation-plan.md`; mark this card

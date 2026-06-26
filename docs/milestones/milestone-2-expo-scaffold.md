@@ -377,7 +377,7 @@ npm test
 
 ## M2.7 — Add typecheck command
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Make TypeScript validation explicit and repeatable.
 
@@ -388,9 +388,14 @@ npm test
 
 **Subtasks**
 
-- [ ] Add `npm run typecheck` using `tsc --noEmit` or Expo-recommended equivalent.
-- [ ] Ensure TypeScript config is strict enough without scaffold noise.
-- [ ] Run the command and fix any errors.
+- [x] Add `npm run typecheck` using `tsc --noEmit`.
+- [x] Ensure TypeScript config is strict enough without scaffold noise (`strict: true` retained; added `compilerOptions.types: ["jest"]` so M2.6 test globals typecheck).
+- [x] Run the command and fix any errors.
+
+**Verification**
+
+- `npm run typecheck`: **passes with no errors** (exits cleanly).
+- Failure was Jest globals in `src/app/__tests__/index.test.tsx`, not absent Expo-generated types. Minimal fix: `types: ["jest"]` in `tsconfig.json`. `.expo/types` and `expo-env.d.ts` remain gitignored.
 
 **Acceptance criteria**
 

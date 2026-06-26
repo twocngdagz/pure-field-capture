@@ -4,8 +4,9 @@ A mobile app for a property agent in the field: **capture** a photo with the nat
 camera, **enrich** it with current location and weather, and **send** it via native
 sharing. Built as a Senior Mobile Engineer take-home for PURE Home River.
 
-> **Project status:** Core capture -> enrich -> preview -> share flow is implemented.
-> Accessibility audit is complete; remaining work focuses on polish and final packaging.
+> **Project status:** Core capture -> enrich -> preview -> share flow is implemented, tested,
+> and documented for take-home review. Remaining manual checks are device-specific camera,
+> location, share-sheet, and screen-reader QA.
 
 ## Weather provider
 
@@ -26,6 +27,19 @@ first.
 
 See [`docs/decisions.md`](./docs/decisions.md) for the reasoning, including native vs
 multiplatform trade-offs.
+
+## Architecture
+
+The app keeps workflow state in a pure reducer and puts native/network side effects behind
+small injected services. The screen layer wires those pieces together:
+
+- `src/app/index.tsx` renders `CaptureScreen`.
+- `CaptureScreen` owns the `CameraView` ref, preview state, and UI branches.
+- `useCaptureViewModel` orchestrates capture, enrichment, and sharing actions.
+- `captureReducer` owns workflow transitions and preserves the report through recoverable failures.
+- Services wrap native/network boundaries: camera permission, location, weather, and sharing.
+
+See [`docs/architecture.md`](./docs/architecture.md) for details.
 
 ## Fresh-checkout setup
 
@@ -50,16 +64,17 @@ No API keys or environment variables are needed.
 ## Timebox strategy
 
 The assessment suggests 4–6 hours for the core app. Work is scoped around a polished
-capture -> enrich -> share flow rather than a broad property-management system. The planned
+capture -> enrich -> preview -> share flow rather than a broad property-management system. The planned
 hour-by-hour breakdown lives in [`docs/ai-workflow.md`](./docs/ai-workflow.md). Time
 figures are a *planned/targeted* timebox, not a claim of exact time spent.
 
-## Failure handling (planned)
+## Failure handling
 
-The app **will** handle the obvious failure cases as distinct, recoverable states —
-camera permission denied, location permission denied, **no network** (its own state, not
-a generic API error), weather API failure, and share failure. The captured photo **will
-always** be preserved, and a **partial report** **will** be allowed. Details in
+The app handles the obvious failure cases as distinct, recoverable states: camera permission
+denied, location permission denied, **no network** (its own state, not a generic API error),
+weather API failure, and share failure. Failures are shown as readable UI states with retry
+or continue options where appropriate, rather than crashes. The captured photo is preserved
+through enrichment failure, and a partial report is allowed. Details in
 [`docs/architecture.md`](./docs/architecture.md).
 
 ## Accessibility
@@ -72,8 +87,8 @@ Manual VoiceOver/TalkBack QA is documented as a deferred checklist in the Milest
 
 ## AI-assisted workflow
 
-This project **is being built** with AI tools under human control, gated by an assessment
-contract and a milestone plan. See [`docs/ai-workflow.md`](./docs/ai-workflow.md) and
+This project was built with AI tools under human control, gated by an assessment contract
+and a milestone plan. See [`docs/ai-workflow.md`](./docs/ai-workflow.md) and
 [`AGENTS.md`](./AGENTS.md).
 
 ## Documentation

@@ -83,7 +83,7 @@ grep -q "M9.3" docs/milestones/milestone-9-final-review.md
 
 ## M9.2 — Final docs and demo
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Make the README and demo script accurate and submission-ready for the reviewer.
 
@@ -95,15 +95,15 @@ grep -q "M9.3" docs/milestones/milestone-9-final-review.md
 
 **Subtasks (README)**
 
-- [ ] Update the project-status blockquote (under the intro) to the final wording:
+- [x] Update the project-status blockquote (under the intro) to the final wording:
   > Core capture -> enrich -> preview -> share flow is implemented, tested, and documented
   > for take-home review. Remaining manual checks are device-specific camera, location,
   > share-sheet, and screen-reader QA.
-- [ ] Timebox strategy: change `capture -> enrich -> share` to
+- [x] Timebox strategy: change `capture -> enrich -> share` to
   `capture -> enrich -> preview -> share`.
-- [ ] Retitle `Failure handling (planned)` -> `Failure handling`; convert "will handle" to
+- [x] Retitle `Failure handling (planned)` -> `Failure handling`; convert "will handle" to
   present tense.
-- [ ] Add a short **Architecture** section (after Stack or Fresh-checkout) using D4
+- [x] Add a short **Architecture** section (after Stack or Fresh-checkout) using D4
   vocabulary and the implemented layers:
   - `src/app/index.tsx` renders `CaptureScreen`.
   - `CaptureScreen` owns the `CameraView` ref, preview state, and UI branches.
@@ -113,23 +113,23 @@ grep -q "M9.3" docs/milestones/milestone-9-final-review.md
   - Services wrap native/network boundaries: camera permission, location, weather, sharing.
   - Link to [`docs/architecture.md`](./docs/architecture.md) for detail (root-relative in
     README).
-- [ ] AI-assisted workflow: change "is being built" to "was/has been built".
-- [ ] Do not overwork Weather provider / Stack / Fresh-checkout / Accessibility /
+- [x] AI-assisted workflow: change "is being built" to "was/has been built".
+- [x] Do not overwork Weather provider / Stack / Fresh-checkout / Accessibility /
   Documentation (already accurate); fix only broken links.
 
 **Subtasks (demo-script)**
 
-- [ ] Use real UI labels: `Capture photo`, `Enrich report`, `Share report`, `Retry
+- [x] Use real UI labels: `Capture photo`, `Enrich report`, `Share report`, `Retry
   enrichment`, `Continue with partial report`, `Retry share`, `Retake`.
-- [ ] Reflect real screens/states: camera preview, `Photo captured`, `Adding location and
+- [x] Reflect real screens/states: camera preview, `Photo captured`, `Adding location and
   weather...`, `Report Preview`, `Partial Report Preview`, `Sharing report...`, `Report
   shared`.
-- [ ] Fix the happy path to show the explicit `Enrich report` step (capture -> Enrich
+- [x] Fix the happy path to show the explicit `Enrich report` step (capture -> Enrich
   report -> preview -> Share report).
-- [ ] Keep the existing failure-scenario sections (no-network/partial, share-failure retry,
+- [x] Keep the existing failure-scenario sections (no-network/partial, share-failure retry,
   accessibility note); mark manual/device-dependent parts honestly (share sheet,
   VoiceOver/TalkBack, real permissions).
-- [ ] Keep it a checklist with talking points, not a screenplay.
+- [x] Keep it a checklist with talking points, not a screenplay.
 
 **Acceptance criteria**
 

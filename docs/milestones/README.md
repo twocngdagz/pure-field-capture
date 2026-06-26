@@ -35,3 +35,4 @@ exists yet).
 | 4 — Camera capture | [`milestone-4-camera-capture.md`](./milestone-4-camera-capture.md) | Complete |
 | 5 — Location & weather | [`milestone-5-location-weather.md`](./milestone-5-location-weather.md) | Complete |
 | 6 — Report preview | [`milestone-6-report-preview.md`](./milestone-6-report-preview.md) | Complete |
+| 7 — Native sharing | [`milestone-7-native-sharing.md`](./milestone-7-native-sharing.md) | Open |

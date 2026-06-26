@@ -121,21 +121,20 @@ selectively copy scaffold files; preserve foundation `README.md`, `.gitignore`, 
 **Trade-off:** More generated boilerplate to strip than a blank `App.tsx` template, but
 better alignment with assessment navigation and interview expectations.
 
-## D9 — Native share artifact (pending — lock before Milestone 7)
+## D9 — Native share artifact
 
-**Status:** Pending. Must be decided and recorded here **before** implementing
-`ShareService` in Milestone 7.
+**Status:** Accepted
 
-**Options:**
-- **Captured image + report text** — share the actual photo file through the native share
-  sheet with a text caption/body (timestamp, location, weather or unavailable reason).
-  Best matches the assessment “send the capture” requirement.
-- **Generated report file** — a single shareable artifact (e.g. `.txt` or simple HTML/PDF)
-  that includes or accompanies the captured image via `expo-sharing`.
-- **Plain-text report body only** — `Share.share({ message })` without the image file.
-  Acceptable fallback, but weaker for “send the capture” unless paired with a real file.
+**Decision:** Share the captured image file via `expo-sharing.shareAsync` as the Milestone 7
+artifact (`report.photoUri`).
 
-**Lean default if undecided at M7:** share the **captured image file** through the native
-share sheet **plus** report text (caption or companion message with timestamp, location,
-weather or unavailable reason). Do not default to a local photo URI string in plain text —
-that is not sharing the capture. Lock the final choice here before coding.
+**Not included in M7:** a report text/message body. `expo-sharing.shareAsync` accepts a local
+file URL plus options (`UTI` iOS, `dialogTitle` Android/Web, `mimeType` Android) but has **no
+message field**, so text cannot ride alongside the file. Share-sheet cancellation is also not
+distinguishable (a resolved promise is treated as success).
+
+**Why:** Keeps M7 small, uses the native share sheet, and preserves the photo-first
+"send the capture" requirement without generating a custom document.
+
+**Deferred:** text-bearing report (e.g. react-native `Share.share({ message, url })`, generated
+`.txt`/PDF), multi-file sharing, platform share extensions.

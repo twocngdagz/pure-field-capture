@@ -180,6 +180,9 @@ weather failure, and location denied; error-mapping tests.
 
 ## Milestone 7 — Native sharing — `Not started`
 
+**Detailed task board:** [`milestones/milestone-7-native-sharing.md`](./milestones/milestone-7-native-sharing.md)
+(M7.1–M7.4). Do not mark this milestone `Complete` until M7.4 passes on that board.
+
 **Goal:** Send the capture via the native share sheet / intent.
 
 **Tasks**

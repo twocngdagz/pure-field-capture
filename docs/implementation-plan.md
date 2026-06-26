@@ -254,7 +254,7 @@ header semantics, and readable preview semantics where practical.
 
 ---
 
-## Milestone 10 — Reverse-geocoded address preview — `In progress`
+## Milestone 10 — Reverse-geocoded address preview — `Complete`
 
 **Detailed task board:** [`milestones/milestone-10-reverse-geocoding.md`](./milestones/milestone-10-reverse-geocoding.md)
 (M10.1–M10.2). Do not mark this milestone `Complete` until M10.2 passes on that board.
@@ -265,7 +265,7 @@ preserving coordinates, weather, partial-report behavior, and no-network handlin
 **Tasks**
 - [x] Register Milestone 10 board and record decision D11 (best-effort address; coordinates
   canonical; no keys/libs; reverse-geocode failure non-fatal).
-- [ ] Implement address enrichment in `LocationService`, wire through domain/ViewModel/reducer,
+- [x] Implement address enrichment in `LocationService`, wire through domain/ViewModel/reducer,
   update preview (Address + Coordinates), and tests.
 
 **Acceptance criteria**

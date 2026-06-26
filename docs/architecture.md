@@ -94,7 +94,7 @@ The reducer uses SCREAMING_SNAKE action types:
 | Service | Native/remote capability | Notes |
 | --- | --- | --- |
 | `CameraService` | `expo-camera` permission APIs | Permission request + `AppError` normalization (`cameraPermissionDenied` \| `unknown`). Photo capture is a UI-owned `CameraView.takePictureAsync()` adapter (`TakePhoto`), wired in the screen. |
-| `LocationService` | `expo-location` | Current coordinates; may return `locationPermissionDenied`. |
+| `LocationService` | `expo-location` | Current coordinates and best-effort reverse geocoding via `reverseGeocodeAsync` (non-fatal; empty or failed geocode yields `address: null` while coordinates still succeed). May return `locationPermissionDenied`. |
 | `WeatherService` | Open-Meteo REST (no key) | GPS → weather; maps fetch/network failures to `networkUnavailable`, API failures to `weatherFailed`. |
 | `ShareService` | native sharing (`expo-print` + `expo-sharing`) | Generates a PDF report from report HTML (`expo-print`) and opens the native share sheet (`expo-sharing`); failure maps to `shareFailed`. |
 
@@ -132,6 +132,7 @@ type Report = {
   capturedAt: string;               // ISO timestamp
   location?: { latitude: number; longitude: number } | null;
   weather?: WeatherSummary | null;  // null when unavailable
+  address?: string | null;          // best-effort reverse-geocoded display text
   isPartial: boolean;               // true when location/weather missing
   enrichmentUnavailableReason?: EnrichmentUnavailableReason;
   note?: string;

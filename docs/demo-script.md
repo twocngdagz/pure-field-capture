@@ -14,7 +14,7 @@ emulator, or device. Each section lists what to do and what to say.
 - Tap `Capture photo`.
 - After `Photo captured` appears, tap `Enrich report`.
 - Point out `Adding location and weather...`.
-- On `Report Preview`, point out the captured photo, timestamp, coordinates, weather condition, and temperature.
+- On `Report Preview`, point out the captured photo, timestamp, address (when geocoding succeeds), coordinates, weather condition, and temperature.
 - Tap `Share report`.
 - Point out `Sharing report...`, then `Report shared` after the share sheet returns.
 

@@ -2,7 +2,7 @@
 
 **Project monitor:** [`implementation-plan.md`](../implementation-plan.md) · Milestone 10
 
-**Milestone status:** `In progress`
+**Milestone status:** `Complete`
 
 ## Goal
 
@@ -96,7 +96,7 @@ grep -q "D11" docs/decisions.md
 
 ## M10.2 — Implement best-effort address preview
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Single vertical slice — reverse geocode in `LocationService`, wire address
 through domain/ViewModel/reducer, show Address + Coordinates in preview, update tests, close
@@ -124,30 +124,30 @@ Milestone 10.
 
 **Subtasks**
 
-- [ ] **LocationService** (`src/services/LocationService.ts`): extend `LocationResult` success
+- [x] **LocationService** (`src/services/LocationService.ts`): extend `LocationResult` success
   to `{ ok: true; coordinates; address: string | null }`. Add private `getAddressForCoordinates`
   with its own try/catch calling `Location.reverseGeocodeAsync` -> `formatAddress(results[0])`,
   returning `null` on empty/throw so coordinates never fail. Add `formatAddress` helper (priority:
   non-empty `formattedAddress` wins; else compose street line, locality, region/postalCode,
   country; trim/drop empties; de-dupe adjacent; `null` if nothing usable).
-- [ ] **Fakes** (`src/services/FakeLocationService.ts`): default
+- [x] **Fakes** (`src/services/FakeLocationService.ts`): default
   `{ ok: true, coordinates, address: "1 Market St, San Francisco" }`.
-- [ ] **Domain / ViewModel / reducer**: add `address?: string | null` to `Report` and
+- [x] **Domain / ViewModel / reducer**: add `address?: string | null` to `Report` and
   `ENRICHMENT_SUCCEEDED` payload in `src/features/capture/captureTypes.ts`; ViewModel `enrich`
   dispatches `address: location.address`; reducer `ENRICHMENT_SUCCEEDED` writes
   `address: action.address ?? null`; `CONTINUE_WITH_PARTIAL_REPORT` sets `address: null`. No new
   `AppError`.
-- [ ] **Preview** (`src/features/capture/reportView.ts`): Location section renders two rows —
+- [x] **Preview** (`src/features/capture/reportView.ts`): Location section renders two rows —
   `Address`: `report.address ?? "Unavailable"` (first), then existing `Coordinates`.
-- [ ] **Tests**: update `LocationService.test.ts` (new `address` field; parts compose,
+- [x] **Tests**: update `LocationService.test.ts` (new `address` field; parts compose,
   `formattedAddress` wins, empty -> `null`, geocode throws -> `address: null` with `ok: true`,
   permission denied still `locationPermissionDenied`), reducer, ViewModel,
   `reportView.test.ts`, `ReportPreview.test.tsx`, and `reportPdf.test.ts` (shared PDF uses
   `buildReportPreviewModel` via `reportPdf.ts`; assert Address row appears in HTML when
   `report.address` is set).
-- [ ] Update `docs/architecture.md` report model and `LocationService` row.
-- [ ] Run `npm test` and `npm run typecheck`.
-- [ ] Set Milestone 10 status to `Complete` in `docs/implementation-plan.md`; mark this card
+- [x] Update `docs/architecture.md` report model and `LocationService` row.
+- [x] Run `npm test` and `npm run typecheck`.
+- [x] Set Milestone 10 status to `Complete` in `docs/implementation-plan.md`; mark this card
   `Complete`.
 
 **Acceptance criteria**

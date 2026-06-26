@@ -2,7 +2,7 @@
 
 **Project monitor:** [`implementation-plan.md`](../implementation-plan.md) · Milestone 9
 
-**Milestone status:** `Not started`
+**Milestone status:** `Complete`
 
 ## Goal
 
@@ -152,7 +152,7 @@ npm run typecheck
 
 ## M9.3 — Final gate and close project
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Run the final quality gate, confirm hard rules, review history, and close
 Milestone 9.
@@ -165,15 +165,40 @@ Milestone 9.
 
 **Subtasks**
 
-- [ ] Run `npm test` and `npm run typecheck`.
-- [ ] Confirm hard rules: no `.env`/`.env.example`; `expo-camera`/`CameraView` is the primary
+- [x] Run `npm test` and `npm run typecheck`.
+- [x] Confirm hard rules: no `.env`/`.env.example`; `expo-camera`/`CameraView` is the primary
   capture path (no `expo-image-picker` dependency/usage).
-- [ ] Review commit history for clarity; do not squash/rebase unless explicitly approved.
-- [ ] Set Milestone 9 status to `Complete` in `docs/implementation-plan.md`; check all M9
+- [x] Review commit history for clarity; do not squash/rebase unless explicitly approved.
+- [x] Set Milestone 9 status to `Complete` in `docs/implementation-plan.md`; check all M9
   task boxes.
-- [ ] Set board header `Milestone status` to `Complete`; mark this card `Complete`.
-- [ ] Update `docs/milestones/README.md` Milestone 9 row to `Complete`.
-- [ ] Record final gate evidence + the deferred device-QA checklist on this card.
+- [x] Set board header `Milestone status` to `Complete`; mark this card `Complete`.
+- [x] Update `docs/milestones/README.md` Milestone 9 row to `Complete`.
+- [x] Record final gate evidence + the deferred device-QA checklist on this card.
+
+**Gate results**
+
+- Fresh-checkout proxy: pass — `npm install` completed, `npx expo start --help` validated the documented start command.
+- Live `npx expo start` with simulator/device: deferred as device-dependent manual QA.
+- `npm test` and `npm run typecheck`: pass.
+- Hard rules confirmed: no `.env`/`.env.example`; `expo-camera`/`CameraView` is the primary capture path (no `expo-image-picker` dependency or usage).
+- Commit history reviewed: clean milestone-scoped commits; no squash/rebase performed.
+
+**Deferred device QA checklist**
+
+Run on a simulator/device before submission if available:
+
+1. Fresh clone the repository.
+2. Run `npm install`.
+3. Run `npx expo start`.
+4. Open the app on iOS/Android.
+5. Grant camera permission and verify the camera preview appears.
+6. Tap **Capture photo** and verify **Photo captured** appears.
+7. Tap **Enrich report** and verify location/weather enrichment reaches **Report Preview**.
+8. Disable network and verify **Network is unavailable. Please try again.**, **Retry enrichment**, and **Continue with partial report**.
+9. Tap **Continue with partial report** and verify **Partial Report Preview**.
+10. Tap **Share report** and verify the native share sheet opens with the captured image.
+11. Dismiss/cancel the share sheet and verify the app returns without crashing.
+12. Enable VoiceOver/TalkBack and spot-check that Capture, Enrich, Share, Retry, Retake, and report section headers are announced clearly.
 
 **Acceptance criteria**
 

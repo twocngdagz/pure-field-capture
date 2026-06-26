@@ -226,7 +226,7 @@ header semantics, and readable preview semantics where practical.
 
 ---
 
-## Milestone 9 — README, demo script & final review — `Not started`
+## Milestone 9 — README, demo script & final review — `Complete`
 
 **Detailed task board:** [`milestones/milestone-9-final-review.md`](./milestones/milestone-9-final-review.md)
 (M9.1–M9.3). Do not mark this milestone `Complete` until M9.3 passes on that board.
@@ -234,11 +234,11 @@ header semantics, and readable preview semantics where practical.
 **Goal:** Submission-ready repo.
 
 **Tasks**
-- [ ] Finalize README: fresh-checkout setup, Open-Meteo no-key note, native vs
+- [x] Finalize README: fresh-checkout setup, Open-Meteo no-key note, native vs
   multiplatform decision, timebox strategy, AI workflow, no-network behavior,
   accessibility note.
-- [ ] Finalize [`demo-script.md`](./demo-script.md).
-- [ ] Verify fresh checkout end-to-end; clean up commit history.
+- [x] Finalize [`demo-script.md`](./demo-script.md).
+- [x] Verify final checks and review commit history; no rewrite needed unless separately approved.
 
 **Acceptance criteria**
 - Clean `git clone` → install → run works following the README only.

@@ -101,6 +101,23 @@ Not built unless explicitly selected later: authentication, backend API, propert
 database, multi-user workflows, full offline sync queue, map view, MCP/AI feature,
 mobile CI, advanced native camera processing. Documented as future work.
 
+## D10 — Expo Router + `src/app` layout
+
+**Decision:** Scaffold with the Expo **default** template (Expo Router + TypeScript). Route
+files live under `src/app/` after M2.4 (Expo Router supports a `src` directory). Use
+`tsconfig` path alias `@/*` → `./src/*`.
+
+**Reason:** Expo Router is the current Expo default and recommended file-based routing.
+It gives native stack transitions between screens (e.g. capture → report preview) and is a
+clear signal of modern Expo practice. Refines D1 (which chose Expo + TypeScript only).
+
+**Scaffold procedure:** Generate in a temp directory outside the repo; selectively copy
+scaffold files; preserve foundation `README.md`, `.gitignore`, agent rules, `docs/`,
+`.cursor/`. Remove default tabs/demo boilerplate in M2.2.
+
+**Trade-off:** More generated boilerplate to strip than a blank `App.tsx` template, but
+better alignment with assessment navigation and interview expectations.
+
 ## D9 — Native share artifact (pending — lock before Milestone 7)
 
 **Status:** Pending. Must be decided and recorded here **before** implementing

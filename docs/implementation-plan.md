@@ -55,6 +55,9 @@ code exists.
 
 ## Milestone 2 — Expo TypeScript app scaffold — `Not started`
 
+**Detailed task board:** [`milestones/milestone-2-expo-scaffold.md`](./milestones/milestone-2-expo-scaffold.md)
+(M2.1–M2.10). Do not mark this milestone `Complete` until M2.10 passes on that board.
+
 **Goal:** A running Expo + TypeScript app that builds cleanly from a fresh checkout.
 
 **Tasks**

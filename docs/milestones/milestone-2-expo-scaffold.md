@@ -19,11 +19,11 @@ A running Expo + TypeScript app that builds cleanly from a fresh checkout.
 
 ## Expo Docs Notes
 
-> **Verified during M2.2** (2026-06-26). Re-verify package versions during M2.3 when adding native deps.
+> **Verified during M2.2** (2026-06-26). Native deps verified during **M2.3** (2026-06-26).
 
 **Date checked:** 2026-06-26
 
-**Source:** Context7 `/expo/expo` (initial); actual scaffold output (M2.2 verified)
+**Source:** Context7 `/expo/expo` (initial scaffold); actual scaffold output (M2.2 verified)
 
 **Scaffold command (verified):**
 
@@ -52,16 +52,28 @@ copy `scripts/` or the `reset-project` npm script into the repo.
 - `tsconfig.json` paths: `@/*` → `./src/*`, `@/assets/*` → `./assets/*`
 - M2.4 no longer needs an `app/` → `src/app/` move if scaffold followed this path
 
-**Package installation (for M2.3):**
+**Native capability deps (verified M2.3):**
 
 ```bash
-npx expo install <packages>
+npx expo install expo-camera expo-location expo-sharing
 ```
 
-**Still verify during M2.3:**
+- `expo-camera`: `~56.0.8`
+- `expo-location`: `~56.0.18`
+- `expo-sharing`: `~56.0.18`
+- `expo-image-picker`: **not installed**
 
-- Exact versions from `npx expo install expo-camera expo-location expo-sharing`
-- Testing setup (Jest) for SDK 56 in M2.6
+**Config/permissions deferred (not in M2.3):**
+
+- `expo-camera` plugin + permission copy → **M4** (photos only; disable microphone /
+  `recordAudioAndroid: false` when adding plugin).
+- `expo-location` plugin + permission copy → **M5**.
+- `expo install` may auto-add `expo-sharing` to `app.json` plugins — **revert** if
+  install-only scope; lock share plugin/config in **M7** with D9 if needed.
+
+**Still verify during M2.6:**
+
+- Testing setup (Jest) for SDK 56
 
 ---
 
@@ -171,7 +183,7 @@ test ! -d app-example && test ! -d scripts && test ! -f App.tsx && test ! -f ind
 
 ## M2.3 — Add required Expo native dependencies
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Install only the native capability dependencies required by the assessment plan.
 
@@ -183,16 +195,18 @@ test ! -d app-example && test ! -d scripts && test ! -f App.tsx && test ! -f ind
 
 **Subtasks**
 
-- [ ] Query Context7 `/expo/expo`, or official Expo docs fallback, for `npx expo install` guidance.
-- [ ] Use `npx expo install` unless current Expo docs recommend otherwise.
-- [ ] Add `expo-camera`.
-- [ ] Add `expo-location`.
-- [ ] Add `expo-sharing` to support the D9 **lean default** (captured image + report text);
+- [x] Query Context7 `/expo/expo`, or official Expo docs fallback, for `npx expo install` guidance.
+- [x] Use `npx expo install` unless current Expo docs recommend otherwise.
+- [x] Add `expo-camera`.
+- [x] Add `expo-location`.
+- [x] Add `expo-sharing` to support the D9 **lean default** (captured image + report text);
   exact share artifact remains pending in D9 and is locked before Milestone 7. RN `Share`
   API is text/URL-only fallback.
-- [ ] Do **not** add `expo-image-picker`.
-- [ ] Do **not** add API-key/env packages.
-- [ ] Record dependency decision in `docs/decisions.md` only if it changes the plan.
+- [x] Do **not** add `expo-image-picker`.
+- [x] Do **not** add API-key/env packages.
+- [x] Do **not** add config-plugin / permission entries (`app.json` unchanged; auto-added
+  `expo-sharing` plugin reverted).
+- [x] Record dependency decision in `docs/decisions.md` only if it changes the plan (no change).
 
 **Acceptance criteria**
 
@@ -200,15 +214,17 @@ test ! -d app-example && test ! -d scripts && test ! -f App.tsx && test ! -f ind
 - `expo-sharing` is installed to support the D9 lean default; D9 share artifact choice
   remains pending until Milestone 7.
 - `expo-image-picker` is **not** installed.
+- `app.json` has no M2.3 config changes.
 
 **Verification commands**
 
 ```bash
 npm ls expo-camera expo-location expo-sharing
 npm ls expo-image-picker
+git diff -- app.json
 ```
 
-Expected: camera, location, and sharing present; image-picker absent (or empty).
+Expected: camera, location, and sharing present; image-picker absent; `app.json` diff empty.
 
 **Commit guidance:** `chore: add expo native capability dependencies`
 

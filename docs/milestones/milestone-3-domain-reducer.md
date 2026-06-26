@@ -142,7 +142,7 @@ Valid phase -> transition; otherwise **return state unchanged** (no throw).
 
 **Illegal/out-of-order policy:** known action + wrong phase returns current state unchanged. Exhaustive `assertNever` in reducer `default` branch. Test a representative pair of illegal transitions (e.g. `ENRICHMENT_SUCCEEDED` from idle, `SHARE_SUCCEEDED` from ready), not every impossible one.
 
-**Reducer default (M3.3–M3.4):** temporary permissive `default: return state` for unimplemented known actions. M3.5 replaces this with exhaustive `assertNever(action)` once all canonical actions are implemented.
+**Reducer default:** M3.5 replaced the temporary permissive default with exhaustive `assertNever(action)`; every `CaptureAction` is handled in the switch, so a future unhandled action type becomes a compile error.
 
 ### File locations
 
@@ -319,7 +319,7 @@ npm run typecheck
 
 ## M3.5 — Share/reset transitions
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Complete reducer lifecycle without implementing native sharing.
 
@@ -331,11 +331,11 @@ npm run typecheck
 
 **Subtasks**
 
-- [ ] Implement `START_SHARING`, `SHARE_SUCCEEDED`, `SHARE_FAILED`, `DISMISS_ERROR`, `RESET_WORKFLOW`.
-- [ ] `SHARE_FAILED` preserves report; `DISMISS_ERROR` clears error only.
-- [ ] `RESET_WORKFLOW` returns to initial state (all fields null).
-- [ ] Illegal known actions return unchanged state (test representative cases).
-- [ ] No `expo-sharing` or native calls.
+- [x] Implement `START_SHARING`, `SHARE_SUCCEEDED`, `SHARE_FAILED`, `DISMISS_ERROR`, `RESET_WORKFLOW`.
+- [x] `SHARE_FAILED` preserves report; `DISMISS_ERROR` clears error only.
+- [x] `RESET_WORKFLOW` returns to initial state (all fields null).
+- [x] Illegal known actions return unchanged state (test representative cases).
+- [x] No `expo-sharing` or native calls.
 
 **Acceptance criteria**
 

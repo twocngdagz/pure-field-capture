@@ -45,6 +45,29 @@ const capturedWithEnrichmentError = (
   ...overrides,
 });
 
+const fullReport = {
+  photoUri: "file:///photo.jpg",
+  capturedAt: "2026-06-26T10:00:00.000Z",
+  location: { latitude: 37.7749, longitude: -122.4194 },
+  weather: { temperatureCelsius: 18, condition: "Clear" },
+  isPartial: false,
+};
+
+const readyState = (overrides: Partial<CaptureState> = {}): CaptureState => ({
+  ...initialCaptureState,
+  phase: "ready",
+  photoUri: fullReport.photoUri,
+  capturedAt: fullReport.capturedAt,
+  report: fullReport,
+  ...overrides,
+});
+
+const sharingState = (overrides: Partial<CaptureState> = {}): CaptureState => ({
+  ...readyState(),
+  phase: "sharing",
+  ...overrides,
+});
+
 describe("initialCaptureState", () => {
   it("is idle with all fields null", () => {
     expect(initialCaptureState).toEqual({
@@ -381,5 +404,155 @@ describe("CONTINUE_WITH_PARTIAL_REPORT", () => {
     expect(
       captureReducer(state, { type: "CONTINUE_WITH_PARTIAL_REPORT" }),
     ).toBe(state);
+  });
+});
+
+describe("START_SHARING", () => {
+  it("transitions ready with report to sharing and clears error", () => {
+    const state = readyState({
+      error: {
+        type: "shareFailed",
+        message: "Share failed.",
+        retryable: true,
+      },
+    });
+
+    expect(captureReducer(state, { type: "START_SHARING" })).toEqual({
+      ...state,
+      phase: "sharing",
+      error: null,
+    });
+  });
+
+  it("returns unchanged state when report is missing", () => {
+    const state = readyState({ report: null });
+
+    expect(captureReducer(state, { type: "START_SHARING" })).toBe(state);
+  });
+
+  it("returns unchanged state when not ready", () => {
+    expect(
+      captureReducer(initialCaptureState, { type: "START_SHARING" }),
+    ).toBe(initialCaptureState);
+  });
+});
+
+describe("SHARE_SUCCEEDED", () => {
+  it("transitions sharing to shared and preserves report", () => {
+    const state = sharingState();
+
+    expect(captureReducer(state, { type: "SHARE_SUCCEEDED" })).toEqual({
+      ...state,
+      phase: "shared",
+      error: null,
+    });
+  });
+
+  it("returns unchanged state when report is missing", () => {
+    const state = sharingState({ report: null });
+
+    expect(captureReducer(state, { type: "SHARE_SUCCEEDED" })).toBe(state);
+  });
+
+  it("returns unchanged state when not sharing", () => {
+    const state = readyState();
+
+    expect(captureReducer(state, { type: "SHARE_SUCCEEDED" })).toBe(state);
+  });
+});
+
+describe("SHARE_FAILED", () => {
+  it("returns to ready with error and preserves report", () => {
+    const state = sharingState();
+    const error = {
+      type: "shareFailed" as const,
+      message: "Share failed.",
+      retryable: true as const,
+    };
+
+    expect(captureReducer(state, { type: "SHARE_FAILED", error })).toEqual({
+      ...state,
+      phase: "ready",
+      error,
+    });
+  });
+
+  it("returns unchanged state when report is missing", () => {
+    const state = sharingState({ report: null });
+    const action = {
+      type: "SHARE_FAILED" as const,
+      error: {
+        type: "shareFailed" as const,
+        message: "Share failed.",
+        retryable: true as const,
+      },
+    };
+
+    expect(captureReducer(state, action)).toBe(state);
+  });
+
+  it("returns unchanged state when not sharing", () => {
+    const state = readyState();
+    const action = {
+      type: "SHARE_FAILED" as const,
+      error: {
+        type: "shareFailed" as const,
+        message: "Share failed.",
+        retryable: true as const,
+      },
+    };
+
+    expect(captureReducer(state, action)).toBe(state);
+  });
+});
+
+describe("DISMISS_ERROR", () => {
+  it("clears error while preserving phase and data", () => {
+    const state = readyState({
+      error: {
+        type: "shareFailed",
+        message: "Share failed.",
+        retryable: true,
+      },
+    });
+
+    expect(captureReducer(state, { type: "DISMISS_ERROR" })).toEqual({
+      ...state,
+      error: null,
+    });
+  });
+
+  it("returns unchanged state when error is already null", () => {
+    const state = readyState();
+
+    expect(captureReducer(state, { type: "DISMISS_ERROR" })).toBe(state);
+  });
+});
+
+describe("RESET_WORKFLOW", () => {
+  it("returns the shared initial state", () => {
+    const state = sharingState();
+
+    expect(captureReducer(state, { type: "RESET_WORKFLOW" })).toBe(
+      initialCaptureState,
+    );
+  });
+});
+
+describe("illegal transitions", () => {
+  it("ENRICHMENT_SUCCEEDED from idle returns same object", () => {
+    const action = {
+      type: "ENRICHMENT_SUCCEEDED" as const,
+      location: { latitude: 37.7749, longitude: -122.4194 },
+      weather: { temperatureCelsius: 18, condition: "Clear" },
+    };
+
+    expect(captureReducer(initialCaptureState, action)).toBe(initialCaptureState);
+  });
+
+  it("SHARE_SUCCEEDED from ready returns same object", () => {
+    const state = readyState();
+
+    expect(captureReducer(state, { type: "SHARE_SUCCEEDED" })).toBe(state);
   });
 });

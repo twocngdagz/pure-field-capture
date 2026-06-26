@@ -18,6 +18,10 @@ const isEnrichmentError = (
   error?.type === "weatherFailed" ||
   error?.type === "locationPermissionDenied";
 
+const assertNever = (value: never): never => {
+  throw new Error(`Unhandled action: ${JSON.stringify(value)}`);
+};
+
 export function captureReducer(
   state: CaptureState,
   action: CaptureAction,
@@ -112,9 +116,28 @@ export function captureReducer(
         error: null,
       };
 
-    // Temporary permissive default: unimplemented known actions no-op.
-    // Replaced with exhaustive assertNever(action) in M3.5.
+    case "START_SHARING":
+      if (state.phase !== "ready" || state.report === null) return state;
+      return { ...state, phase: "sharing", error: null };
+
+    case "SHARE_SUCCEEDED":
+      if (state.phase !== "sharing" || state.report === null) return state;
+      return { ...state, phase: "shared", error: null };
+
+    case "SHARE_FAILED":
+      if (state.phase !== "sharing" || state.report === null) return state;
+      return { ...state, phase: "ready", error: action.error };
+
+    case "DISMISS_ERROR":
+      if (state.error === null) return state;
+      return { ...state, error: null };
+
+    case "RESET_WORKFLOW":
+      return initialCaptureState;
+
+    // Exhaustive: every CaptureAction is handled above. A new unhandled
+    // action type becomes a compile error here.
     default:
-      return state;
+      return assertNever(action);
   }
 }

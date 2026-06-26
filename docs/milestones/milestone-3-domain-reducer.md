@@ -358,7 +358,7 @@ npm run typecheck
 
 ## M3.6 — Milestone 3 quality gate
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Run all Milestone 3 checks before marking the milestone complete.
 
@@ -368,11 +368,19 @@ npm run typecheck
 
 **Subtasks**
 
-- [ ] Run `npm test`.
-- [ ] Run `npm run typecheck`.
-- [ ] Confirm M2 smoke test (`src/app/__tests__/index.test.tsx`) still passes.
-- [ ] Confirm no M4+ feature work leaked (no CameraService, ViewModel, camera UI).
-- [ ] Confirm reducer has no service imports.
+- [x] Run `npm test`.
+- [x] Run `npm run typecheck`.
+- [x] Confirm M2 smoke test (`src/app/__tests__/index.test.tsx`) still passes.
+- [x] Confirm no M4+ feature work leaked (no CameraService, ViewModel, camera UI).
+- [x] Confirm reducer has no service imports.
+
+**Gate results**
+
+- `npm test`: pass (2 suites, 39 tests; includes `src/app/__tests__/index.test.tsx` smoke test).
+- `npm run typecheck`: pass.
+- `captureReducer.ts` imports: only types from `./captureTypes`; no service or `expo-` imports (`rg` exit 1 = no matches = pass).
+- M4+ leakage scan under `src/`: no `expo-camera`, `CameraView`, `takePictureAsync`, `expo-location`, `Location.`, `fetch(`, `open-meteo`/`Open-Meteo`, `expo-sharing`, or `Sharing.` (`rg` exit 1 = no matches = pass).
+- `git status --short` before board edit: clean working tree.
 
 **Acceptance criteria**
 
@@ -384,6 +392,9 @@ npm run typecheck
 ```bash
 npm test
 npm run typecheck
+rg -n "from ['\"]expo-|require\(['\"]expo-" src/features/capture/captureReducer.ts
+rg -n "from ['\"].*services" src/features/capture/captureReducer.ts
+rg -n "expo-camera|CameraView|takePictureAsync|expo-location|Location\\.|fetch\\(|open-meteo|Open-Meteo|expo-sharing|Sharing\\." src
 git status --short
 ```
 

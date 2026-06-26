@@ -153,7 +153,7 @@ npm run typecheck
 
 ## M7.3 — Wire ViewModel & Share UI
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Connect share action to preview and test success/failure paths.
 
@@ -169,19 +169,19 @@ npm run typecheck
 
 **Subtasks**
 
-- [ ] `CaptureViewModel`: optional `shareService` dep + `share()` — `START_SHARING` → service →
+- [x] `CaptureViewModel`: optional `shareService` dep + `share()` — `START_SHARING` → service →
   `SHARE_SUCCEEDED` / `SHARE_FAILED`.
-- [ ] `ReportPreview`: add `onShare` + `isSharing?`; **Share report** button (disabled while
+- [x] `ReportPreview`: add `onShare` + `isSharing?`; **Share report** button (disabled while
   `isSharing`) beside Retake; `accessibilityLabel` on Share.
-- [ ] `CaptureScreen`: render `ReportPreview` when `report !== null` and
+- [x] `CaptureScreen`: render `ReportPreview` when `report !== null` and
   `phase` is `ready`, `sharing`, or `shared`; wire default `createShareService()`.
-- [ ] `CaptureScreen` banners: `sharing` → "Sharing report..."; `shared` → "Report shared";
+- [x] `CaptureScreen` banners: `sharing` → "Sharing report..."; `shared` → "Report shared";
   `ready` + `error.type === "shareFailed"` → error message + **Retry share** (`viewModel.share`).
-- [ ] `CaptureViewModel.test.ts`: fake `{ ok: true }` → `SHARE_SUCCEEDED`; fake
+- [x] `CaptureViewModel.test.ts`: fake `{ ok: true }` → `SHARE_SUCCEEDED`; fake
   `{ ok: false, shareFailed }` → `SHARE_FAILED` (no cancellation-specific test).
-- [ ] `ReportPreview.test.tsx` + `CaptureScreen.test.tsx`: share button, sharing status, shared,
+- [x] `ReportPreview.test.tsx` + `CaptureScreen.test.tsx`: share button, sharing status, shared,
   retry share; preview persists on share failure.
-- [ ] No sharing UI beyond Share + Retry share.
+- [x] No sharing UI beyond Share + Retry share.
 
 **Acceptance criteria**
 

@@ -12,9 +12,16 @@ import { buildReportPreviewModel } from "./reportView";
 export type ReportPreviewProps = {
   report: Report;
   onRetake: () => void;
+  onShare?: () => void;
+  isSharing?: boolean;
 };
 
-export function ReportPreview({ report, onRetake }: ReportPreviewProps) {
+export function ReportPreview({
+  report,
+  onRetake,
+  onShare,
+  isSharing = false,
+}: ReportPreviewProps) {
   const model = buildReportPreviewModel(report);
 
   return (
@@ -60,6 +67,20 @@ export function ReportPreview({ report, onRetake }: ReportPreviewProps) {
           ))}
         </View>
       ))}
+
+      {onShare ? (
+        <Pressable
+          testID="share-report"
+          accessibilityRole="button"
+          accessibilityLabel="Share report"
+          accessibilityState={{ disabled: isSharing }}
+          disabled={isSharing}
+          onPress={onShare}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Share report</Text>
+        </Pressable>
+      ) : null}
 
       <Pressable
         accessibilityRole="button"

@@ -65,4 +65,45 @@ describe("ReportPreview", () => {
 
     expect(onRetake).toHaveBeenCalledTimes(1);
   });
+
+  it("renders Share report when onShare is provided and calls onShare on press", async () => {
+    const user = userEvent.setup();
+    const onShare = jest.fn();
+
+    render(
+      <ReportPreview
+        report={fullReport}
+        onRetake={jest.fn()}
+        onShare={onShare}
+        isSharing={false}
+      />,
+    );
+
+    expect(screen.getByTestId("share-report")).toBeTruthy();
+
+    await user.press(screen.getByRole("button", { name: "Share report" }));
+
+    expect(onShare).toHaveBeenCalledTimes(1);
+  });
+
+  it("disables Share report while isSharing is true", () => {
+    render(
+      <ReportPreview
+        report={fullReport}
+        onRetake={jest.fn()}
+        onShare={jest.fn()}
+        isSharing={true}
+      />,
+    );
+
+    const shareButton = screen.getByTestId("share-report");
+    expect(shareButton).toBeTruthy();
+    expect(shareButton.props.accessibilityState?.disabled).toBe(true);
+  });
+
+  it("hides Share report when onShare is not provided", () => {
+    render(<ReportPreview report={fullReport} onRetake={jest.fn()} />);
+
+    expect(screen.queryByTestId("share-report")).toBeNull();
+  });
 });

@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 import type { CameraService, TakePhoto } from "@/services/CameraService";
 import type { LocationService } from "@/services/LocationService";
+import type { ShareService } from "@/services/ShareService";
 import type { WeatherService } from "@/services/WeatherService";
 import { captureReducer, initialCaptureState } from "./captureReducer";
 import type { AppError, CaptureState } from "./captureTypes";
@@ -10,6 +11,7 @@ export type CaptureViewModelDeps = {
   takePhoto: TakePhoto;
   locationService?: LocationService;
   weatherService?: WeatherService;
+  shareService?: ShareService;
   now?: () => Date;
 };
 
@@ -21,6 +23,7 @@ export type CaptureViewModel = {
   continueWithPartialReport: () => void;
   dismissError: () => void;
   reset: () => void;
+  share: () => Promise<void>;
 };
 
 type CaptureFailureError = Extract<
@@ -134,6 +137,33 @@ export function useCaptureViewModel(deps: CaptureViewModelDeps): CaptureViewMode
     });
   };
 
+  const share = async () => {
+    const report = state.report;
+
+    if (!deps.shareService || report === null) {
+      dispatch({ type: "START_SHARING" });
+      dispatch({
+        type: "SHARE_FAILED",
+        error: {
+          type: "shareFailed",
+          message: "Sharing failed. Please try again.",
+          retryable: true,
+        },
+      });
+      return;
+    }
+
+    dispatch({ type: "START_SHARING" });
+
+    const result = await deps.shareService.share(report);
+    if (result.ok) {
+      dispatch({ type: "SHARE_SUCCEEDED" });
+      return;
+    }
+
+    dispatch({ type: "SHARE_FAILED", error: result.error });
+  };
+
   return {
     state,
     capture,
@@ -143,5 +173,6 @@ export function useCaptureViewModel(deps: CaptureViewModelDeps): CaptureViewMode
       dispatch({ type: "CONTINUE_WITH_PARTIAL_REPORT" }),
     dismissError: () => dispatch({ type: "DISMISS_ERROR" }),
     reset: () => dispatch({ type: "RESET_WORKFLOW" }),
+    share,
   };
 }

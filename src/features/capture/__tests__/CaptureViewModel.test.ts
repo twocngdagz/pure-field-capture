@@ -6,6 +6,7 @@ import type { CameraCaptureResult, TakePhoto } from "@/services/CameraService";
 import { createFakeCameraService } from "@/services/FakeCameraService";
 import { createFakeLocationService } from "@/services/FakeLocationService";
 import { createFakeWeatherService } from "@/services/FakeWeatherService";
+import { createFakeShareService } from "@/services/FakeShareService";
 import type { LocationResult, LocationService } from "@/services/LocationService";
 import type { WeatherResult, WeatherService } from "@/services/WeatherService";
 import type { Coordinates } from "../captureTypes";
@@ -598,5 +599,130 @@ describe("useCaptureViewModel enrichment", () => {
       retryable: true,
     });
     expect(result.current.state.photoUri).toBe("file:///photo.jpg");
+  });
+});
+
+describe("useCaptureViewModel share", () => {
+  const defaultWeather = {
+    temperatureCelsius: 22.5,
+    condition: "Clear",
+  };
+
+  const readyReport = {
+    photoUri: "file:///photo.jpg",
+    capturedAt: "2026-06-26T10:00:00.000Z",
+    location: defaultCoordinates,
+    weather: defaultWeather,
+    isPartial: false,
+  };
+
+  const reachReady = async (
+    result: { current: ReturnType<typeof useCaptureViewModel> },
+  ) => {
+    await act(async () => {
+      await result.current.capture();
+    });
+
+    await act(async () => {
+      await result.current.enrich();
+    });
+  };
+
+  it("shares successfully from ready and transitions to shared", async () => {
+    const shareService = createFakeShareService({ ok: true });
+    const locationService = createFakeLocationService({
+      ok: true,
+      coordinates: defaultCoordinates,
+    });
+    const weatherService = createFakeWeatherService({
+      ok: true,
+      weather: defaultWeather,
+    });
+
+    const { result } = renderHook(() =>
+      useCaptureViewModel({
+        cameraService: createFakeCameraService(),
+        takePhoto: successfulTakePhoto(),
+        locationService,
+        weatherService,
+        shareService,
+        now: fixedNow,
+      }),
+    );
+
+    await reachReady(result);
+
+    expect(result.current.state.phase).toBe("ready");
+    expect(result.current.state.report).toEqual(readyReport);
+
+    await act(async () => {
+      await result.current.share();
+    });
+
+    expect(result.current.state.phase).toBe("shared");
+    expect(result.current.state.error).toBeNull();
+    expect(shareService.shareCount()).toBe(1);
+    expect(shareService.lastReport()).toEqual(readyReport);
+  });
+
+  it("returns to ready with shareFailed when share service fails", async () => {
+    const shareFailedError: AppError = {
+      type: "shareFailed",
+      message: "Sharing failed. Please try again.",
+      retryable: true,
+    };
+    const shareService = createFakeShareService({
+      ok: false,
+      error: shareFailedError,
+    });
+    const locationService = createFakeLocationService({
+      ok: true,
+      coordinates: defaultCoordinates,
+    });
+    const weatherService = createFakeWeatherService({
+      ok: true,
+      weather: defaultWeather,
+    });
+
+    const { result } = renderHook(() =>
+      useCaptureViewModel({
+        cameraService: createFakeCameraService(),
+        takePhoto: successfulTakePhoto(),
+        locationService,
+        weatherService,
+        shareService,
+        now: fixedNow,
+      }),
+    );
+
+    await reachReady(result);
+
+    await act(async () => {
+      await result.current.share();
+    });
+
+    expect(result.current.state.phase).toBe("ready");
+    expect(result.current.state.error).toEqual(shareFailedError);
+    expect(result.current.state.report).toEqual(readyReport);
+  });
+
+  it("does not call share service when not in ready phase", async () => {
+    const shareService = createFakeShareService({ ok: true });
+
+    const { result } = renderHook(() =>
+      useCaptureViewModel({
+        cameraService: createFakeCameraService(),
+        takePhoto: successfulTakePhoto(),
+        shareService,
+        now: fixedNow,
+      }),
+    );
+
+    await act(async () => {
+      await result.current.share();
+    });
+
+    expect(result.current.state.phase).toBe("idle");
+    expect(shareService.shareCount()).toBe(0);
   });
 });

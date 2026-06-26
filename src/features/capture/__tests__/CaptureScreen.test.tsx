@@ -5,6 +5,7 @@ import type { TakePhoto } from "@/services/CameraService";
 import { createFakeCameraService } from "@/services/FakeCameraService";
 import { createFakeLocationService } from "@/services/FakeLocationService";
 import { createFakeWeatherService } from "@/services/FakeWeatherService";
+import { createFakeShareService } from "@/services/FakeShareService";
 import type { WeatherResult, WeatherService } from "@/services/WeatherService";
 
 jest.mock("expo-camera", () => {
@@ -392,5 +393,77 @@ describe("CaptureScreen enrichment", () => {
     expect(screen.getByText("Clear")).toBeTruthy();
     expect(screen.getByText("22.5°C")).toBeTruthy();
     expect(weatherService.requestCount()).toBe(2);
+  });
+});
+
+describe("CaptureScreen share", () => {
+  const reachReadyPreview = async (user: ReturnType<typeof userEvent.setup>) => {
+    await user.press(await screen.findByRole("button", { name: "Capture photo" }));
+    await user.press(await screen.findByRole("button", { name: "Enrich report" }));
+    await screen.findByTestId("report-preview-title");
+  };
+
+  it("shares successfully and shows shared banner while preview persists", async () => {
+    const user = userEvent.setup();
+    const { locationService, weatherService } = defaultEnrichmentFakes();
+    const shareService = createFakeShareService({ ok: true });
+
+    render(
+      <CaptureScreen
+        cameraService={createFakeCameraService()}
+        takePhoto={successfulTakePhoto()}
+        locationService={locationService}
+        weatherService={weatherService}
+        shareService={shareService}
+        now={fixedNow}
+      />,
+    );
+
+    await reachReadyPreview(user);
+
+    await user.press(screen.getByRole("button", { name: "Share report" }));
+
+    expect(await screen.findByText("Report shared")).toBeTruthy();
+    expect(screen.getByTestId("report-preview-title")).toBeTruthy();
+    expect(shareService.shareCount()).toBe(1);
+  });
+
+  it("shows share failure with retry and invokes share again on retry", async () => {
+    const user = userEvent.setup();
+    const { locationService, weatherService } = defaultEnrichmentFakes();
+    const shareService = createFakeShareService({
+      ok: false,
+      error: {
+        type: "shareFailed",
+        message: "Sharing failed. Please try again.",
+        retryable: true,
+      },
+    });
+
+    render(
+      <CaptureScreen
+        cameraService={createFakeCameraService()}
+        takePhoto={successfulTakePhoto()}
+        locationService={locationService}
+        weatherService={weatherService}
+        shareService={shareService}
+        now={fixedNow}
+      />,
+    );
+
+    await reachReadyPreview(user);
+
+    await user.press(screen.getByRole("button", { name: "Share report" }));
+
+    expect(
+      await screen.findByText("Sharing failed. Please try again."),
+    ).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Retry share" })).toBeTruthy();
+    expect(screen.getByTestId("report-preview-title")).toBeTruthy();
+    expect(shareService.shareCount()).toBe(1);
+
+    await user.press(screen.getByRole("button", { name: "Retry share" }));
+
+    expect(shareService.shareCount()).toBe(2);
   });
 });

@@ -14,6 +14,10 @@ import {
   createWeatherService,
   type WeatherService,
 } from "@/services/WeatherService";
+import {
+  createShareService,
+  type ShareService,
+} from "@/services/ShareService";
 import type { AppError } from "./captureTypes";
 import { useCaptureViewModel } from "./CaptureViewModel";
 import { ReportPreview } from "./ReportPreview";
@@ -31,6 +35,7 @@ export type CaptureScreenProps = {
   takePhoto?: TakePhoto;
   locationService?: LocationService;
   weatherService?: WeatherService;
+  shareService?: ShareService;
   now?: () => Date;
 };
 
@@ -39,6 +44,7 @@ export function CaptureScreen({
   takePhoto: takePhotoProp,
   locationService: locationServiceProp,
   weatherService: weatherServiceProp,
+  shareService: shareServiceProp,
   now,
 }: CaptureScreenProps) {
   const cameraRef = useRef<CameraView>(null);
@@ -60,6 +66,11 @@ export function CaptureScreen({
   const weatherService = useMemo(
     () => weatherServiceProp ?? createWeatherService(),
     [weatherServiceProp],
+  );
+
+  const shareService = useMemo(
+    () => shareServiceProp ?? createShareService(),
+    [shareServiceProp],
   );
 
   const refTakePhoto = useCallback<TakePhoto>(async () => {
@@ -87,13 +98,19 @@ export function CaptureScreen({
       takePhoto,
       locationService,
       weatherService,
+      shareService,
       now,
     }),
-    [cameraService, takePhoto, locationService, weatherService, now],
+    [cameraService, takePhoto, locationService, weatherService, shareService, now],
   );
 
   const viewModel = useCaptureViewModel(deps);
   const { state } = viewModel;
+
+  const isReportPreviewPhase =
+    state.phase === "ready" ||
+    state.phase === "sharing" ||
+    state.phase === "shared";
 
   const canContinueWithPartial =
     state.error?.type === "networkUnavailable" ||
@@ -231,13 +248,38 @@ export function CaptureScreen({
         </View>
       )}
 
-      {state.phase === "ready" && state.report !== null && (
+      {isReportPreviewPhase && state.report !== null && (
         <View style={styles.capturedBanner}>
-          <ReportPreview report={state.report} onRetake={viewModel.reset} />
+          <ReportPreview
+            report={state.report}
+            onRetake={viewModel.reset}
+            onShare={state.phase === "shared" ? undefined : viewModel.share}
+            isSharing={state.phase === "sharing"}
+          />
+
+          {state.phase === "sharing" && (
+            <Text style={styles.statusText}>Sharing report...</Text>
+          )}
+          {state.phase === "shared" && (
+            <Text style={styles.statusText}>Report shared</Text>
+          )}
+          {state.phase === "ready" && state.error?.type === "shareFailed" && (
+            <View style={styles.inlineActions}>
+              <Text style={styles.errorText}>{state.error.message}</Text>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Retry share"
+                onPress={viewModel.share}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>Retry share</Text>
+              </Pressable>
+            </View>
+          )}
         </View>
       )}
 
-      {state.phase === "ready" && state.report === null && (
+      {isReportPreviewPhase && state.report === null && (
         <View style={styles.capturedBanner}>
           <Text style={styles.statusText}>Report unavailable</Text>
         </View>

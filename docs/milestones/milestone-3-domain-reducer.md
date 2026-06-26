@@ -142,6 +142,8 @@ Valid phase -> transition; otherwise **return state unchanged** (no throw).
 
 **Illegal/out-of-order policy:** known action + wrong phase returns current state unchanged. Exhaustive `assertNever` in reducer `default` branch. Test a representative pair of illegal transitions (e.g. `ENRICHMENT_SUCCEEDED` from idle, `SHARE_SUCCEEDED` from ready), not every impossible one.
 
+**Reducer default (M3.3–M3.4):** temporary permissive `default: return state` for unimplemented known actions. M3.5 replaces this with exhaustive `assertNever(action)` once all canonical actions are implemented.
+
 ### File locations
 
 - `src/features/capture/captureTypes.ts`
@@ -238,7 +240,7 @@ npm run typecheck
 
 ## M3.3 — Reducer initial state + idle/capture transitions
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** First reducer slice with tests: initial state and capture phase.
 
@@ -250,10 +252,10 @@ npm run typecheck
 
 **Subtasks**
 
-- [ ] Export `initialCaptureState` and `captureReducer` (pure function).
-- [ ] Implement `START_CAPTURE`, `CAPTURE_SUCCEEDED`, `CAPTURE_FAILED`.
-- [ ] No service imports or side effects.
-- [ ] Tests: initial state (`capturedAt: null`), capture success stores `photoUri` + `capturedAt`, capture failure maps camera error and clears photo fields.
+- [x] Export `initialCaptureState` and `captureReducer` (pure function).
+- [x] Implement `START_CAPTURE`, `CAPTURE_SUCCEEDED`, `CAPTURE_FAILED`.
+- [x] No service imports or side effects.
+- [x] Tests: initial state (`capturedAt: null`), capture success stores `photoUri` + `capturedAt`, capture failure maps camera error and clears photo fields.
 
 **Acceptance criteria**
 

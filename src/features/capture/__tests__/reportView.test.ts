@@ -10,6 +10,7 @@ const fullReport: Report = {
   capturedAt: "2026-06-26T10:00:00.000Z",
   location: { latitude: 37.7749, longitude: -122.4194 },
   weather: { temperatureCelsius: 18, condition: "Clear" },
+  address: "1 Market St, San Francisco",
   isPartial: false,
 };
 
@@ -43,6 +44,7 @@ describe("buildReportPreviewModel", () => {
     expect(model.partialNotice).toBeNull();
     expect(model.sections.map((s) => s.title)).toEqual(["Capture", "Location", "Weather"]);
     expect(rowValue(model, "Capture", "Captured at")).toBe("Jun 26, 2026, 10:00 AM UTC");
+    expect(rowValue(model, "Location", "Address")).toBe("1 Market St, San Francisco");
     expect(rowValue(model, "Location", "Coordinates")).toBe("37.77490, -122.41940");
     expect(rowValue(model, "Weather", "Condition")).toBe("Clear");
     expect(rowValue(model, "Weather", "Temperature")).toBe("18°C");
@@ -58,6 +60,7 @@ describe("buildReportPreviewModel", () => {
     expect(model.title).toBe("Partial Report Preview");
     expect(model.isPartial).toBe(true);
     expect(model.partialNotice).toBe(ENRICHMENT_UNAVAILABLE_COPY[reason]);
+    expect(rowValue(model, "Location", "Address")).toBe("Unavailable");
     expect(rowValue(model, "Location", "Coordinates")).toBe("Unavailable");
     expect(rowValue(model, "Weather", "Condition")).toBe("Unavailable");
     expect(rowValue(model, "Weather", "Temperature")).toBe("Unavailable");

@@ -134,6 +134,7 @@ export function useCaptureViewModel(deps: CaptureViewModelDeps): CaptureViewMode
       type: "ENRICHMENT_SUCCEEDED",
       location: location.coordinates,
       weather: weather.weather,
+      address: location.address,
     });
   };
 

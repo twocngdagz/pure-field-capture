@@ -8,6 +8,7 @@ const fullReport: Report = {
   capturedAt: "2026-06-26T10:00:00.000Z",
   location: { latitude: 37.7749, longitude: -122.4194 },
   weather: { temperatureCelsius: 18, condition: "Clear" },
+  address: "1 Market St, San Francisco",
   isPartial: false,
 };
 
@@ -16,6 +17,7 @@ const partialReport: Report = {
   capturedAt: "2026-06-26T10:00:00.000Z",
   location: null,
   weather: null,
+  address: null,
   isPartial: true,
   enrichmentUnavailableReason: "networkUnavailable",
 };
@@ -25,6 +27,7 @@ describe("buildReportPdfHtml", () => {
     const html = buildReportPdfHtml(fullReport, { photoDataUri });
 
     expect(html).toContain("Captured at");
+    expect(html).toContain("1 Market St, San Francisco");
     expect(html).toContain("37.77490, -122.41940");
     expect(html).toContain("Clear");
     expect(html).toContain("18°C");

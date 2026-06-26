@@ -85,7 +85,10 @@ export function buildReportPreviewModel(report: Report): ReportPreviewModel {
       },
       {
         title: "Location",
-        rows: [{ label: "Coordinates", value: formatCoordinates(report.location) }],
+        rows: [
+          { label: "Address", value: report.address ?? "Unavailable" },
+          { label: "Coordinates", value: formatCoordinates(report.location) },
+        ],
       },
       {
         title: "Weather",

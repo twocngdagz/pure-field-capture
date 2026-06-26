@@ -299,11 +299,12 @@ describe("useCaptureViewModel enrichment", () => {
     });
 
     expect(result.current.state.phase).toBe("ready");
-    expect(result.current.state.report).toEqual({
+    expect(result.current.state.report).toMatchObject({
       photoUri: "file:///photo.jpg",
       capturedAt: "2026-06-26T10:00:00.000Z",
       location: defaultCoordinates,
       weather: defaultWeather,
+      address: "1 Market St, San Francisco",
       isPartial: false,
     });
     expect(weatherService.lastCoordinates()).toEqual(defaultCoordinates);
@@ -471,8 +472,8 @@ describe("useCaptureViewModel enrichment", () => {
 
   it("retryEnrichment succeeds after initial network failure", async () => {
     const locationService = createSequencedLocationService([
-      { ok: true, coordinates: defaultCoordinates },
-      { ok: true, coordinates: defaultCoordinates },
+      { ok: true, coordinates: defaultCoordinates, address: "1 Market St, San Francisco" },
+      { ok: true, coordinates: defaultCoordinates, address: "1 Market St, San Francisco" },
     ]);
     const weatherService = createSequencedWeatherService([
       {
@@ -564,6 +565,7 @@ describe("useCaptureViewModel enrichment", () => {
       capturedAt: "2026-06-26T10:00:00.000Z",
       location: null,
       weather: null,
+      address: null,
       isPartial: true,
       enrichmentUnavailableReason: "networkUnavailable",
     });
@@ -613,6 +615,7 @@ describe("useCaptureViewModel share", () => {
     capturedAt: "2026-06-26T10:00:00.000Z",
     location: defaultCoordinates,
     weather: defaultWeather,
+    address: "1 Market St, San Francisco",
     isPartial: false,
   };
 

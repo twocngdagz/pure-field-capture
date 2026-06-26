@@ -50,6 +50,7 @@ const fullReport = {
   capturedAt: "2026-06-26T10:00:00.000Z",
   location: { latitude: 37.7749, longitude: -122.4194 },
   weather: { temperatureCelsius: 18, condition: "Clear" },
+  address: "1 Market St, San Francisco",
   isPartial: false,
 };
 
@@ -211,6 +212,7 @@ describe("START_ENRICHMENT", () => {
 describe("ENRICHMENT_SUCCEEDED", () => {
   const location = { latitude: 37.7749, longitude: -122.4194 };
   const weather = { temperatureCelsius: 18, condition: "Clear" };
+  const address = "1 Market St, San Francisco";
 
   it("transitions enriching to ready with a full report", () => {
     const state = enrichingState();
@@ -220,6 +222,7 @@ describe("ENRICHMENT_SUCCEEDED", () => {
         type: "ENRICHMENT_SUCCEEDED",
         location,
         weather,
+        address,
       }),
     ).toEqual({
       ...state,
@@ -229,6 +232,7 @@ describe("ENRICHMENT_SUCCEEDED", () => {
         capturedAt: state.capturedAt,
         location,
         weather,
+        address,
         isPartial: false,
       },
       error: null,
@@ -345,6 +349,7 @@ describe("CONTINUE_WITH_PARTIAL_REPORT", () => {
         capturedAt: state.capturedAt,
         location: null,
         weather: null,
+        address: null,
         isPartial: true,
         enrichmentUnavailableReason: "networkUnavailable",
       },
@@ -369,6 +374,7 @@ describe("CONTINUE_WITH_PARTIAL_REPORT", () => {
         capturedAt: state.capturedAt,
         location: null,
         weather: null,
+        address: null,
         isPartial: true,
         enrichmentUnavailableReason: "locationPermissionDenied",
       },
@@ -545,6 +551,7 @@ describe("illegal transitions", () => {
       type: "ENRICHMENT_SUCCEEDED" as const,
       location: { latitude: 37.7749, longitude: -122.4194 },
       weather: { temperatureCelsius: 18, condition: "Clear" },
+      address: "1 Market St, San Francisco",
     };
 
     expect(captureReducer(initialCaptureState, action)).toBe(initialCaptureState);

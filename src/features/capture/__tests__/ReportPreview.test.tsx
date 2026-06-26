@@ -8,6 +8,7 @@ const fullReport: Report = {
   capturedAt: "2026-06-26T10:00:00.000Z",
   location: { latitude: 37.7749, longitude: -122.4194 },
   weather: { temperatureCelsius: 18, condition: "Clear" },
+  address: "1 Market St, San Francisco",
   isPartial: false,
 };
 
@@ -33,6 +34,7 @@ describe("ReportPreview", () => {
     expect(screen.getByText("Location")).toBeTruthy();
     expect(screen.getByText("Weather")).toBeTruthy();
     expect(screen.getByText("Jun 26, 2026, 10:00 AM UTC")).toBeTruthy();
+    expect(screen.getByText("1 Market St, San Francisco")).toBeTruthy();
     expect(screen.getByText("37.77490, -122.41940")).toBeTruthy();
     expect(screen.getByText("Clear")).toBeTruthy();
     expect(screen.getByText("18°C")).toBeTruthy();

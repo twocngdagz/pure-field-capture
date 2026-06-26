@@ -22,6 +22,7 @@ export type Report = {
   capturedAt: string;
   location?: Coordinates | null;
   weather?: WeatherSummary | null;
+  address?: string | null;
   isPartial: boolean;
   enrichmentUnavailableReason?: EnrichmentUnavailableReason;
   note?: string;
@@ -55,6 +56,7 @@ export type CaptureAction =
       type: "ENRICHMENT_SUCCEEDED";
       location: Coordinates;
       weather: WeatherSummary;
+      address?: string | null;
     }
   | {
       type: "ENRICHMENT_FAILED";

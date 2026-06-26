@@ -2,7 +2,7 @@
 
 **Project monitor:** [`implementation-plan.md`](../implementation-plan.md) · Milestone 5
 
-**Milestone status:** `Not started`
+**Milestone status:** `Complete`
 
 ## Goal
 
@@ -217,7 +217,7 @@ npm run typecheck
 
 ## M5.4 — Enrichment UI + Gate + Close Milestone 5
 
-**Status:** `Not started`
+**Status:** `Complete`
 
 **Purpose:** Wire enrichment recovery UI into `CaptureScreen`, run quality gate, and close
 Milestone 5 monitors.
@@ -232,23 +232,38 @@ Milestone 5 monitors.
 
 **Subtasks**
 
-- [ ] Captured state: show **Enrich report** button (alongside Retake); tapping calls
+- [x] Captured state: show **Enrich report** button (alongside Retake); tapping calls
   `viewModel.enrich()`.
-- [ ] Enriching state: loading spinner/status text while `phase === "enriching"`.
-- [ ] Offline/no-network error: clear message with **Retry** and **Continue with partial report**
+- [x] Enriching state: loading spinner/status text while `phase === "enriching"`.
+- [x] Offline/no-network error: clear message with **Retry** and **Continue with partial report**
   buttons when `error.type === "networkUnavailable"`.
-- [ ] Location denied / weather failed: partial path with retry or continue where applicable.
-- [ ] Basic accessibility: `accessibilityRole`, `accessibilityLabel` on Enrich/Retry/Continue/Retake;
+- [x] Location denied / weather failed: partial path with retry or continue where applicable.
+- [x] Basic accessibility: `accessibilityRole`, `accessibilityLabel` on Enrich/Retry/Continue/Retake;
   readable status and error text.
-- [ ] Component tests: enriching status text; network failure shows Retry + Continue; Continue
+- [x] Component tests: enriching status text; network failure shows Retry + Continue; Continue
   transitions to partial ready state; photo URI preserved.
-- [ ] Run gate: `npm test`, `npm run typecheck`, M6/M7 leakage scan (allow `expo-location`,
+- [x] Run gate: `npm test`, `npm run typecheck`, M6/M7 leakage scan (allow `expo-location`,
   `expo-camera`, Open-Meteo; scan for share/preview leakage).
-- [ ] Set Milestone 5 status to `Complete` in `docs/implementation-plan.md`.
-- [ ] Set board header `Milestone status` to `Complete`; mark this card `Complete`.
-- [ ] Update `docs/milestones/README.md` Milestone 5 row to `Complete`.
-- [ ] Record gate evidence and manual QA note on this card.
-- [ ] Do **not** start Milestone 6 in this task.
+- [x] Set Milestone 5 status to `Complete` in `docs/implementation-plan.md`.
+- [x] Set board header `Milestone status` to `Complete`; mark this card `Complete`.
+- [x] Update `docs/milestones/README.md` Milestone 5 row to `Complete`.
+- [x] Record gate evidence and manual QA note on this card.
+- [x] Do **not** start Milestone 6 in this task.
+
+**Gate results**
+
+- `npm test`: pass (7 suites, 91 tests; includes enrichment UI component tests).
+- `npm run typecheck`: pass.
+- M6/M7 leakage scan under `src/`: no `expo-sharing`, `Sharing.`, `ShareService`, or `ReportPreview`.
+- `expo-location`, `expo-camera`, and Open-Meteo usage are expected and allowed under M5.
+- Manual live location/weather enrichment on simulator/device: not run in this environment.
+
+**Manual QA note**
+
+Live enrichment still requires a simulator/device run:
+`npx expo start`, capture a photo, tap **Enrich report**, verify location permission prompt,
+full report ready status, then toggle airplane mode and verify offline message with **Retry
+enrichment** and **Continue with partial report** preserving the photo.
 
 **Acceptance criteria**
 

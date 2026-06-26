@@ -124,7 +124,7 @@ code exists.
 
 ---
 
-## Milestone 5 — Location capture & Open-Meteo enrichment — `Not started`
+## Milestone 5 — Location capture & Open-Meteo enrichment — `Complete`
 
 **Detailed task board:** [`milestones/milestone-5-location-weather.md`](./milestones/milestone-5-location-weather.md)
 (M5.1–M5.4). Do not mark this milestone `Complete` until M5.4 passes on that board.
@@ -132,17 +132,17 @@ code exists.
 **Goal:** Attach current GPS location and weather to the capture.
 
 **Tasks**
-- [ ] `LocationService` (`expo-location`) for current coordinates.
-- [ ] `WeatherService` calling **Open-Meteo** with the coordinates (no API key).
-- [ ] Wire enrichment into the ViewModel; dispatch results into the reducer.
+- [x] `LocationService` (`expo-location`) for current coordinates (no reverse geocoding).
+- [x] `WeatherService` calling **Open-Meteo** with the coordinates (no API key).
+- [x] Wire enrichment into the ViewModel; dispatch results into the reducer.
 
 **5.3 — Handle no-network state**
 
-- [ ] 5.3.1 Normalize network failures: catch failed fetch/network exceptions, map to
+- [x] 5.3.1 Normalize network failures: catch failed fetch/network exceptions, map to
   `networkUnavailable`, never expose raw technical errors.
-- [ ] 5.3.2 Offline/partial enrichment UI: clear offline message; allow retry; allow
+- [x] 5.3.2 Offline/partial enrichment UI: clear offline message; allow retry; allow
   continue with partial report.
-- [ ] 5.3.3 Tests: network failure returns a partial report; ViewModel shows a retryable
+- [x] 5.3.3 Tests: network failure returns a partial report; ViewModel shows a retryable
   offline state; captured photo URI is preserved.
 
 **Acceptance criteria**
